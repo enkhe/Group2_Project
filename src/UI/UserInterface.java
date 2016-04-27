@@ -57,18 +57,41 @@ public class UserInterface {
 				mainMenuAuthor_SubmitManuscript(author);
 				break;
 			case 2:
-				
+				mainMenuAuthor_UnSubmitManuscript(author);
 				break;
 			default:
 				break;
 		}
 	}
 	
+	/**
+	 * 
+	 * @param author
+	 */
 	public void mainMenuAuthor_SubmitManuscript(Author author) {
 		printHeader();
 		String authorName = author.getUserName();
 		wCn("Author: "+ authorName + "\n");
 		wCn("Please enter the file path and name, or 0 to return.");
+		wCn("Sample path: C:\\users\\author\\documents\\paper.docx\\n");
+		
+		String filePath = rS();
+		
+		wCn(filePath + " has submitted!");
+	}
+	
+	/**
+	 * 
+	 * @param author
+	 */
+	public void mainMenuAuthor_UnSubmitManuscript(Author author) {
+		printHeader();
+		String authorName = author.getUserName();
+		wCn("Author: "+ authorName + "\n");
+		wCn("Please select the file to remove.");
+		
+		// Loop through the manuscripts by an author.
+		
 		wCn("Sample path: C:\\users\\author\\documents\\paper.docx\\n");
 		
 		String filePath = rS();
