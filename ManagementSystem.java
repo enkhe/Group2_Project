@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class ManagementSystem implements Serializable {
@@ -17,6 +18,7 @@ public class ManagementSystem implements Serializable {
 	private final static String SAVE_FILE = "/save.ser";
 	
 	private List<String> testNames;
+    private String testUser;
 //	private List<RegisteredUser> myUserList;
 //	private List<Conference> myConferences;
 //	private transient RegisteredUser currentUser;
@@ -27,16 +29,62 @@ public class ManagementSystem implements Serializable {
 		testNames = new ArrayList<>();
 	}
 	
-	private void registerUser() {
-		System.out.println("Please enter the username to use: \n");
+	private void registerUser(Scanner theScanner) {
+		String enteredName;
+		Boolean available = true;
+		System.out.println("\nPlease enter a desired username or 0 to return.\n");
+		System.out.print("> ");
+		enteredName = theScanner.nextLine();
+		
+		if(enteredName.equals("0")) {
+			System.out.println("Returning to the login menu.\n");
+			return;
+		}
+		
+		for(String name : testNames) {
+			if(name.equals(enteredName)) {
+			    System.out.println("Username is unavailable.");
+			    available = false;
+			    break;
+			}
+		}
+		
+		if(available) {
+			System.out.println("Username is available.");
+			System.out.print("Enter your First Name > ");
+			theScanner.nextLine();
+			System.out.print("Enter your First Name > ");
+			theScanner.nextLine();
+			testNames.add(enteredName);
+			System.out.println("Registration complete!\n");
+		}
+		
 	}
 	
-	private void login() {
-		System.out.println("Please enter your username: \n");
+	private void login(Scanner theScanner) {
+		String enteredName;
+		System.out.println("\nPlease enter your username or 0 to return.\n");
+		System.out.print("> ");
+		enteredName = theScanner.nextLine();
+		
+		if (enteredName.equals("0")) return;
+		
+		for (String name : testNames) {
+			if (name.equals(enteredName)) {
+				testUser = enteredName;
+			}
+		}
+		
+		if (Objects.nonNull(testUser)) {
+			mainMenu();
+		} else {
+			System.out.println("User name not found.\n");
+		}
+		
 	}
 	
 	private void loginMenu() {
-		int input = -1;
+		String input = "-1";
 		Scanner scanner = new Scanner(System.in);
 		do {
 			System.out.println("Welcome to the MSEE Conference Management System!");
@@ -45,25 +93,25 @@ public class ManagementSystem implements Serializable {
 			System.out.println("2. Register");
 			System.out.println("0. Exit");
 			System.out.print("\n> ");
-			input = scanner.nextInt();
+			input = scanner.nextLine();
 					
-			switch(input) {
-				case 1:
-					login();
+			switch (input) {
+				case "1":
+					login(scanner);
 					break;
-				case 2:
-					registerUser();
+				case "2":
+					registerUser(scanner);
 					break;
-				case 0:
+				case "0":
 					return;
 				default:
 					System.out.println("Invalid command.\n");
 			}
-		} while(input != 0);
+		} while (!input.equals("0"));
 	}
 	
 	private void mainMenu() {
-		
+		System.out.println("\nComing Soon!\n");
 	}
 	
 	private void programChairMenu() {
@@ -127,6 +175,8 @@ public class ManagementSystem implements Serializable {
 	public static void main(String[] args) {
 		ManagementSystem ms = new ManagementSystem();
 		ms.loginMenu();
+		System.out.println("\nThanks for using the MSEE Conference Management System!");
+		System.out.println("Exiting program.");
 	}
 	
 	// To be made into a proper JUnit Test
