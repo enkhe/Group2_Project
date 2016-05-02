@@ -1,5 +1,5 @@
 public interface User {
-    public void login() {
+    public void login(String theEmail, String thePassword) {
 
     }
 }
