@@ -5,7 +5,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -18,17 +20,12 @@ public class ManagementSystem implements Serializable {
 	private final static String SAVE_FILE = "/save.ser";
 	private final static String SYS_TITLE = "\nMSEE Conference Management System";
 	
-	private enum Role {
-		AUTHOR, REVIEWER, PROGRAM_CHAIR, SUBPROGRAM_CHAIR
-	}
-	
 //	private List<String> testNames;
 //    private String testUser;
 	private List<RegisteredUser> myUserList;
 	private List<Conference> myConferences;
-	private transient RegisteredUser currentUser;
-	private transient Role currentRole;
-	private transient Conference currentConference;
+	private transient RegisteredUser myCurrentUser;
+	private transient Conference myCurrentConference;
 	
 	public ManagementSystem() {
 		myUserList = new ArrayList<>();
@@ -80,11 +77,11 @@ public class ManagementSystem implements Serializable {
 		
 		if (enteredName.equals("0")) return;
 		
-		currentUser = getUser(enteredName);
+		myCurrentUser = getUser(enteredName);
 		
-		if (Objects.nonNull(currentUser)) {
-			currentConference = selectConference(theScanner);
-			if(Objects.nonNull(currentConference)) {
+		if (Objects.nonNull(myCurrentUser)) {
+			myCurrentConference = selectConference(theScanner);
+			if(Objects.nonNull(myCurrentConference)) {
 				logInSuccessful = true;
 			}
 		} else {
@@ -96,8 +93,8 @@ public class ManagementSystem implements Serializable {
 		}
 		
 		//log out
-		currentUser = null;
-		currentConference = null;
+		myCurrentUser = null;
+		myCurrentConference = null;
 		
 		System.out.println("Returning to Login Menu");
 	}
@@ -107,7 +104,7 @@ public class ManagementSystem implements Serializable {
 		int input = -1;
 		do {
 			System.out.println(SYS_TITLE);
-			System.out.println("User: " + currentUser.getUserName);
+			System.out.println("User: " + myCurrentUser.getUserName);
 			System.out.println("\nPlease select a conference below, or 0 to return.");
 			
 			for (int i = 0; i < myConferences.size(); i++) {
@@ -131,6 +128,11 @@ public class ManagementSystem implements Serializable {
 				System.out.println("Invalid command.");
 			}
 		} while (input != 0);
+	}
+	
+	private void selectRole() {
+		
+		
 	}
 	
 	private void loginMenu() {
@@ -162,23 +164,32 @@ public class ManagementSystem implements Serializable {
 	}
 	
 	private void mainMenu() {
+		// select a specific role
+		// submit a paper
+		// log out
 		System.out.println("\nComing Soon!\n");
 	}
 	
 	private void programChairMenu() {
-		
+		//view all submitted manuscripts
+		//change acceptance of a paper
+		//view Subprogram Chair assignments
+		//designate a Subprogram Chair
 	}
 	
 	private void subProgramChairMenu() {
-		
+		//Assign a reviewer
+		//Submit a recommendation
 	}
 	
 	private void authorMenu() {
-		
+		//Submit a paper
+		//Unsub a paper
+		//Change a submission
 	}
 	
 	private void reviewerMenu() {
-		
+		//Submit a review
 	}
 	
 	private RegisteredUser getUser(String theUserName) {
@@ -234,8 +245,10 @@ public class ManagementSystem implements Serializable {
 	}
 	
 	public static void main(String[] args) {
+		//ManagementSystem ms = ManagementSystem.deserialize();
 		ManagementSystem ms = new ManagementSystem();
 		ms.loginMenu();
+		//ManagementSystem.serialize(ms);
 		System.out.println("\nThanks for using the MSEE Conference Management System!");
 		System.out.println("Exiting program.");
 	}
