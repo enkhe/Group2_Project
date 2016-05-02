@@ -3,10 +3,12 @@
  */
 
 import java.util.Map;
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class Manuscript {
-	
+public class Manuscript implements Serializable {
+
+	private static final long serialVersionUID = 5722370405900009754L;
 	/** Author ID*/
 	private int myAuthor;
 	/** Subprogram Chair ID. */

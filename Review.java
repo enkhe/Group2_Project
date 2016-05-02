@@ -1,9 +1,12 @@
+import java.io.Serializable;
+
 /*
  * Group 2 - TCSS260A
  */
 
-public class Review {
+public class Review implements Serializable{
 	
+	private static final long serialVersionUID = 6477667439086991275L;
 	/** Review score */
 	private int myScore;
 	/** File path for the review */
