@@ -25,6 +25,7 @@ public class Author extends RegisteredUser implements Serializable {
 	 */
 	public Author(RegisteredUser theUser){
 		super(theUser.getFirstName(), theUser.getLastName(), theUser.getUserName(), theUser.getID());
+		myManuscripts = new ArrayList<>();
 	}
 	
 	/**
