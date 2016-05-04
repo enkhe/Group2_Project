@@ -422,9 +422,13 @@ public class ManagementSystem implements Serializable {
      */
     private void assignSubProgramChair() {
     	Manuscript selectedManuscript = selectManuscriptForSubPCAssignment();
-    	SubprogramChair selectedSubPC = selectSubPCToAssign();
+    	SubprogramChair selectedSubPC;
     	
-    	if(Objects.nonNull(selectedManuscript) && Objects.nonNull(selectedSubPC)) {
+    	if(Objects.nonNull(selectedManuscript)) {
+    		selectedSubPC = selectSubPCToAssign();
+    	}
+    	
+    	if(Objects.nonNull(selectedSubPC)) {
     		finalizeSubPCAssignment(selectedManuscript, selectedSubPC);
     	}
     }
@@ -470,6 +474,11 @@ public class ManagementSystem implements Serializable {
         int option = 1;
     	List<SubprogramChair> subprogramChairs = myCurrentConference.getAllSubProgramChairs();
     	SubprogramChair selectedSubPC = null;
+    	
+    	System.out.println(SYS_TITLE);
+        System.out.println(myCurrentConference.getConferenceName());
+        System.out.println("Program Chair: " + myCurrentUser.getUserName());
+        System.out.println("Designate Subprogram Chair: Select Subprogram Chair");
     	
         System.out.println("\nPlease choose the SubprogramvChair to designate to this paper.");
         for (SubprogramChair sub : subprogramChairs) {
