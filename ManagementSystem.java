@@ -34,10 +34,20 @@ public class ManagementSystem implements Serializable {
      */
     private final static String SYS_TITLE = "\nMSEE Conference Management System";
     
+    /**
+     * A constant used to store the format string for detailed manuscript display.
+     */
     private final static String PC_MAN_DISPLAY_FORMAT = "%20s %15s %10s %s\n";
     
+    /**
+     * A constant int used to represent the maximum manuscripts a subprogram chair can be
+     * assigned.
+     */
     private final int MAX_SUBPC_ASSIGNED_MANUSCRIPTS = 4;
     
+    /**
+     * A constant int used to represent the maximum manuscripts a reviewer can be assigned.
+     */
     private final int MAX_REVIEWER_ASSIGNED_MANUSCRIPTS = 4;
     
     /**
@@ -86,7 +96,7 @@ public class ManagementSystem implements Serializable {
             System.out.println("1) Login");
             System.out.println("2) Register");
             System.out.println("0) Exit");
-            System.out.print("\n> ");
+            System.out.print("\n > ");
             input = myScanner.nextInt();
             myScanner.nextLine(); // flush input
                     
@@ -116,7 +126,7 @@ public class ManagementSystem implements Serializable {
         do {
             System.out.println(SYS_TITLE);
             System.out.println("\nPlease enter a desired username or 0 to return.\n");
-            System.out.print("> ");
+            System.out.print("\n > ");
             enteredName = myScanner.nextLine();
             
             if(enteredName.equals("0")) {
@@ -153,7 +163,7 @@ public class ManagementSystem implements Serializable {
         
         System.out.println(SYS_TITLE);
         System.out.println("\nPlease enter your username or 0 to return.");
-        System.out.print("> ");
+        System.out.print("\n > ");
         enteredName = myScanner.nextLine();
         
         if (enteredName.equals("0")) return;
@@ -199,7 +209,7 @@ public class ManagementSystem implements Serializable {
             }
             
             System.out.println("0) Return");
-            System.out.print("\n> ");
+            System.out.print("\n > ");
             input = myScanner.nextInt();
             myScanner.nextLine(); // flush input
             
@@ -239,7 +249,7 @@ public class ManagementSystem implements Serializable {
         System.out.print("4) Program Chair ");
         if(!isPC) System.out.println("(Unavailable)");
         
-        System.out.print("\n> ");
+        System.out.print("\n > ");
         choice = myScanner.nextInt();
         myScanner.nextLine();
         
@@ -272,7 +282,7 @@ public class ManagementSystem implements Serializable {
 	        System.out.println("1) Select a Role");
 	        System.out.println("2) Submit a Manuscript");
 	        System.out.println("0) Log out");
-	        System.out.print("\n> ");
+	        System.out.print("\n > ");
 	        
 	        choice = myScanner.nextInt();
 	        myScanner.nextLine();
@@ -329,11 +339,11 @@ public class ManagementSystem implements Serializable {
         System.out.println("Submit Manuscript");
 		
         System.out.println("\nPlease enter the file path for your Manuscript");
-		System.out.print("> ");
+		System.out.print("\n > ");
 		manuscriptPath = myScanner.nextLine();
 		
-		System.out.println("Please enter the title of your Manuscript");
-		System.out.println("> ");
+		System.out.println("Please enter the title of your Manuscript.");
+		System.out.println("\n > ");
 		title = myScanner.nextLine();
 		
 		theAuthor.submitManuscript(manuscriptPath, title);
@@ -359,15 +369,14 @@ public class ManagementSystem implements Serializable {
 	        System.out.println("4) Assign a manuscript to a Subprogram Chair.");
 	        System.out.println("0) Return to main menu.");
 	        
-	        System.out.println("\n> ");
+	        System.out.println("\n > ");
 	        
 	        switch (choice) {
 	        	case 1:
 	        		displayManuscriptsForProgramChair();
 	        		break;
 	        	case 2:
-	        		// change acceptance of a paper
-	        		break;
+	        		changeManuscriptAcceptance();
 	        	case 3:
 	        		// view Subprogram Chair assignments
 	        		// may not need
@@ -376,7 +385,7 @@ public class ManagementSystem implements Serializable {
 	        		assignSubProgramChair();
 	        		break;
 	        	case 0:
-	        		// exit
+	        		// empty; leaving method.
 	        		break;
 	        	default:
 	        		break;
@@ -417,11 +426,37 @@ public class ManagementSystem implements Serializable {
 		}
     }
     
+    private void changeManuscriptAcceptance() {
+    	int choice = -1
+    	Manuscript selectedManuscript = programChairSelectManuscript();
+    	
+    	if (Objects.nonNull(selectedManuscript)) {
+    		System.out.println("\nAccept or Reject " + selectedManuscript.getTitle());
+    		System.out.println("1) Accept");
+    		System.out.println("2) Reject");
+    		System.out.println("\n > ");
+    		
+    		choice = myScanner.nextInt();
+    		myScanner.nextLine();
+    		
+    		// Note need these methods
+    		if (choice == 1) {
+    			selectedManuscript.setAcceptance("Accepted");
+    			System.out.println("\n" + selectedManuscript.getTitle() + " accepted!");
+    		} else if (choice == 2) {
+    			selectedManuscript.setAcceptance("Rejected");
+    			System.out.println("\n" + selectedManuscript.getTitle() + " rejected!");
+    		} else { 
+    			System.out.println("Invalid input; returning to Program Chair menu.");
+    		}
+    	}
+    }
+    
     /**
      * Designates a Subprogram Chair to a selected Manuscript.
      */
     private void assignSubProgramChair() {
-    	Manuscript selectedManuscript = selectManuscriptForSubPCAssignment();
+    	Manuscript selectedManuscript = programChairSelectManuscript();
     	SubprogramChair selectedSubPC;
     	
     	if(Objects.nonNull(selectedManuscript)) {
@@ -438,7 +473,7 @@ public class ManagementSystem implements Serializable {
      *
      * @return the selected manuscript.
      */
-    private Manuscript selectManuscriptForSubPCAssignment() {
+    private Manuscript programChairSelectManuscript() {
     	List<Manuscript> manuscripts = myCurrentConference.getManuscripts();
     	Manuscript selectedManuscript = null;
     	int choice = -1;
@@ -446,7 +481,7 @@ public class ManagementSystem implements Serializable {
     	System.out.println(SYS_TITLE);
         System.out.println(myCurrentConference.getConferenceName());
         System.out.println("Program Chair: " + myCurrentUser.getUserName());
-        System.out.println("Designate Subprogram Chair: Select Manuscript");
+        System.out.println("Select Manuscript");
         
         System.out.println("\nPlease choose the manuscript from the options below.");
         displayPCManuscriptOptionList();
