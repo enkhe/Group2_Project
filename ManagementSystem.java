@@ -12,8 +12,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 
-import main.Conference;
-
 /**
  * Manages the user interface for a Conference Management System,
  * 
@@ -38,6 +36,10 @@ public class ManagementSystem implements Serializable {
     
     private final static String PC_MAN_DISPLAY_FORMAT = "%20s %15s %10s %s\n";
     
+    private final int MAX_SUBPC_ASSIGNED_MANUSCRIPTS = 4;
+    
+    private final int MAX_REVIEWER_ASSIGNED_MANUSCRIPTS = 4;
+    
     /**
      * A list containing all known Registered Users.
      */
@@ -59,11 +61,17 @@ public class ManagementSystem implements Serializable {
     private transient Conference myCurrentConference;
     
     /**
+     * The scanner being used for console i/o.
+     */
+    private transient Scanner myScanner;
+    
+    /**
      * Creates a new instance of a management system with no users or conferences.
      */
     public ManagementSystem() {
         myUserList = new ArrayList<>();
         myConferences = new ArrayList<>();
+        myScanner = null;
     }
     
     /**
@@ -71,7 +79,7 @@ public class ManagementSystem implements Serializable {
      */
     private void loginMenu() {
         int input = -1;
-        Scanner scanner = new Scanner(System.in);
+        myScanner = new Scanner(System.in);
         do {
             System.out.println("Welcome to the MSEE Conference Management System!");
             System.out.println("Please enter a command:");
@@ -79,15 +87,15 @@ public class ManagementSystem implements Serializable {
             System.out.println("2) Register");
             System.out.println("0) Exit");
             System.out.print("\n> ");
-            input = scanner.nextInt();
-            scanner.nextLine(); // flush input
+            input = myScanner.nextInt();
+            myScanner.nextLine(); // flush input
                     
             switch (input) {
                 case 1:
-                    login(scanner);
+                    login();
                     break;
                 case 2:
-                    registerUser(scanner);
+                    registerUser();
                     break;
                 case 0:
                     return;
@@ -100,10 +108,8 @@ public class ManagementSystem implements Serializable {
     /**
      * Displays a menu to allow the user to register by entering a Username, First Name
      * and Last Name. 
-     * 
-     * @param theScanner the currently open input scanner for console IO.
      */
-    private void registerUser(Scanner theScanner) {
+    private void registerUser() {
         String enteredName;
         RegisteredUser newUser;
         
@@ -111,7 +117,7 @@ public class ManagementSystem implements Serializable {
             System.out.println(SYS_TITLE);
             System.out.println("\nPlease enter a desired username or 0 to return.\n");
             System.out.print("> ");
-            enteredName = theScanner.nextLine();
+            enteredName = myScanner.nextLine();
             
             if(enteredName.equals("0")) {
                 System.out.println("Returning to the login menu.\n");
@@ -123,9 +129,9 @@ public class ManagementSystem implements Serializable {
             if(Objects.isNull(newUser)) {
                 System.out.println("Username is available!");
                 System.out.print("Enter your First Name > ");
-                String firstName = theScanner.nextLine();
+                String firstName = myScanner.nextLine();
                 System.out.print("Enter your Last Name > ");
-                String lastName = theScanner.nextLine();
+                String lastName = myScanner.nextLine();
                 int id = myUserList.size();
                 myUserList.add(new RegisteredUser(enteredName, firstName, lastName, id));
                 enteredName = "0";
@@ -140,24 +146,22 @@ public class ManagementSystem implements Serializable {
     /**
      * Prompts the user for their Username and logs the user in if the provided name is
      * valid.
-     * 
-     * @param theScanner the currently open input scanner for console IO.
      */
-    private void login(Scanner theScanner) {
+    private void login() {
         String enteredName;
         boolean logInSuccessful = false;
         
         System.out.println(SYS_TITLE);
         System.out.println("\nPlease enter your username or 0 to return.");
         System.out.print("> ");
-        enteredName = theScanner.nextLine();
+        enteredName = myScanner.nextLine();
         
         if (enteredName.equals("0")) return;
         
         myCurrentUser = getUser(enteredName);
         
         if (Objects.nonNull(myCurrentUser)) {
-            myCurrentConference = selectConference(theScanner);
+            myCurrentConference = selectConference();
             if(Objects.nonNull(myCurrentConference)) {
                 logInSuccessful = true;
             }
@@ -179,10 +183,9 @@ public class ManagementSystem implements Serializable {
     /**
      * Prompts the user for the conference they wish to work in.
      * 
-     * @param theScanner the currently open input scanner for console IO.
      * @return the Conference to be used during the user's session.
      */
-    private Conference selectConference(Scanner theScanner) {
+    private Conference selectConference() {
         Conference selectedConference;
         int input = -1;
         do {
@@ -197,11 +200,11 @@ public class ManagementSystem implements Serializable {
             
             System.out.println("0) Return");
             System.out.print("\n> ");
-            input = theScanner.nextInt();
-            theScanner.nextLine(); // flush input
+            input = myScanner.nextInt();
+            myScanner.nextLine(); // flush input
             
             if (input == 0) {
-                System.out.println()
+                System.out.println();
                 return null;
             }
             
@@ -217,7 +220,7 @@ public class ManagementSystem implements Serializable {
      * Prompts the user for which personal role they will manage for the conference
      * they have currently selected.
      */
-    private void selectRole(Scanner theScanner) {
+    private void selectRole() {
     	boolean isAuthor = myCurrentConference.isAuthor(myCurrentUser.getId);
     	boolean isReviewer = myCurrentConference.isReviewer(myCurrentUser.getId);
     	boolean isSub = myCurrentConference.isSubprogramChair(myCurrentUser.getId);
@@ -237,8 +240,8 @@ public class ManagementSystem implements Serializable {
         if(!isPC) System.out.println("(Unavailable)");
         
         System.out.print("\n> ");
-        choice = theScanner.nextInt();
-        theScanner.nextLine();
+        choice = myScanner.nextInt();
+        myScanner.nextLine();
         
         if(choice == 1 && isAuthor) {
         	authorMenu();
@@ -257,7 +260,7 @@ public class ManagementSystem implements Serializable {
      * Prompts the user to either select a role, submit a paper to become and Author
      * of the current Conference, or return to the login menu. 
      */
-    private void mainMenu(Scanner theScanner) {
+    private void mainMenu() {
         int choice = -1;
         do {
 	        System.out.println(SYS_TITLE);
@@ -271,15 +274,15 @@ public class ManagementSystem implements Serializable {
 	        System.out.println("0) Log out");
 	        System.out.print("\n> ");
 	        
-	        choice = theScanner.nextInt();
-	        theScanner.nextLine();
+	        choice = myScanner.nextInt();
+	        myScanner.nextLine();
 	        
 	        switch (choice) {
 	        	case 1:
-	        		selectRole(theScanner);
+	        		selectRole();
 	        		break;
 	        	case 2:
-	        		submitManuscript(getAuthorforSubmit(), theScanner);
+	        		submitManuscript(getAuthorforSubmit());
 	        		break;
 	        	case 0:
 	        		//empty, logout happens upon returning from this method.
@@ -315,9 +318,8 @@ public class ManagementSystem implements Serializable {
      * conference.
      * 
      * @param theAuthor the Author object for the current user.
-     * @param theScanner the scanner used for console i/o.
      */
-    private void submitManuscript(Author theAuthor, Scanner theScanner) {
+    private void submitManuscript(Author theAuthor) {
 		String title;
 		String manuscriptPath;
 		
@@ -328,11 +330,11 @@ public class ManagementSystem implements Serializable {
 		
         System.out.println("\nPlease enter the file path for your Manuscript");
 		System.out.print("> ");
-		manuscriptPath = theScanner.nextLine();
+		manuscriptPath = myScanner.nextLine();
 		
 		System.out.println("Please enter the title of your Manuscript");
 		System.out.println("> ");
-		title = theScanner.nextLine();
+		title = myScanner.nextLine();
 		
 		theAuthor.submitManuscript(manuscriptPath, title);
 		System.out.println("\n" + manuscriptPath + " submitted!");
@@ -341,7 +343,7 @@ public class ManagementSystem implements Serializable {
     /**
      * Provides menu options for all Program Chair Actions.
      */
-    private void programChairMenu(Scanner theScanner) {
+    private void programChairMenu() {
     	int choice = -1;
     	
     	do {
@@ -368,9 +370,10 @@ public class ManagementSystem implements Serializable {
 	        		break;
 	        	case 3:
 	        		// view Subprogram Chair assignments
+	        		// may not need
 	        		break;
 	        	case 4:
-	        		// designate a Subprogram Chair
+	        		assignSubProgramChair();
 	        		break;
 	        	case 0:
 	        		// exit
@@ -382,6 +385,10 @@ public class ManagementSystem implements Serializable {
     	} while (choice != 0); 
     }
     
+    /**
+     * Displays a detailed list of manuscripts including title, assigned subprogram chair,
+     * recommendation, and acceptance.
+     */
     private void displayManuscriptsForProgramChair() {
 		// Note: need this method
 		List<Manuscript> manuscripts = myCurrentConference.getManuscripts();
@@ -408,6 +415,122 @@ public class ManagementSystem implements Serializable {
 			
 			System.out.printf(PC_MAN_DISPLAY_FORMAT, title, subPCName, recommendation, acceptance);
 		}
+    }
+    
+    /**
+     * Designates a Subprogram Chair to a selected Manuscript.
+     */
+    private void assignSubProgramChair() {
+    	Manuscript selectedManuscript = selectManuscriptForSubPCAssignment();
+    	SubprogramChair selectedSubPC = selectSubPCToAssign();
+    	
+    	if(Objects.nonNull(selectedManuscript) && Objects.nonNull(selectedSubPC)) {
+    		finalizeSubPCAssignment(selectedManuscript, selectedSubPC);
+    	}
+    }
+    
+    /**
+     * Displays a menu to select a manuscript to be assigned a Subprogram Chair.
+     *
+     * @return the selected manuscript.
+     */
+    private Manuscript selectManuscriptForSubPCAssignment() {
+    	List<Manuscript> manuscripts = myCurrentConference.getManuscripts();
+    	Manuscript selectedManuscript = null;
+    	int choice = -1;
+    	
+    	System.out.println(SYS_TITLE);
+        System.out.println(myCurrentConference.getConferenceName());
+        System.out.println("Program Chair: " + myCurrentUser.getUserName());
+        System.out.println("Designate Subprogram Chair: Select Manuscript");
+        
+        System.out.println("\nPlease choose the manuscript from the options below.");
+        displayPCManuscriptOptionList();
+        System.out.print("\n > ");
+       
+        choice = myScanner.nextInt();
+        myScanner.nextLine();
+        
+        try {
+			selectedManuscript = manuscripts.get(choice - 1);
+		} catch (IndexOutOfBoundsException e) {
+			System.out.println("Invalid input");
+		}
+        
+        return selectedManuscript;
+    }
+    
+    /**
+     * Displays a menu to select a Subprogram Chair to assign to a Manuscript.
+     * 
+     * @return the selected SubprogramChair.
+     */
+    private SubprogramChair selectSubPCToAssign() {
+    	int choice = -1;
+        int option = 1;
+    	List<SubprogramChair> subprogramChairs = myCurrentConference.getAllSubProgramChairs();
+    	SubprogramChair selectedSubPC = null;
+    	
+        System.out.println("\nPlease choose the SubprogramvChair to designate to this paper.");
+        for (SubprogramChair sub : subprogramChairs) {
+        	System.out.println(option + ") " + sub.getLastName());
+        }
+        
+        System.out.print("\n > ");
+        
+        choice = myScanner.nextInt();
+        myScanner.nextLine();
+        
+        try {
+			selectedSubPC = subprogramChairs.get(choice - 1);
+		} catch (IndexOutOfBoundsException e) {
+			System.out.println("Invalid input");
+		}
+        
+        return selectedSubPC;
+    }
+    
+    private void finalizeSubPCAssignment(Manuscript theManuscript, SubprogramChair theSPC) {
+        if(!brCheck_SubprogamNotAuthor(theManuscript, theSPC) {
+            System.out.println("Subprogram chair cannot be assigned to a Manuscript they authored.");
+         } else if (!brCheck_SubprogramChairNotOverAssigned(theSPC)) {
+         	System.out.println("Subprogram chair cannont be assigned more than for Manuscripts.")
+         } else {
+         	//Need to add this method.
+         	theManuscript.setSPC(theSPC);
+         	theSPC.assignManuscript(theManuscript);
+         }
+    }
+    /**
+     * Displays a simple numbered list of Manuscript titles for a Program Chair menu.
+     */
+    private void displayPCManuscriptOptionList() {
+    	List<Manuscript> manuscripts = myCurrentConference.getManuscripts();
+    	int Option = 1;
+    	for(Manuscript manuscript : manuscripts) {
+    		System.out.println(Option + ") " + manuscript.getTitle);
+    	}
+    }
+    
+    /**
+     * Business Rule check to insure the Subprogram Chair is not assigned a manuscript they authored
+     * @param theManuscript the Manuscript in question.
+     * @param theSPC the SubprogramChair in question.
+     * 
+     * @return true if the check is passed, false if the business rule would be broken.
+     */
+    private boolean brCheck_SubprogamNotAuthor(Manuscript theManuscript, SubprogramChair theSPC) {
+    	return theSPC.getId() != theManuscript.getAuthor().getId;	
+    }
+    
+    /**
+     * Business Rule check to insure the Subprogram Chair is at the maximum assigned manuscripts.
+     * @param theSPC the SubprogramChair in question.
+     * 
+     * @return true if the check is passed, false if the business rule would be broken.
+     */
+    private boolean brCheck_SubprogramChairNotOverAssigned(SubprogramChair theSPC) {
+    	return theSPC.getMyAssignedManuscripts().size() < MAX_SUBPC_ASSIGNED_MANUSCRIPTS;
     }
     
     /**
