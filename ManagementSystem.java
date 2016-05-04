@@ -18,7 +18,7 @@ import java.util.Scanner;
  * Manages the user interface for a Conference Management System,
  * 
  * @author Shaun Coleman
- * @version 1.3
+ * @version 1.4
  */
 public class ManagementSystem implements Serializable {
     /**
@@ -36,8 +36,6 @@ public class ManagementSystem implements Serializable {
      */
     private final static String SYS_TITLE = "\nMSEE Conference Management System";
     
-//    private List<String> testNames;
-//    private String testUser;
     /**
      * A list containing all known Registered Users.
      */
@@ -217,30 +215,169 @@ public class ManagementSystem implements Serializable {
      * Prompts the user for which personal role they will manage for the conference
      * they have currently selected.
      */
-    private void selectRole() {
+    private void selectRole(Scanner theScanner) {
+    	boolean isAuthor = myCurrentConference.isAuthor(myCurrentUser.getId);
+    	boolean isReviewer = myCurrentConference.isReviewer(myCurrentUser.getId);
+    	boolean isSub = myCurrentConference.isSubprogramChair(myCurrentUser.getId);
+    	boolean isPC = myCurrentConference.isProgramChair(myCurrentUser.getId);
+    	int choice = -1;
+    	
+    	System.out.println(SYS_TITLE);
+        System.out.println("\nPlease enter a command below.");
         
+        System.out.print("1) Author ");
+        if(!isAuthor) System.out.println("(Unavailable)");
+        System.out.print("2) Reviewer ");
+        if(!isReviewer) System.out.println("(Unavailable)");
+        System.out.print("3) Subprogram Chair ");
+        if(!isSub) System.out.println("(Unavailable)");
+        System.out.print("4) Program Chair ");
+        if(!isPC) System.out.println("(Unavailable)");
         
+        System.out.print("\n> ");
+        choice = theScanner.nextInt();
+        theScanner.nextLine();
+        
+        if(choice == 1 && isAuthor) {
+        	authorMenu();
+        } else if (choice == 2 && isReviewer) {
+        	reviewerMenu();
+        } else if (choice == 3 && isSub) {
+        	subProgramChairMenu();
+        } else if (choice == 4 && isPC) {
+        	programChairMenu();
+        } else {
+        	System.out.println("\nInvalid input, please select a valid role.");
+        }
     }
     
     /**
      * Prompts the user to either select a role, submit a paper to become and Author
      * of the current Conference, or return to the login menu. 
      */
-    private void mainMenu() {
-        // select a specific role
-        // submit a paper
-        // log out
-        System.out.println("\nComing Soon!\n");
+    private void mainMenu(Scanner theScanner) {
+        int choice = -1;
+        do {
+	        System.out.println(SYS_TITLE);
+	        System.out.println(currentConference.getConferenceName());
+	        System.out.println("User: " + currentUser.getUserName());
+	        System.out.println("Main Menu");
+        
+	        System.out.println("\nPlease enter a command below:");
+	        System.out.println("1) Select a Role");
+	        System.out.println("2) Submit a Manuscript");
+	        System.out.println("0) Log out");
+	        System.out.print("\n> ");
+	        
+	        choice = theScanner.nextInt();
+	        theScanner.nextLine();
+	        
+	        switch (choice) {
+	        	case 1:
+	        		selectRole(theScanner);
+	        		break;
+	        	case 2:
+	        		submitManuscript(getAuthorforSubmit(), theScanner);
+	        		break;
+	        	case 0:
+	        		//empty, logout happens upon returning from this method.
+	        		break;
+	        	default:
+	        		break;
+	        }
+        } while (choice !=0);
+    }
+    
+    /**
+     * (Business Rule - Become an Author by submitting a manuscript).
+     * Returns the Author object used to submit a manuscript by the current user, or if
+     * the user is not an author for the current conference yet a new Author object 
+     * will be created, added to the conference, then returned.
+     * 
+     * @return the Author object to be used to submit a Manuscript.
+     */
+    private Author getAuthorforSubmit() {
+    	Author author;
+    	if(currentConference.isAuthor(currentUser.getUserName())) {
+    		author = currentConference.getAuthor(currentUser.getId());
+    	} else {
+    		author = new Author(currentUser);
+    		currentConference.addAuthor(author);
+    	}
+    	
+    	return author;
+    }
+    
+    /**
+     * Submits a Manuscript from the currently selected user to the currently selected
+     * conference.
+     * 
+     * @param theAuthor the Author object for the current user.
+     * @param theScanner the scanner used for console i/o.
+     */
+    private void submitManuscript(Author theAuthor, Scanner theScanner) {
+		String title;
+		String manuscriptPath;
+		
+    	System.out.println(SYS_TITLE);
+        System.out.println(currentConference.getConferenceName());
+        System.out.println("Author: " + currentUser.getUserName());
+        System.out.println("Submit Manuscript");
+		
+        System.out.println("\nPlease enter the file path for your Manuscript");
+		System.out.print("> ");
+		manuscriptPath = theScanner.nextLine();
+		
+		System.out.println("Please enter the title of your Manuscript");
+		System.out.println("> ");
+		title = theScanner.nextLine();
+		
+		theAuthor.submitManuscript(manuscriptPath, title);
+		System.out.println("\n" + manuscriptPath + " submitted!");
     }
     
     /**
      * Provides menu options for all Program Chair Actions.
      */
-    private void programChairMenu() {
-        //view all submitted manuscripts
-        //change acceptance of a paper
-        //view Subprogram Chair assignments
-        //designate a Subprogram Chair
+    private void programChairMenu(Scanner theScanner) {
+    	int choice = -1;
+    	
+    	do {
+	    	System.out.println(SYS_TITLE);
+	        System.out.println(currentConference.getConferenceName());
+	        System.out.println("Program Chair: " + currentUser.getUserName());
+	        System.out.println("Program Chair Menu");
+		
+	        System.out.println("\nPlease enter a command below.");
+	        System.out.println("1) Veiw all submitted Manuscripts.");
+	        System.out.println("2) Accept or Reject a Manuscript.");
+	        System.out.println("3) View Subprogram Chair Assignments.");
+	        System.out.println("4) Assign a manuscript to a Subprogram Chair.");
+	        System.out.println("0) Return to main menu.");
+	        
+	        System.out.println("\n> ");
+	        
+	        switch (choice) {
+	        	case 1:
+	        		// view all submitted manuscripts
+	        		break;
+	        	case 2:
+	        		// change acceptance of a paper
+	        		break;
+	        	case 3:
+	        		// view Subprogram Chair assignments
+	        		break;
+	        	case 4:
+	        		// designate a Subprogram Chair
+	        		break;
+	        	case 0:
+	        		// exit
+	        		break;
+	        	default:
+	        		break;
+	        }
+        
+    	} while (choice != 0); 
     }
     
     /**
@@ -344,10 +481,9 @@ public class ManagementSystem implements Serializable {
      * @param args not currently used.
      */
     public static void main(String[] args) {
-        //ManagementSystem ms = ManagementSystem.deserialize();
-        ManagementSystem ms = new ManagementSystem();
+        ManagementSystem ms = ManagementSystem.deserialize();
         ms.loginMenu();
-        //ManagementSystem.serialize(ms);
+        ManagementSystem.serialize(ms);
         System.out.println("\nThanks for using the MSEE Conference Management System!");
         System.out.println("Exiting program.");
     }
