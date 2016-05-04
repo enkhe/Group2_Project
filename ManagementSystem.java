@@ -16,7 +16,7 @@ import java.util.Scanner;
  * Manages the user interface for a Conference Management System,
  * 
  * @author Shaun Coleman
- * @version 1.4
+ * @version 1.5
  */
 public class ManagementSystem implements Serializable {
     /**
@@ -426,6 +426,9 @@ public class ManagementSystem implements Serializable {
 		}
     }
     
+    /**
+     * Displays a menu to accept or reject a manuscript.
+     */
     private void changeManuscriptAcceptance() {
     	int choice = -1
     	Manuscript selectedManuscript = programChairSelectManuscript();
@@ -517,7 +520,7 @@ public class ManagementSystem implements Serializable {
     	
         System.out.println("\nPlease choose the SubprogramvChair to designate to this paper.");
         for (SubprogramChair sub : subprogramChairs) {
-        	System.out.println(option + ") " + sub.getLastName());
+        	System.out.println(option++ + ") " + sub.getLastName());
         }
         
         System.out.print("\n > ");
@@ -545,14 +548,15 @@ public class ManagementSystem implements Serializable {
          	theSPC.assignManuscript(theManuscript);
          }
     }
+    
     /**
      * Displays a simple numbered list of Manuscript titles for a Program Chair menu.
      */
     private void displayPCManuscriptOptionList() {
     	List<Manuscript> manuscripts = myCurrentConference.getManuscripts();
-    	int Option = 1;
+    	int option = 1;
     	for(Manuscript manuscript : manuscripts) {
-    		System.out.println(Option + ") " + manuscript.getTitle);
+    		System.out.println(option++ + ") " + manuscript.getTitle);
     	}
     }
     
@@ -600,7 +604,7 @@ public class ManagementSystem implements Serializable {
 	        
 	        switch (choice) {
 	        	case 1:
-	        		//Assign a reviewer
+	        		assignReviewer(currentSubPC);
 	        		break;
 	        	case 2:
 	        		//Submit a recommendation
@@ -616,6 +620,101 @@ public class ManagementSystem implements Serializable {
     	
         
     }
+    
+    /**
+     * 
+     */
+    private void assignReviewer(SubprogramChair theSPC) {
+    	Manuscript selectedManuscript = subprogramChairSelectManuscript();
+    	Reviewer selectedReviewer;
+    	
+    	if(Objects.nonNull(selectedManuscript)) {
+    		selectedReviewer = selectReviewerToAssign();
+    	}
+    	
+    	if(Objects.nonNull(selectedReviewer)) {
+    		// if conditions need to be separated into brcheck_ methods.
+    		if(selectedReviewer.getMyAssignedManuscripts().size() < 4
+    		   && selectedReviewer.getId != selectedManuscript.getAuthor().getId()) {
+    			theSPC.assignReviewer(selectedReviewer.getId());
+    			selectedManuscript.setReview(selectedReviewer.getId(), null);
+    		}
+    	}
+        
+    }
+    
+    private Manuscript subprogramChairSelectManuscript(SubprogramChair theSPC) {
+    	int choice = -1;
+    	Manuscript selectedManuscript = null;
+    	
+    	System.out.println(SYS_TITLE);
+        System.out.println(myCurrentConference.getConferenceName());
+        System.out.println("Subprogram Chair: " + theSPC.getUserName());
+        System.out.println("Assign Reviewer: Select Manuscript");
+        
+        System.out.println("\nPlease select a manuscript below to assign a reviewer.");
+        displaySubPCManuscriptOptionList(theSPC);
+       
+        System.out.print("\n > ");
+        choice = myScanner.nextInt();
+        myScanner.nextLine();
+        
+        try {
+        	selectedManuscript = theSPC.getManuscripts().get(choice -1);
+        } catch (IndexOutOfBoundsException e) {
+        	System.out.println("Invalid Manuscript option");
+        }
+        
+        return selectedManuscript;
+    }
+    
+    /**
+     * Displays a simple numbered list of Manuscript titles for a Subprogram Chair menu.
+     */
+    private void displaySubPCManuscriptOptionList(SubprogramChair theSPC) {
+    	List<Manuscript> manuscripts = theSPC.getManuscripts();
+    	int option = 1;
+    	for(Manuscript manuscript : manuscripts) {
+    		System.out.println(option++ + ") " + manuscript.getTitle);
+    	}
+    }
+    
+    /**
+     * Displays a menu to select a Subprogram Chair to assign to a Manuscript.
+     * 
+     * @return the selected SubprogramChair.
+     */
+    private Reviewer selectReviewerToAssign() {
+    	int choice = -1;
+        int option = 1;
+    	List<Review> reviewers = myCurrentConference.getAllReviewers();
+    	Reviewer selectedReviewer = null;
+    	
+    	System.out.println(SYS_TITLE);
+        System.out.println(myCurrentConference.getConferenceName());
+        System.out.println("Program Chair: " + myCurrentUser.getUserName());
+        System.out.println("Assign Reviewer: Select Reviewer);
+    	
+        System.out.println("\nPlease choose the Reviewer to assign to this paper.");
+        for (Reviewer reveiwer : reveiwers) {
+        	System.out.println(option++ + ") " + reviewer.getLastName());
+        }
+        
+        System.out.print("\n > ");
+        
+        choice = myScanner.nextInt();
+        myScanner.nextLine();
+        
+        try {
+			selectedReviewer = reviewers.get(choice - 1);
+		} catch (IndexOutOfBoundsException e) {
+			System.out.println("Invalid input");
+		}
+        
+        return selectedReviewer;
+    }
+    
+    
     
     /**
      * Provides menu options for all Author Actions.
