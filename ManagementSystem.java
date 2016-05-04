@@ -538,7 +538,7 @@ public class ManagementSystem implements Serializable {
         if(!brCheck_SubprogamNotAuthor(theManuscript, theSPC) {
             System.out.println("Subprogram chair cannot be assigned to a Manuscript they authored.");
          } else if (!brCheck_SubprogramChairNotOverAssigned(theSPC)) {
-         	System.out.println("Subprogram chair cannont be assigned more than for Manuscripts.")
+         	System.out.println("Subprogram chair cannont be assigned more than for Manuscripts.");
          } else {
          	//Need to add this method.
          	theManuscript.setSPC(theSPC);
@@ -581,8 +581,40 @@ public class ManagementSystem implements Serializable {
      * Provides menu options for all Subprogram Chair Actions.
      */
     private void subProgramChairMenu() {
-        //Assign a reviewer
-        //Submit a recommendation
+        SubprogramChair currentSubPC = currentConference.getSubProgramChair(
+        		                                            currentUser.getId());
+    	int choice = -1;
+    	
+    	do {
+	    	System.out.println(SYS_TITLE);
+	        System.out.println(myCurrentConference.getConferenceName());
+	        System.out.println("Subprogram Chair: " + currentSubPC.getUserName());
+	        System.out.println("Subprogram Chair Menu");
+		
+	        System.out.println("\nPlease enter a command below.");
+	        System.out.println("1) Assign a Reviewer to a Manuscript.");
+	        System.out.println("2) Submit a Recommendation.");
+	        System.out.println("0) Return to main menu.");
+	        
+	        System.out.println("\n > ");
+	        
+	        switch (choice) {
+	        	case 1:
+	        		//Assign a reviewer
+	        		break;
+	        	case 2:
+	        		//Submit a recommendation
+	        		break;
+	        	case 0:
+	        		//Empty; exiting menu.
+	        		break;
+	        	default:
+	        		break;
+	        }
+        
+    	} while (choice != 0); 
+    	
+        
     }
     
     /**
