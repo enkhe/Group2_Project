@@ -8,11 +8,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Scanner;
+
+import main.Conference;
 
 /**
  * Manages the user interface for a Conference Management System,
@@ -35,6 +35,8 @@ public class ManagementSystem implements Serializable {
      * A constant to represent the title of the system for menu output.
      */
     private final static String SYS_TITLE = "\nMSEE Conference Management System";
+    
+    private final static String PC_MAN_DISPLAY_FORMAT = "%20s %15s %10s %s\n";
     
     /**
      * A list containing all known Registered Users.
@@ -259,8 +261,8 @@ public class ManagementSystem implements Serializable {
         int choice = -1;
         do {
 	        System.out.println(SYS_TITLE);
-	        System.out.println(currentConference.getConferenceName());
-	        System.out.println("User: " + currentUser.getUserName());
+	        System.out.println(myCurrentConference.getConferenceName());
+	        System.out.println("User: " + myCurrentUser.getUserName());
 	        System.out.println("Main Menu");
         
 	        System.out.println("\nPlease enter a command below:");
@@ -298,11 +300,11 @@ public class ManagementSystem implements Serializable {
      */
     private Author getAuthorforSubmit() {
     	Author author;
-    	if(currentConference.isAuthor(currentUser.getUserName())) {
-    		author = currentConference.getAuthor(currentUser.getId());
+    	if(myCurrentConference.isAuthor(myCurrentUser.getUserName())) {
+    		author = myCurrentConference.getAuthor(myCurrentUser.getId());
     	} else {
-    		author = new Author(currentUser);
-    		currentConference.addAuthor(author);
+    		author = new Author(myCurrentUser);
+    		myCurrentConference.addAuthor(author);
     	}
     	
     	return author;
@@ -320,8 +322,8 @@ public class ManagementSystem implements Serializable {
 		String manuscriptPath;
 		
     	System.out.println(SYS_TITLE);
-        System.out.println(currentConference.getConferenceName());
-        System.out.println("Author: " + currentUser.getUserName());
+        System.out.println(myCurrentConference.getConferenceName());
+        System.out.println("Author: " + myCurrentUser.getUserName());
         System.out.println("Submit Manuscript");
 		
         System.out.println("\nPlease enter the file path for your Manuscript");
@@ -344,8 +346,8 @@ public class ManagementSystem implements Serializable {
     	
     	do {
 	    	System.out.println(SYS_TITLE);
-	        System.out.println(currentConference.getConferenceName());
-	        System.out.println("Program Chair: " + currentUser.getUserName());
+	        System.out.println(myCurrentConference.getConferenceName());
+	        System.out.println("Program Chair: " + myCurrentUser.getUserName());
 	        System.out.println("Program Chair Menu");
 		
 	        System.out.println("\nPlease enter a command below.");
@@ -359,7 +361,7 @@ public class ManagementSystem implements Serializable {
 	        
 	        switch (choice) {
 	        	case 1:
-	        		// view all submitted manuscripts
+	        		displayManuscriptsForProgramChair();
 	        		break;
 	        	case 2:
 	        		// change acceptance of a paper
@@ -378,6 +380,34 @@ public class ManagementSystem implements Serializable {
 	        }
         
     	} while (choice != 0); 
+    }
+    
+    private void displayManuscriptsForProgramChair() {
+		// Note: need this method
+		List<Manuscript> manuscripts = myCurrentConference.getManuscripts();
+		
+		//Headers
+		System.out.printf(PC_MAN_DISPLAY_FORMAT, "Title", 
+				          "Subprogram Chair", "Recommendation", "Accepted");
+		for(int i = 0; i < 10; i++) {
+			System.out.print("------");
+		}
+		
+		// new line
+		System.out.println();
+		
+		for (Manuscript manuscript : manuscripts) {
+			String title = manuscript.getTitle();
+			String subPCName = "-----------";
+			// Possible code; using unimplemented methods from manuscript
+			if (manuscript.hasSubPC()) {
+				subPCName = manuscript.getSPC().getLastName();
+			}
+			String recommendation = manuscript.getRecommendation();
+			String acceptance = manuscript.getAcceptance();
+			
+			System.out.printf(PC_MAN_DISPLAY_FORMAT, title, subPCName, recommendation, acceptance);
+		}
     }
     
     /**
