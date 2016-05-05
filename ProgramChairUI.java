@@ -37,7 +37,7 @@ public class ProgramChairUI {
         int choice = -1;
         
         do {
-            displayScreenHeader("Program Chair:", "Program Chair Menu");
+            displayScreenHeader("Program Chair Menu");
         
             System.out.println("\nPlease enter a command below.");
             System.out.println("1) Veiw all Manuscript status.");

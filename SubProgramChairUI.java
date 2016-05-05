@@ -103,7 +103,7 @@ public class SubProgramChairUI {
         int choice = -1;
         Manuscript selectedManuscript = null;
         
-        displayScreenHeader("Subprogram Chair", "Manuscript Selection");
+        displayScreenHeader("Manuscript Selection");
         
         System.out.println("\nPlease select a manuscript below to assign a reviewer.");
         displaySubPCManuscriptOptionList(mySPC);
@@ -141,9 +141,9 @@ public class SubProgramChairUI {
         List<Review> reviewers = myCurrentConference.getAllReviewers();
         Reviewer selectedReviewer = null;
         
-        displayScreenHeader("Subprogram Chair", "Reviewer Selection");
-        
+        displayScreenHeader("Reviewer Selection");
         System.out.println("\nPlease choose the Reviewer to assign to this paper.");
+        
         for (Reviewer reviewer : reveiwers) {
             System.out.println(option++ + ") " + reviewer.getLastName());
         }
