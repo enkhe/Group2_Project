@@ -29,19 +29,18 @@ public class Author extends RegisteredUser implements Serializable {
 	}
 	
 	/**
-	 * Takes a String as a filePath the creates a Manuscript object and
-	 * adds it to the Authors list of Manuscripts if two conditions are met.
+	 * Takes a Manuscript and adds it to the Authors list of Manuscripts
+	 * if the following conditions are met.
 	 * 1) The Manuscript must not already exist.
 	 * 2) the Author must not exceed 4 submissions.
 	 * 
 	 * 0 is returned for a successful add.
 	 * -1 is returned for an unsuccessful add.
 	 */
-	public int submitManuscript(String theFilePath){
-		Manuscript submission = new Manuscript(getID(), theFilePath);
+	public int submitManuscript(Manuscript theManuscript){
 		
-		if(!exists(submission) && !maxPapers()) {
-			myManuscripts.add(submission);
+		if(!exists(theManuscript)) {
+			myManuscripts.add(theManuscript);
 		} else {
 			return -1;
 		}
@@ -107,20 +106,5 @@ public class Author extends RegisteredUser implements Serializable {
 		}
 		
 		return exists;
-	}
-	
-	/**
-	 * Checks if the Author has reached his maximum submission of 4 by 
-	 * checking the size of the collection of manuscripts he has already
-	 * submitted.
-	 */
-	private boolean maxPapers() {
-		boolean maxPapers = false;
-		
-		if(myManuscripts.size() == 4) {
-			maxPapers = true;
-		}
-		
-		return maxPapers;
 	}
 }
