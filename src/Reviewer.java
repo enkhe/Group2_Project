@@ -1,8 +1,11 @@
 /*
-
+ * Author: Amrit Puri
+ * Group 2 - TCSS 360A
  */
 
-public class Reviewer  implements RegisteredUser {
+public class Reviewer  extends RegisteredUser {
+
+    private List<Manuscript> myManuscripts;
 
     /*
 
@@ -15,7 +18,7 @@ public class Reviewer  implements RegisteredUser {
 
      */
     public List<Manuscript> getMyAssignedManuscripts() {
-
+        return myManuscripts;
     }
 
     /*

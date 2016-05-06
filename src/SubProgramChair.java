@@ -1,8 +1,11 @@
 /*
-
+ * Author: Amrit Puri
+ * Group 2 - TCSS 360A
  */
 
-public class SubProgramChair  implements RegisteredUser {
+public class SubProgramChair  extends RegisteredUser {
+
+    private List<Manuscript> myManuscripts;
 
     /*
 

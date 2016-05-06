@@ -1,8 +1,9 @@
 /*
-
+ * Author: Amrit Puri
+ * Group 2 - TCSS 360A
  */
 
-public class Author  implements RegisteredUser {
+public class Author extends RegisteredUser {
 
     /*
 

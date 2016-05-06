@@ -1,8 +1,9 @@
 /*
-
+ * Author: Amrit Puri
+ * Group 2 - TCSS 360A
  */
 
-public class ProgramChair implements RegisteredUser {
+public class ProgramChair extends RegisteredUser {
 
     /*
 
