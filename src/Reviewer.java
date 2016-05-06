@@ -1,5 +1,27 @@
+/*
+
+ */
+
 public class Reviewer  implements RegisteredUser {
-    public void submitReview(Review theReview) {
+
+    /*
+
+     */
+    public Reviewer(RegisteredUser theUser) {
+
+    }
+
+    /*
+
+     */
+    public List<Manuscript> getMyAssignedManuscripts() {
+
+    }
+
+    /*
+
+     */
+    public void submitReview(int theScore, String theReviewPath) {
 
     }
 }

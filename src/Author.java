@@ -1,15 +1,48 @@
+/*
+
+ */
+
 public class Author  implements RegisteredUser {
-    public void getAuthor(int theID)
 
-    public void submit(Manuscript thePaper) {
+    /*
 
-    }
-
-    public void unsubmit(Manuscript thePaper) {
+     */
+    public Author(RegisteredUser theUser) {
 
     }
 
-    public void edit(Manuscript thePaper) {
+    /*
+
+     */
+    public void getAuthor(int theID) {
+
+    }
+
+    /*
+
+     */
+    public void submitManuscript(Manuscript thePaper) {
+
+    }
+
+    /*
+
+     */
+    public void removeManuscript(Manuscript theManuscript) {
+
+    }
+
+    /*
+
+     */
+    public void replaceManuscript(Manuscript theManuscript, String theReplacementFilePath) {
+
+    }
+
+    /*
+
+     */
+    public List<Manuscript> getMyManuscripts() {
 
     }
 }

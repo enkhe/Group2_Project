@@ -1,13 +1,34 @@
+/*
+
+ */
+
 public class ProgramChair implements RegisteredUser {
-    public void changeAcceptance(boolean theAcceptance) {
+
+    /*
+
+    */
+    public ProgramChair(RegisteredUser theUser) {
 
     }
 
-    public String viewSubPCAssignment() {
+    /*
+
+     */
+    public void changeAcceptance(Manuscript theManuscript, boolean theAcceptance) {
 
     }
 
-    public void assignSubProgramChair(RegisteredUser theUser) {
+    /*
+
+     */
+    public List<Manuscript> getSubPCAssignments() {
+
+    }
+
+    /*
+
+     */
+    public void assignSubProgramChair(int theID) {
 
     }
 }

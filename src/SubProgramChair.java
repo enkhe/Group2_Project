@@ -1,8 +1,33 @@
+/*
+
+ */
+
 public class SubProgramChair  implements RegisteredUser {
-    public void assignReviewer(Reviewer theReviewer) {
+
+    /*
+
+     */
+    public SubprogramChair(RegisteredUser theUser) {
 
     }
 
+    /*
+
+     */
+    public List<Manuscript> getMyAssignedManuscripts() {
+
+    }
+
+    /*
+
+     */
+    public void assignReviewer(int theID) {
+
+    }
+
+    /*
+
+     */
     public void submitRecommendation(boolean theRecommendation) {
 
     }
