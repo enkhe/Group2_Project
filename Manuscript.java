@@ -22,6 +22,8 @@ public class Manuscript implements Serializable {
 	private int myAcceptStatus;
 	/** File Path to the Manuscript.*/
 	private String myFilePath;
+	/** The title of the paper.*/
+	private String myTitle;
 	/** List of reviews. Key: ID, Value: Review Object */
 	private Map<Integer, Review> myReviews;
 	/** Scale for SPC recommendations */
@@ -37,6 +39,7 @@ public class Manuscript implements Serializable {
 		mySPC = -1;
 		myRecommendation = -1;
 		myAcceptStatus = -1;
+		myTitle = "No Title Given";
 		
 		myReviews = new HashMap<>();
 		myScale = new ArrayList<>();
@@ -57,10 +60,11 @@ public class Manuscript implements Serializable {
 		myAuthor = theAuthor;
 	}
 	
-	public Manuscript(int theAuthor, String theFilePath){
+	public Manuscript(int theAuthor, String theFilePath, String theTitle){
 		this();
 		myAuthor = theAuthor;
 		myFilePath = theFilePath;
+		myTitle = theTitle;
 	}
 	
 	/**
@@ -117,6 +121,13 @@ public class Manuscript implements Serializable {
 		} else {
 			throw new IllegalArgumentException("Invalid number used for Accept Status");
 		}
+	}
+	
+	/**
+	 * Set the title of the paper.
+	 */
+	public void setTitle(String theTitle) {
+		myTitle = theTitle;
 	}
 	
 	/**
@@ -189,5 +200,12 @@ public class Manuscript implements Serializable {
 		} else {
 			return "Pending";
 		}
+	}
+	
+	/**
+	 * Get the title of the paper.
+	 */
+	public String getTitle() {
+		return myTitle;
 	}
 }
