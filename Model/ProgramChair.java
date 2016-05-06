@@ -8,6 +8,9 @@ import java.util.List;
  */
 
 public class ProgramChair extends RegisteredUser {
+	public ProgramChair() {
+		
+	}
 
     /*
 

@@ -13,7 +13,7 @@ public class SubProgramChair  extends RegisteredUser {
     /*
 
      */
-    public void SubprogramChair(RegisteredUser theUser) {
+    public SubProgramChair(RegisteredUser theUser) {
 
     }
 
