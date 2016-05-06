@@ -6,6 +6,7 @@ import model.Conference;
 import model.Manuscript;
 import model.ProgramChair;
 import model.RegisteredUser;
+import model.SubProgramChair;
 
 /**
  * A class containing teh UI elements for the Program Chair.
@@ -46,7 +47,7 @@ public class ProgramChairUI {
             displayScreenHeader("Program Chair Menu");
         
             System.out.println("\nPlease enter a command below.");
-            System.out.println("1) Veiw all Manuscript status.");
+            System.out.println("1) View all Manuscript status.");
             System.out.println("2) Accept or Reject a Manuscript.");
             System.out.println("4) Assign a Manuscript to a Subprogram Chair.");
             System.out.println("0) Return to main menu.");
@@ -97,7 +98,7 @@ public class ProgramChairUI {
             }
             
             String recommendation = manuscript.getRecommendation();
-            String acceptance = manuscript.getAcceptance();
+            String acceptance = manuscript.getAcceptStatus();
             
             System.out.printf(SystemHelper.PC_MAN_DISPLAY_FORMAT, title, 
             		           subPCName, recommendation, acceptance);
@@ -118,12 +119,12 @@ public class ProgramChairUI {
             System.out.println("2) Reject");
             choice = SystemHelper.promptUserInt();
             
-            // Note need these methods
+            // Note magic nums
             if (choice == 1) {
-                selectedManuscript.setAcceptance("Accepted");
+                selectedManuscript.setAcceptStatus(1);
                 System.out.println("\n" + selectedManuscript.getTitle() + " accepted!");
             } else if (choice == 2) {
-                selectedManuscript.setAcceptance("Rejected");
+                selectedManuscript.setAcceptStatus(0);
                 System.out.println("\n" + selectedManuscript.getTitle() + " rejected!");
             } else { 
                 System.out.println("Invalid input; returning to Program Chair menu.");
@@ -136,7 +137,7 @@ public class ProgramChairUI {
      */
     private void assignSubProgramChair() {
         Manuscript selectedManuscript = programChairSelectManuscript();
-        SubprogramChair selectedSubPC;
+        SubProgramChair selectedSubPC = null;
         
         if(Objects.nonNull(selectedManuscript)) {
             selectedSubPC = selectSubPCToAssign();
@@ -177,16 +178,16 @@ public class ProgramChairUI {
      * 
      * @return the selected SubprogramChair.
      */
-    private SubprogramChair selectSubPCToAssign() {
+    private SubProgramChair selectSubPCToAssign() {
         int choice = -1;
         int option = 1;
-        List<SubprogramChair> subprogramChairs = myCurrentConference.getAllSubProgramChairs();
-        SubprogramChair selectedSubPC = null;
+        List<SubProgramChair> subprogramChairs = myCurrentConference.getAllSubProgramChairs();
+        SubProgramChair selectedSubPC = null;
         
         displayScreenHeader("Subprogram Chair Selection");
         
         System.out.println("\nPlease choose the Subprogram Chair to designate to this paper.");
-        for (SubprogramChair sub : subprogramChairs) {
+        for (SubProgramChair sub : subprogramChairs) {
             System.out.println(option++ + ") " + sub.getLastName());
         }
         
@@ -208,18 +209,18 @@ public class ProgramChairUI {
         List<Manuscript> manuscripts = myCurrentConference.getManuscripts();
         int option = 1;
         for(Manuscript manuscript : manuscripts) {
-            System.out.println(option++ + ") " + manuscript.getTitle);
+            System.out.println(option++ + ") " + manuscript.getTitle());
         }
     }
     
-    private void finalizeSubPCAssignment(Manuscript theManuscript, SubprogramChair theSPC) {
-        if(!brCheck_SubprogamNotAuthor(theManuscript, theSPC) {
+    private void finalizeSubPCAssignment(Manuscript theManuscript, SubProgramChair theSPC) {
+        if(!brCheck_SubprogamNotAuthor(theManuscript, theSPC)) {
             System.out.println("Subprogram chair cannot be assigned to a Manuscript they authored.");
         } else if (!brCheck_SubprogramChairNotOverAssigned(theSPC)) {
             System.out.println("Subprogram chair cannont be assigned more than for Manuscripts.");
         } else {
             //Need to add this method.
-            theManuscript.setSPC(theSPC);
+            theManuscript.setSPC(theSPC.getID());
             theSPC.assignManuscript(theManuscript);
         }
     }
@@ -234,21 +235,21 @@ public class ProgramChairUI {
     /**
      * Business Rule check to insure the Subprogram Chair is not assigned a manuscript they authored
      * @param theManuscript the Manuscript in question.
-     * @param theSPC the SubprogramChair in question.
+     * @param theSPC the SubProgramChair in question.
      * 
      * @return true if the check is passed, false if the business rule would be broken.
      */
-    private boolean brCheck_SubprogamNotAuthor(Manuscript theManuscript, SubprogramChair theSPC) {
-        return theSPC.getId() != theManuscript.getAuthor().getId;    
+    private boolean brCheck_SubprogamNotAuthor(Manuscript theManuscript, SubProgramChair theSPC) {
+        return theSPC.getID() != theManuscript.getAuthorID();    
     }
 
     /**
      * Business Rule check to insure the Subprogram Chair is at the maximum assigned manuscripts.
-     * @param theSPC the SubprogramChair in question.
+     * @param theSPC the SubProgramChair in question.
      * 
      * @return true if the check is passed, false if the business rule would be broken.
      */
-    private boolean brCheck_SubprogramChairNotOverAssigned(SubprogramChair theSPC) {
+    private boolean brCheck_SubprogramChairNotOverAssigned(SubProgramChair theSPC) {
         return theSPC.getMyAssignedManuscripts().size() < MAX_SUBPC_ASSIGNED_MANUSCRIPTS;
     }
     
