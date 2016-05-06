@@ -187,14 +187,14 @@ public class ManagementSystem implements Serializable {
         
         choice = SystemHelper.promptUserInt();
         
-        if(choice == 1 && isAuthor) {
+        if(choice == 1 && myCurrentConference.isAuthor(myCurrentUser.getID())) {
             System.err.println("Comming Soon!");
-        } else if (choice == 2 && isReviewer) {
+        } else if (choice == 2 && myCurrentConference.isReviewer(myCurrentUser.getID())) {
         	System.err.println("Comming Soon!");
-        } else if (choice == 3 && isSub) {
+        } else if (choice == 3 && myCurrentConference.isSubprogramChair(myCurrentUser.getID())) {
         	new SubProgramChairUI(myCurrentUser, myCurrentConference).subProgramChairMenu();
-        } else if (choice == 4 && isPC) {
-            new ProgramChairUI(myCurrentUser, myCurrentConference).programChairMenu();
+        } else if (choice == 4 && myCurrentConference.isProgramChair(myCurrentUser.getID())) {
+            new ProgramChairUI(myCurrentUser, myCurrentConference.programChairMenu();
         } else {
             System.out.println("\nInvalid input, please select a valid role.");
         }
@@ -308,10 +308,10 @@ public class ManagementSystem implements Serializable {
     }
     
     private void displayRoleSelections() {
-        boolean isAuthor = myCurrentConference.isAuthor(myCurrentUser.getId);
-        boolean isReviewer = myCurrentConference.isReviewer(myCurrentUser.getId);
-        boolean isSub = myCurrentConference.isSubprogramChair(myCurrentUser.getId);
-        boolean isPC = myCurrentConference.isProgramChair(myCurrentUser.getId);
+        boolean isAuthor = myCurrentConference.isAuthor(myCurrentUser.getID());
+        boolean isReviewer = myCurrentConference.isReviewer(myCurrentUser.getID());
+        boolean isSub = myCurrentConference.isSubprogramChair(myCurrentUser.getID());
+        boolean isPC = myCurrentConference.isProgramChair(myCurrentUser.getID());
         
         System.out.print("1) Author ");
         if(!isAuthor) System.out.println("(Unavailable)");
@@ -347,8 +347,8 @@ public class ManagementSystem implements Serializable {
     */
     private Author getAuthorforSubmit() {
         Author author;
-        if(myCurrentConference.isAuthor(myCurrentUser.getUserName())) {
-           author = myCurrentConference.getAuthor(myCurrentUser.getId());
+        if(myCurrentConference.isAuthor(myCurrentUser.getID())) {
+           author = myCurrentConference.getAuthor(myCurrentUser.getID());
         } else {
            author = new Author(myCurrentUser);
            myCurrentConference.addAuthor(author);
