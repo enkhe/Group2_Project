@@ -228,5 +228,20 @@ public class Conference {
 	public List<Manuscript> getAllAuthorsManuscript(Integer theAuthorID) {
 		return myManuscripts;
 	}
+	
+	/**
+	 * Get an author from conferences list by the ID.
+	 */
+	public Author getAuthor(int theID) {
+		Author author = new Author();
+		
+		for(Author theAuthor : myAuthors) {
+			if(theAuthor.getID() == theID) {
+				author = theAuthor;
+			}
+		}
+		
+		return author;
+	}
 
 }
