@@ -1,5 +1,11 @@
+package view;
 import java.util.List;
 import java.util.Objects;
+
+import model.Conference;
+import model.Manuscript;
+import model.ProgramChair;
+import model.RegisteredUser;
 
 /**
  * A class containing teh UI elements for the Program Chair.
@@ -27,7 +33,7 @@ public class ProgramChairUI {
     
     public ProgramChairUI(RegisteredUser theUser, Conference theConference) {
     	myCurrentConference = theConference;
-    	myPC = theConference.getProgramChair(theUser.getId());
+    	myPC = theConference.getProgramChair(theUser.getID());
     }
     
     /**

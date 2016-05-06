@@ -1,5 +1,12 @@
+package view;
 import java.util.List;
 import java.util.Objects;
+
+import model.Conference;
+import model.Manuscript;
+import model.RegisteredUser;
+import model.Review;
+import model.Reviewer;
 
 /**
  * A class containing the UI elements of a Subprogram Chair.

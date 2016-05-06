@@ -1,3 +1,4 @@
+package view;
 /*
  * TCSS360 Group 2 Project
  */
@@ -5,6 +6,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import model.Author;
+import model.Conference;
+import model.RegisteredUser;
 
 /**
  * Manages the user interface for a Conference Management System,
@@ -103,7 +108,7 @@ public class ManagementSystem implements Serializable {
             newUser = getUser(enteredName);
             
             if(Objects.isNull(newUser)) {
-            	createNewUser();
+            	createNewUser(enteredName);
                 enteredName = "0";
                 System.out.println("Registration complete!\n");
             } else {
@@ -259,14 +264,14 @@ public class ManagementSystem implements Serializable {
     /**
      * 
      */
-    private void createNewUser() {
+    private void createNewUser(String theUserName) {
         System.out.println("Username is available!");
         System.out.print("Enter your First Name: ");
         String firstName = SystemHelper.promptUserString();
         System.out.print("Enter your Last Name: ");
         String lastName = SystemHelper.promptUserString();
         int id = myUserList.size();
-        myUserList.add(new RegisteredUser(enteredName, firstName, lastName, id));
+        myUserList.add(new RegisteredUser(firstName, lastName, lastName, id));
     }
     /**
      * Searches and returns a RegisteredUser based on the provide unique UserName.
