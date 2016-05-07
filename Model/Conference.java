@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  * 
@@ -260,5 +259,16 @@ public class Conference {
 		}
 		return false;
 	}
-
+	
+	public Reviewer getReviewer(int theID) {
+		Reviewer reviewer = new Reviewer();
+		
+		for(Reviewer theReviewer : myReviewers) {
+			if(theReviewer.getID() == theID) {
+				reviewer = theReviewer;
+			}
+		}
+		
+		return reviewer;
+	}
 }
