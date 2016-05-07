@@ -1,4 +1,5 @@
 package model;
+
 /**
  * TCSS360 - SPRING2016
  * Group 2 Project - Conferences
@@ -6,6 +7,8 @@ package model;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * 
@@ -28,6 +31,7 @@ public class Conference {
 	private List<Manuscript> myReviewerManuscripts;
 	private List<Manuscript> mySubProgramChairManscripts;
 	private HashMap<Integer, List<RegisteredUser>> myRegisteredUserRoles;
+	private Calendar myDate;
 	
 	/**
 	 * Conference Constructor
@@ -42,6 +46,7 @@ public class Conference {
 		myManuscripts = new LinkedList<>();
 		myRegisteredUserRoles = new HashMap<>();
 		myCurrentProgramChair = new ProgramChair();
+		myDate = Calendar.getInstance();
 	}
 	
 	/**
@@ -242,6 +247,18 @@ public class Conference {
 		}
 		
 		return author;
+	}
+	
+	/**
+	 * Check if the deadline has been reached. Currently deadlines are set for 5 days out from the
+	 * creation of the conference.
+	 */
+	public boolean deadlinePassed(Calendar theDate) {
+		int deadlineDays = 5;
+		if ((theDate.get(Calendar.DAY_OF_MONTH) > myDate.get(Calendar.DAY_OF_MONTH) + deadlineDays)) {
+			return true;
+		}
+		return false;
 	}
 
 }
