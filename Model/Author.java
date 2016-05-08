@@ -74,14 +74,11 @@ public class Author extends RegisteredUser implements Serializable {
 	 *  0 is returned for a successful replacement.
 	 * -1 is returned for an unsuccessful replacement.
 	 */
-	public int replaceManuscript(Manuscript theManuscript, String theReplacementFilePath) {
-		if(exists(theManuscript)) {
-			theManuscript.setFilePath(theReplacementFilePath);
-		} else {
-			return -1;
-		}
+	public int replaceManuscript(Manuscript theManuscript, Manuscript theReplacement) {
+		int pass = removeManuscript(theManuscript);
+		pass = submitManuscript(theReplacement);
 		
-		return 0;
+		return pass;
 	}
 	
 	/**
