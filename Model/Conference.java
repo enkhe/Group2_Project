@@ -271,4 +271,61 @@ public class Conference {
 		
 		return reviewer;
 	}
+	
+	/**
+	 * Takes a Manuscript and adds it to the Authors list of Manuscripts
+	 * if the following conditions are met.
+	 * 1) The Manuscript must not already exist.
+	 * 2) the Author must not exceed 4 submissions.
+	 * 
+	 * 0 is returned for a successful add.
+	 * -1 is returned for an unsuccessful add.
+	 */
+	public int submitManuscript(Manuscript theManuscript){
+		
+		if(!exists(theManuscript)) {
+			myManuscripts.add(theManuscript);
+		} else {
+			return -1;
+		}
+		
+		return 0;
+	}
+	
+	/**
+	 * Takes a Manuscript object, checks if it exists on the list. If it does the 
+	 * Manuscript is removed from the list.
+	 * 
+	 * 	0 is returned for a successful remove.
+	 * -1 is returned for an unsuccessful remove.
+	 */
+	public int removeManuscript(Manuscript theManuscript){
+		if(exists(theManuscript)) {
+			myManuscripts.remove(theManuscript);
+		} else {
+			return -1;
+		}
+		
+		return 0;
+	}
+	
+	/**
+	 * Private method that checks if a Manuscript exists on the list
+	 * of Manuscripts the Author has already submitted. Returns true if it exists
+	 * and false if it doesn't.
+	 */
+	private boolean exists(Manuscript theManuscript) {
+		boolean exists = false;
+		
+		for(Manuscript m : myManuscripts) {
+			if(m.getFile() == theManuscript.getFile() && 
+					m.getAuthorID() == theManuscript.getAuthorID()) {
+				exists = true;
+			}
+		}
+		
+		return exists;
+	}
+	
+	
 }
