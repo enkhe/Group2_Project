@@ -59,6 +59,18 @@ public class ManagementSystem implements Serializable {
     }
     
     /**
+     * Creates a new instance of a management system populated with the passed user and 
+     * conference lists.
+     * 
+     * @param theConferences the conferences in this system will manage.
+     * @param theUsers the registered users this system will manage.
+     */
+    public ManagementSystem(List<Conference> theConferences, List<RegisteredUser> theUsers) {
+    	myUserList = theUsers;
+    	myConferences = theConferences;
+    }
+    
+    /**
      * Displays a menu providing the user with the ability to login, register or exit.
      */
     private void loginMenu() {
