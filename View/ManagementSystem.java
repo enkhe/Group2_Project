@@ -260,7 +260,7 @@ public class ManagementSystem implements Serializable {
         
         Manuscript newManuscript = new Manuscript(theAuthor.getID(), manuscriptPath, title);
         if (theAuthor.submitManuscript(newManuscript) != -1) {
-        	myCurrentConference.
+        	myCurrentConference.submitManuscript(newManuscript);
         }
         System.out.println("\n" + manuscriptPath + " submitted!");
     }

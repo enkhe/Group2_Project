@@ -25,7 +25,7 @@ public class ProgramChairUI {
 	/**
      * The currently logged in user.  Null if no user is logged in.
      */
-    private ProgramChair myPC;
+    private RegisteredUser myPC;
     
     /**
      * The currently selected conference.  Null if not logged into a conference.
@@ -34,7 +34,8 @@ public class ProgramChairUI {
     
     public ProgramChairUI(RegisteredUser theUser, Conference theConference) {
     	myCurrentConference = theConference;
-    	myPC = theConference.getProgramChair(theUser.getID());
+    	// needs to change later once proper ProgramChair getProgramChair(int) method is added.
+    	myPC = theUser;
     }
     
     /**
@@ -79,7 +80,7 @@ public class ProgramChairUI {
      */
     private void displayManuscriptsForProgramChair() {
         // Note: need this method
-        List<Manuscript> manuscripts = myCurrentConference.getManuscripts();
+        List<Manuscript> manuscripts = myCurrentConference.getAllAuthorsManuscript(1);
         
         //Headers
         System.out.printf(SystemHelper.PC_MAN_DISPLAY_FORMAT, "Title", 
@@ -156,7 +157,7 @@ public class ProgramChairUI {
      * @return the selected manuscript.
      */
     private Manuscript programChairSelectManuscript() {
-        List<Manuscript> manuscripts = myCurrentConference.getManuscripts();
+        List<Manuscript> manuscripts = myCurrentConference.getAllAuthorsManuscript(1);
         Manuscript selectedManuscript = null;
         int choice = -1;
         
@@ -208,7 +209,7 @@ public class ProgramChairUI {
      * Displays a simple numbered list of Manuscript titles for a Program Chair menu.
      */
     private void displayPCManuscriptOptionList() {
-        List<Manuscript> manuscripts = myCurrentConference.getManuscripts();
+        List<Manuscript> manuscripts = myCurrentConference.getAllAuthorsManuscript(0);
         int option = 1;
         for(Manuscript manuscript : manuscripts) {
             System.out.println(option++ + ") " + manuscript.getTitle());
