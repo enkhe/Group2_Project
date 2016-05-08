@@ -93,8 +93,10 @@ public class ProgramChairUI {
             String subPCName = "-----------";
             
             // Possible code; using unimplemented methods from manuscript
-            if (manuscript.hasSubPC()) {
-                subPCName = manuscript.getSPC().getLastName();
+            for(SubProgramChair sub : myCurrentConference.getAllSubProgramChairs()) {
+            	if(sub.getID() == manuscript.getSPC()); {
+            		subPCName = sub.getLastName();
+            	}
             }
             
             String recommendation = manuscript.getRecommendation();

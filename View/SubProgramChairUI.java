@@ -7,6 +7,7 @@ import model.Manuscript;
 import model.RegisteredUser;
 import model.Review;
 import model.Reviewer;
+import model.SubProgramChair;
 
 /**
  * A class containing the UI elements of a Subprogram Chair.
@@ -26,7 +27,7 @@ public class SubProgramChairUI {
 	/**
      * The currently logged in user.  Null if no user is logged in.
      */
-    private SubprogramChair mySPC;
+    private SubProgramChair mySPC;
     
     /**
      * The currently selected conference.  Null if not logged into a conference.
@@ -38,15 +39,15 @@ public class SubProgramChairUI {
      * @param theUser
      * @param theConference
      */
-    public SubprogramChairUI(RegisteredUser theUser, Conference theConference) {
+    public SubProgramChairUI(RegisteredUser theUser, Conference theConference) {
     	myCurrentConference = theConference;
-    	mySPC = theConference.getSubprogramChair(theUser.getId());
+    	setSubProgramChair(theUser.getID());
     }
 
     /**
      * Provides menu options for all Subprogram Chair Actions.
      */
-    private void subProgramChairMenu() {
+    public void subProgramChairMenu() {
         int choice = -1;
         
         do {
@@ -64,7 +65,7 @@ public class SubProgramChairUI {
                     assignReviewer();
                     break;
                 case 2:
-                    //Submit a recommendation
+                    assignRecommendation();
                     break;
                 case 0:
                     //Empty; exiting menu.
@@ -84,21 +85,13 @@ public class SubProgramChairUI {
      */
     private void assignReviewer() {
         Manuscript selectedManuscript = subprogramChairSelectManuscript();
-        Reviewer selectedReviewer;
+        Reviewer selectedReviewer = null;
         
         if(Objects.nonNull(selectedManuscript)) {
             selectedReviewer = selectReviewerToAssign();
         }
         
-        if(Objects.nonNull(selectedReviewer)) {
-            /* if conditions need to be separated into brcheck_ methods and a similar
-               finalize method that could be moved outside this class */
-            if(selectedReviewer.getMyAssignedManuscripts().size() < 4
-               && selectedReviewer.getId != selectedManuscript.getAuthor().getId()) {
-                mySPC.assignReviewer(selectedReviewer.getId());
-                selectedManuscript.setReview(selectedReviewer.getId(), null);
-            }
-        }
+        finalizeReviewerAssignment(selectedManuscript, selectedReviewer);
     }
     
     /**
@@ -112,13 +105,13 @@ public class SubProgramChairUI {
         
         displayScreenHeader("Manuscript Selection");
         
-        System.out.println("\nPlease select a manuscript below to assign a reviewer.");
-        displaySubPCManuscriptOptionList(mySPC);
+        System.out.println("\nPlease select a manuscript below");
+        displaySubPCManuscriptOptionList();
        
         choice = SystemHelper.promptUserInt();
         
         try {
-            selectedManuscript = mySPC.getManuscripts().get(choice -1);
+            selectedManuscript = mySPC.getMyAssignedManuscripts().get(choice -1);
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Invalid Manuscript option");
         }
@@ -130,10 +123,10 @@ public class SubProgramChairUI {
      * Displays a simple numbered list of Manuscript titles for a Subprogram Chair menu.
      */
     private void displaySubPCManuscriptOptionList() {
-        List<Manuscript> manuscripts = mySPC.getManuscripts();
+        List<Manuscript> manuscripts = mySPC.getMyAssignedManuscripts();
         int option = 1;
         for(Manuscript manuscript : manuscripts) {
-            System.out.println(option++ + ") " + manuscript.getTitle);
+            System.out.println(option++ + ") " + manuscript.getTitle());
         }
     }
     
@@ -145,13 +138,13 @@ public class SubProgramChairUI {
     private Reviewer selectReviewerToAssign() {
         int choice = -1;
         int option = 1;
-        List<Review> reviewers = myCurrentConference.getAllReviewers();
+        List<Reviewer> reviewers = myCurrentConference.getAllReviewers();
         Reviewer selectedReviewer = null;
         
         displayScreenHeader("Reviewer Selection");
         System.out.println("\nPlease choose the Reviewer to assign to this paper.");
         
-        for (Reviewer reviewer : reveiwers) {
+        for (Reviewer reviewer : reviewers) {
             System.out.println(option++ + ") " + reviewer.getLastName());
         }
         
@@ -166,6 +159,84 @@ public class SubProgramChairUI {
         return selectedReviewer;
     }
 
+    private void assignRecommendation() {
+    	Manuscript manuscript = subprogramChairSelectManuscript();
+    	int recommendation = displayRecommendationSelect(manuscript.getScale());
+    	
+        finalizeRecommendation(manuscript, recommendation);
+    }
+    
+    private int displayRecommendationSelect(List<String> theScale) {
+    	int choice = -1;
+    	int option = 1;
+    	
+    	displayScreenHeader("Select Recommendation Score");
+    	
+    	System.out.println("Please enter a recommendation score below.");
+    	
+    	for (String rec : theScale) {
+    		System.out.println(option++ + ") "+ rec);
+    	}
+    	
+    	choice = SystemHelper.promptUserInt();
+    	   	
+    	return choice;
+    }
+    
+    private void finalizeRecommendation(Manuscript theManuscript, int theRecommendation) {
+        try {
+        	theManuscript.getScale().get(theRecommendation);
+        	theManuscript.setRecommendation(theRecommendation);
+        	System.out.println("Recommendation set!");
+        } catch (IndexOutOfBoundsException e) {
+        	System.out.println("Invalid recommendation selection.");
+        }
+    	
+    }
+    
+    private void finalizeReviewerAssignment(Manuscript theManuscript, Reviewer theReviewer) {
+        if(Objects.nonNull(theReviewer)) {
+            if(brcheck_ReviewerNotOverAssigned(theReviewer)
+               && brcheck_ReviewerNotManuscriptAuthor(theReviewer, theManuscript)) {
+                mySPC.assignReviewer(theReviewer.getID());
+                theManuscript.setReview(theReviewer.getID(), null);
+            } else {
+            	System.out.println("Unable to assign reviewer.");
+            }
+        } else {
+        	System.out.println("Invalid reviewer selected.");
+        }
+    }
+    
+    private boolean brcheck_ReviewerNotOverAssigned(Reviewer theReviewer) {
+    	return theReviewer.getMyAssignedManuscripts().size() < 4;
+    }
+    
+    private boolean brcheck_ReviewerNotManuscriptAuthor(Reviewer theReviewer, Manuscript theManuscript) {
+    	return theReviewer.getID() != theManuscript.getAuthorID();
+    }
+    
+    /**
+     * Linear search for the correct SubProgramChair object based on the passed
+     * user id.  Sets the current SubProgramChair to the found object, or null if
+     * the object is not found.
+     * 
+     * @param theID the ID of the desired SubProgramChair object.
+     */
+    private void setSubProgramChair(int theID) {
+    	for (SubProgramChair sub : myCurrentConference.getAllSubProgramChairs()) {
+    		if (sub.getID() == theID) {
+    			mySPC = sub;
+    		}
+    	}
+    	mySPC = null;
+    }
+    
+    /**
+     * Displays the header information for the current screen.
+     * 
+     * @param menuTitle the title of the current menu screen.
+     */
     private void displayScreenHeader(String menuTitle) {
         System.out.println(SystemHelper.SYS_TITLE);
         System.out.println(myCurrentConference.getConferenceName());
