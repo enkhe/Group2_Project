@@ -9,6 +9,7 @@ import java.util.Objects;
 
 import model.Author;
 import model.Conference;
+import model.Manuscript;
 import model.RegisteredUser;
 
 /**
@@ -257,7 +258,10 @@ public class ManagementSystem implements Serializable {
         System.out.println("Please enter the title of your Manuscript.");
         title = SystemHelper.promptUserString();
         
-        theAuthor.submitManuscript(manuscriptPath, title);
+        Manuscript newManuscript = new Manuscript(theAuthor.getID(), manuscriptPath, title);
+        if (theAuthor.submitManuscript(newManuscript) != -1) {
+        	myCurrentConference.submitManuscript(newManuscript);
+        }
         System.out.println("\n" + manuscriptPath + " submitted!");
     }
     
