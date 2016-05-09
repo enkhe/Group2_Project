@@ -25,6 +25,7 @@ public class Author extends RegisteredUser implements Serializable {
 	 * Overloaded constructor.
 	 */
 	public Author(RegisteredUser theUser){
+		
 		super(theUser.getFirstName(), theUser.getLastName(), theUser.getUserName(), theUser.getID());
 		myManuscripts = new ArrayList<>();
 	}
@@ -75,10 +76,12 @@ public class Author extends RegisteredUser implements Serializable {
 	 * -1 is returned for an unsuccessful replacement.
 	 */
 	public int replaceManuscript(Manuscript theManuscript, Manuscript theReplacement) {
-		int pass = removeManuscript(theManuscript);
-		pass = submitManuscript(theReplacement);
+		if(removeManuscript(theManuscript) == 0) {
+			submitManuscript(theReplacement);
+			return 0;
+		}
 		
-		return pass;
+		return -1;
 	}
 	
 	/**
@@ -97,7 +100,7 @@ public class Author extends RegisteredUser implements Serializable {
 		boolean exists = false;
 		
 		for(Manuscript m : myManuscripts) {
-			if(m.getFile() == theManuscript.getFile() && 
+			if(m.getFile().equalsIgnoreCase(theManuscript.getFile()) && 
 					m.getAuthorID() == theManuscript.getAuthorID()) {
 				exists = true;
 			}

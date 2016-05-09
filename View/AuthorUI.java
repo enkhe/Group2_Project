@@ -1,14 +1,17 @@
-package View;
+package view;
 
 /*
  * TCSS360 Group 2 Project
  */
-import Model.*;
-
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
+
+import model.Author;
+import model.Conference;
+import model.Manuscript;
+import model.RegisteredUser;
 
 /**
  * 
@@ -86,13 +89,15 @@ public class AuthorUI {
 
 		youHaveEntered(strManuscriptTitle);
 
-		Date theDateOne = myCurrentConference.getCreationDate();
-		Date theDateTwo = new Date();
+		//Date theDateOne = myCurrentConference.getCreationDate();
+		//Date theDateTwo = new Date();
 
 		// Check for Deadline.
-		if (!myCurrentConference.deadlinePassed(theDateOne, theDateTwo)) {
-			// +++++++++++ Action happens here +++++++++++
-			int result = myAuthor.submitManuscript(new Manuscript(myAuthor.getID(), strFilePath, strManuscriptTitle));
+		Calendar currentDate = Calendar.getInstance();
+		
+		if (!myCurrentConference.deadlinePassed(currentDate)) { 
+			// +++++++++++ Action happens here +++++++++++ 
+			int result = myAuthor.submitManuscript(new Manuscript(myAuthor.getID(), strFilePath, strManuscriptTitle)); 
 			if (result == 0) {
 				writeln(myAuthor.getUserName() + " have successfull submitted a manuscript with a title of "
 						+ strManuscriptTitle);
@@ -166,7 +171,7 @@ public class AuthorUI {
 		int result = myAuthor.replaceManuscript(selectedManuscript, manuscript);
 		
 		if (result == 0) {
-			writeln(myAuthor.getUserName() + " have succesfully replaced " selectedManuscript.getTitle() + " with "
+			writeln(myAuthor.getUserName() + " have succesfully replaced " + selectedManuscript.getTitle() + " with "
 					+ manuscript.getTitle());
 		} else {
 			writeln("There was some error in replacing " + selectedManuscript.getTitle() + " with "

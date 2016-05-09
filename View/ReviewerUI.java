@@ -1,4 +1,4 @@
-package View;
+package view;
 /*
  * TCSS360 Group 2 Project
  */
@@ -6,7 +6,11 @@ package View;
 import java.util.List;
 import java.util.Scanner;
 
-import Model.*;
+import model.Conference;
+import model.Manuscript;
+import model.RegisteredUser;
+import model.Review;
+import model.Reviewer;
 
 /**
  * 

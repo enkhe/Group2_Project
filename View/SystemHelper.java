@@ -51,7 +51,6 @@ public class SystemHelper {
         int choice = scanner.nextInt();
         // flushes the rest of the line/
         scanner.nextLine();
-        scanner.close();
         return choice;
     }
     
@@ -63,7 +62,6 @@ public class SystemHelper {
     	Scanner scanner = new Scanner(System.in);
     	System.out.print(SystemHelper.PROMPT);
     	String input = scanner.nextLine();
-    	scanner.close();
         return input;
     }
     

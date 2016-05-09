@@ -59,6 +59,18 @@ public class ManagementSystem implements Serializable {
     }
     
     /**
+     * Creates a new instance of a management system populated with the passed user and 
+     * conference lists.
+     * 
+     * @param theConferences the conferences in this system will manage.
+     * @param theUsers the registered users this system will manage.
+     */
+    public ManagementSystem(List<Conference> theConferences, List<RegisteredUser> theUsers) {
+    	myUserList = theUsers;
+    	myConferences = theConferences;
+    }
+    
+    /**
      * Displays a menu providing the user with the ability to login, register or exit.
      */
     private void loginMenu() {
@@ -164,6 +176,7 @@ public class ManagementSystem implements Serializable {
             if (input != 0) {
                 try {
                     selectedConference = myConferences.get(input-1);
+                    input = 0;
                 } catch (IndexOutOfBoundsException e) {
                     System.out.println("Invalid command.");
                 }
@@ -214,6 +227,8 @@ public class ManagementSystem implements Serializable {
             System.out.println("1) Select a Role");
             System.out.println("2) Submit a Manuscript");
             System.out.println("0) Log out");
+            
+            choice = SystemHelper.promptUserInt();
             
             switch (choice) {
                 case 1:
@@ -333,7 +348,9 @@ public class ManagementSystem implements Serializable {
      * @param args not currently used.
      */
     public static void main(String[] args) {
-        ManagementSystem ms = SystemHelper.deserialize();
+    	//new SetUp().serialize();
+    	//ManagementSystem ms = SystemHelper.deserialize();
+    	ManagementSystem ms = new SetUp().generateManagementSystem();
         ms.loginMenu();
         SystemHelper.serialize(ms);
         
