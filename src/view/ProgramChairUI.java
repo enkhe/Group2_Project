@@ -85,8 +85,8 @@ public class ProgramChairUI {
         //Headers
         System.out.printf(SystemHelper.PC_MAN_DISPLAY_FORMAT, "Title", 
                           "Subprogram Chair", "Recommendation", "Accepted");
-        for(int i = 0; i < 10; i++) {
-            System.out.print("------");
+        for(int i = 0; i < 11; i++) {
+            System.out.print("--------");
         }
         
         for (Manuscript manuscript : manuscripts) {
@@ -95,7 +95,7 @@ public class ProgramChairUI {
             
             // Possible code; using unimplemented methods from manuscript
             for(SubProgramChair sub : myCurrentConference.getAllSubProgramChairs()) {
-            	if(sub.getID() == manuscript.getSPC()); {
+            	if(sub.getID() == manuscript.getSPC()) {
             		subPCName = sub.getLastName();
             	}
             }
