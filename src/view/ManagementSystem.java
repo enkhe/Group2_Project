@@ -364,7 +364,7 @@ public class ManagementSystem implements Serializable {
      */
     public static void main(String[] args) {
     	ManagementSystem ms = SystemHelper.deserialize();
-    	//ManagementSystem ms = new SetUp().generateManagementSystem();
+    	//1ManagementSystem ms = new SetUp().generateManagementSystem();
         ms.loginMenu();
         SystemHelper.serialize(ms);
         

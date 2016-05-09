@@ -220,11 +220,11 @@ public class SubProgramChairUI {
         }
     }
     
-    private boolean brcheck_ReviewerNotOverAssigned(Reviewer theReviewer) {
+    public boolean brcheck_ReviewerNotOverAssigned(Reviewer theReviewer) {
     	return theReviewer.getMyAssignedManuscripts().size() < 4;
     }
     
-    private boolean brcheck_ReviewerNotManuscriptAuthor(Reviewer theReviewer, Manuscript theManuscript) {
+    public boolean brcheck_ReviewerNotManuscriptAuthor(Reviewer theReviewer, Manuscript theManuscript) {
     	return theReviewer.getID() != theManuscript.getAuthorID();
     }
     
@@ -235,13 +235,16 @@ public class SubProgramChairUI {
      * 
      * @param theID the ID of the desired SubProgramChair object.
      */
-    private void setSubProgramChair(int theID) {
+    public int setSubProgramChair(int theID) {
     	mySPC = null;
     	for (SubProgramChair sub : myCurrentConference.getAllSubProgramChairs()) {
     		if (sub.getID() == theID) {
     			mySPC = sub;
+    			return 1;
     		}
     	}
+    	
+    	return 0;
     }
     
     /**
