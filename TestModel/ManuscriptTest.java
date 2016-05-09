@@ -1,5 +1,6 @@
 /**
- * 
+ * Author: Tyler Brent
+ * Group2 - TCSS360A
  */
 package model;
 
@@ -9,8 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * @author Tyler
- *
+ * Test class for Manuscript.
+ * Authored by: Tyler Brent
  */
 public class ManuscriptTest {
 	
