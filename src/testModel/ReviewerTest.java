@@ -15,23 +15,30 @@ import model.*;
 public class ReviewerTest {
 	RegisteredUser user;
 	Reviewer reviewer;
-	Reviewer reviewer2;
+	Manuscript manuscript;
+	Manuscript manuscript2;
 	
 	@Before
 	public void beforeAllTests() {
-		reviewer = new Reviewer();
 		user = new RegisteredUser("Amrit", "Puri", "APuri", 27);
-		reviewer2 = new Reviewer(user);
+		reviewer = new Reviewer(user);
+		manuscript = new Manuscript();
+		manuscript2 = new Manuscript();
 	}
-//	
-//	@Test
-//	public void testDefaultConstructorGetManuscripts() {
-//		assertNotNull(reviewer.getMyAssignedManuscripts());
-//	}
-//	
-//	@Test
-//	public void testOverloadedConstructorGetManuscripts() {
-//		assertNotNull(reviewer2.getMyAssignedManuscripts());
-//	}
+	
+	
+	@Test
+	public void testAssignManuscript() {
+		reviewer.assignManuscript(manuscript);
+		assertNotNull(reviewer.getMyAssignedManuscripts().get(0));
+	}
 
+	@Test
+	public void testUnassignManuscript() {
+		reviewer.assignManuscript(manuscript);
+		reviewer.assignManuscript(manuscript2);
+		reviewer.unassignManuscript(manuscript);
+		
+		assertFalse(reviewer.getMyAssignedManuscripts().contains(manuscript));
+	}
 }
