@@ -13,8 +13,7 @@ import model.SubProgramChair;
  * A class containing the UI elements of a Subprogram Chair.
  * 
  * @author Shaun Coleman
- * @author
- * @version 1.0
+ * @version MAY 8 2015
  * 
  */
 public class SubProgramChairUI {
@@ -168,7 +167,7 @@ public class SubProgramChairUI {
     	
     	Manuscript manuscript = subprogramChairSelectManuscript();
     	int recommendation = -1;
-    	
+
     	if(Objects.nonNull(manuscript)) {
     		recommendation = displayRecommendationSelect(manuscript.getScale());
     	}
@@ -197,7 +196,8 @@ public class SubProgramChairUI {
         try {
         	theManuscript.getScale().get(theRecommendation);
         	theManuscript.setRecommendation(theRecommendation);
-        	System.out.println("Recommendation set!");
+        	System.out.println(theManuscript.getTitle() + "'s recommendation set to" 
+        	                  + theManuscript.getScale().get(theRecommendation) + "!");
         } catch (IndexOutOfBoundsException e) {
         	System.out.println("Invalid recommendation selection.");
         }
@@ -210,6 +210,8 @@ public class SubProgramChairUI {
                && brcheck_ReviewerNotManuscriptAuthor(theReviewer, theManuscript)) {
                 mySPC.assignReviewer(theReviewer.getID());
                 theManuscript.setReview(theReviewer.getID(), null);
+                System.out.println(theReviewer.getLastName() + " is assigned " 
+                                   + theManuscript.getTitle() + "!");
             } else {
             	System.out.println("Unable to assign reviewer.");
             }

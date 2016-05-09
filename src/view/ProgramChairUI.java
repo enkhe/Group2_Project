@@ -9,7 +9,7 @@ import model.RegisteredUser;
 import model.SubProgramChair;
 
 /**
- * A class containing teh UI elements for the Program Chair.
+ * A class containing the UI elements for the Program Chair.
  * 
  * @author Shaun Coleman
  * @version 1.0
@@ -50,7 +50,7 @@ public class ProgramChairUI {
             System.out.println("\nPlease enter a command below.");
             System.out.println("1) View all Manuscript status.");
             System.out.println("2) Accept or Reject a Manuscript.");
-            System.out.println("4) Assign a Manuscript to a Subprogram Chair.");
+            System.out.println("3) Assign a Manuscript to a Subprogram Chair.");
             System.out.println("0) Return to main menu.");
             
             choice = SystemHelper.promptUserInt();
@@ -62,7 +62,7 @@ public class ProgramChairUI {
                 case 2:
                     changeManuscriptAcceptance();
                     break;
-                case 4:
+                case 3:
                     assignSubProgramChair();
                     break;
                 case 0:
@@ -143,9 +143,12 @@ public class ProgramChairUI {
         Manuscript selectedManuscript = programChairSelectManuscript();
         SubProgramChair selectedSubPC = null;
         
-        if(Objects.nonNull(selectedManuscript)) {
-            selectedSubPC = selectSubPCToAssign();
+        if(Objects.isNull(selectedManuscript) || selectedManuscript.getSPC() > -1)  {
+        	System.out.println("\nSelected Manuscript already has a Subprogram Chair.");
+            return;
         }
+        
+        selectedSubPC = selectSubPCToAssign();
         
         if(Objects.nonNull(selectedSubPC)) {
             finalizeSubPCAssignment(selectedManuscript, selectedSubPC);
@@ -200,7 +203,7 @@ public class ProgramChairUI {
         try {
             selectedSubPC = subprogramChairs.get(choice - 1);
         } catch (IndexOutOfBoundsException e) {
-            System.out.println("Invalid input");
+            System.out.println("\nInvalid Command Entered.");
         }
         
         return selectedSubPC;
