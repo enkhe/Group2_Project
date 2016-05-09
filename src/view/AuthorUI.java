@@ -63,7 +63,7 @@ public class AuthorUI {
 	}
 
 	public void submitManuscriptMenu() {
-		displayScreenHeader("");
+		displayScreenHeader("Submit a Manuscript");
 		String strFilePath, strManuscriptTitle = "";
 
 		// Get Manuscript FilePath.
@@ -89,8 +89,9 @@ public class AuthorUI {
 		Calendar currentDate = Calendar.getInstance();
 		
 		if (!myCurrentConference.deadlinePassed(currentDate)) { 
-			// +++++++++++ Action happens here +++++++++++ 
-			int result = myAuthor.submitManuscript(new Manuscript(myAuthor.getID(), strFilePath, strManuscriptTitle)); 
+			
+			int result = controllerAuthorSubmitManuscript(new Manuscript(myAuthor.getID(), strFilePath, strManuscriptTitle));
+			
 			if (result == 0) {
 				writeln(myAuthor.getUserName() + " have successfull submitted a manuscript with a title of "
 						+ strManuscriptTitle);
@@ -102,8 +103,14 @@ public class AuthorUI {
 		}
 
 	}
+	
+	
+	public int controllerAuthorSubmitManuscript (Manuscript manuscript) {
+		return myAuthor.submitManuscript(manuscript);
+	}
 
 	public void unSubmitManuscript() {
+		displayScreenHeader("Remove a Manuscript");
 		writeln("Please select the manuscript that you'd like to remove.");
 
 		// View All manuscripts
@@ -115,36 +122,51 @@ public class AuthorUI {
 		write(" > ");
 
 		Manuscript selectedManuscript = myAuthor.getMyManuscripts().get(getConsoleInt());
-
-		int result = myAuthor.removeManuscript(selectedManuscript);
+		
+		int result = controllerRemoveManuscript(selectedManuscript);
+		
 		if (result == 0) {
-			writeln(myAuthor.getUserName() + " have successfully removed a manuscript with a title of "
-					+ selectedManuscript.getTitle());
+			writeln(unsubmitManuscriptSuccessfullMessage(myAuthor.getUserName() , selectedManuscript.getTitle()));
 		} else {
-			writeln("There was some error in removing the manuscript.");
+			writeln(unsubmitManuscriptUnSuccessfullMessage(myAuthor.getUserName() , selectedManuscript.getTitle()));
 		}
 	}
-
+	
+	
 	public void makeChangesToMySubmission() {
+		displayScreenHeader("Change a Manuscript");
 		// View All manuscripts
 		writeln("Please, select the manuscript that you'd like to make changes to.");
 
 		List<Manuscript> theManuscripts = myAuthor.getMyManuscripts();
 		int counter = 0;
 		for (Manuscript manuscript : theManuscripts) {
-			writeln(counter ++ + ") " + manuscript.getTitle());
+			counter ++;
+			writeln(counter + ") " + manuscript.getTitle());
+		}
+		writeln("\nPlease, enter 0 to go Back.\n");
+		write(" > ");
+
+		int intConsoleInput = getConsoleInt();
+		
+		if (intConsoleInput == 0) {
+			return;
 		}
 		
-		
-		Manuscript selectedManuscript = theManuscripts.get(getConsoleInt());
+		Manuscript selectedManuscript = theManuscripts.get(intConsoleInput -1 );
 
 		// You've selected ( this manuscript.)
-		writeln("You've selected " + selectedManuscript.getTitle());
+		writeln("You've selected the title, \"" + selectedManuscript.getTitle() + "\"");
 		
 		String strFilePath, strManuscriptTitle = "";
 
 		// Get Manuscript FilePath.
-		writeln("Please enter the file path and name, or 0 to return.");
+		writeln("\nSelecting the replacement Manuscript.");
+		writeln("Requires: ");
+		writeln("\t - 1) Selecting Manuscript File Path.");
+		writeln("\t - 2) Selecting Manuscript Title.\n");
+		
+		writeln("1) Please, enter the file path and name, or 0 to return.");
 		writeln("Sample path: C:\\users\\author\\documents\\paper.docx");
 		write(" > ");
 		strFilePath = getConsoleLine();
@@ -157,26 +179,59 @@ public class AuthorUI {
 		youHaveEntered(strFilePath);
 
 		// Get Manuscript Title.
-		writeln("Please enter the manuscript title:");
-		writeln("Sample title: ");
+		writeln("2) Please enter the manuscript title:");
+		writeln("Sample title: \" Scikit-learn: Machine learning in Python \"");
 		write(" > ");
+
 		strManuscriptTitle = getConsoleLine();
+		
+		if(strManuscriptTitle.equalsIgnoreCase("0")) {
+			writeln("\n Returned to main menu.");
+			return;
+		}
+		
 
 		youHaveEntered(strManuscriptTitle);
 
 		Manuscript manuscript = new Manuscript(myAuthor.getID(), strFilePath, strManuscriptTitle);
 		
-		int result = myAuthor.replaceManuscript(selectedManuscript, manuscript);
+		int result = controllerMakeChangesToSubmition(selectedManuscript, manuscript);
 		
 		if (result == 0) {
-			writeln(myAuthor.getUserName() + " have succesfully replaced " + selectedManuscript.getTitle() + " with "
-					+ manuscript.getTitle());
+			writeln(successfullManuscriptReplacementMessage(myAuthor.getUserName(), selectedManuscript.getTitle(), manuscript.getTitle()));
 		} else {
-			writeln("There was some error in replacing " + selectedManuscript.getTitle() + " with "
-					+ manuscript.getTitle() + ".");
+			writeln(unSuccessfullManuscriptReplacementMessage(myAuthor.getUserName(), selectedManuscript.getTitle(), manuscript.getTitle()));
 		}
 	}
-
+	
+	
+	
+	
+	public int controllerRemoveManuscript(Manuscript theManuscriptToBeRemoved) {
+		return myAuthor.removeManuscript(theManuscriptToBeRemoved);
+	}
+	
+	public int controllerMakeChangesToSubmition(Manuscript previous, Manuscript theReplacementManuscript) {
+		return myAuthor.replaceManuscript(previous, theReplacementManuscript);
+	}
+	
+	public String successfullManuscriptReplacementMessage(String userName, String origManuscriptTitle, String replacementManuscriptTitle) {
+		return userName + " have succesfully replaced " + origManuscriptTitle + " with " + replacementManuscriptTitle;
+	}
+	public String unSuccessfullManuscriptReplacementMessage(String userName, String origManuscriptTitle, String replacementManuscriptTitle) {
+		return userName + ", there was some error in replacing " + origManuscriptTitle + " with "
+				+ replacementManuscriptTitle + ".";
+	}
+	
+	public String unsubmitManuscriptSuccessfullMessage (String theUserName, String theManuscriptTitle) {
+		return theUserName + " have successfully removed a manuscript with a title of "
+				+ theManuscriptTitle;
+	}
+	public String unsubmitManuscriptUnSuccessfullMessage (String theUserName, String theManuscriptTitle) {
+		return theUserName + ", there was some error in removing the manuscript: " + theManuscriptTitle + ".";
+	}
+	
+	
 	private String getConsoleLine() {
 		return new Scanner(System.in).nextLine();
 	}
