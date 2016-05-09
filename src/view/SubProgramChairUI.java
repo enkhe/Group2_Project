@@ -160,6 +160,12 @@ public class SubProgramChairUI {
     }
 
     private void assignRecommendation() {
+    	
+    	if(mySPC.getMyAssignedManuscripts().size() <= 0) {
+    		System.out.println("\nNo papers assigned");
+    		return;
+    	}
+    	
     	Manuscript manuscript = subprogramChairSelectManuscript();
     	int recommendation = -1;
     	
