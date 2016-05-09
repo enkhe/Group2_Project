@@ -258,6 +258,15 @@ public class Conference implements Serializable {
 		return false;
 	}
 	
+	/**
+	 * purely a method to test against the business rule of
+	 * no papers past deadline. Here we essentially adjust the
+	 * deadline to force a late paper.
+	 */
+	public void setMyDate(Calendar theDate) {
+		myDate = theDate;
+	}
+	
 	public Reviewer getReviewer(int theID) {
 		Reviewer reviewer = new Reviewer();
 		
