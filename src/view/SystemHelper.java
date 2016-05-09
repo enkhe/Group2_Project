@@ -35,7 +35,7 @@ public class SystemHelper {
     /**
      * A constant used to store the format string for detailed manuscript display.
      */
-    public final static String PC_MAN_DISPLAY_FORMAT = "\n%-20s %-15s %-10s %s\n";
+    public final static String PC_MAN_DISPLAY_FORMAT = "\n%-25s %-20s %-25s %s\n";
 
     private SystemHelper() {
     	// Cannot be instantiated.
