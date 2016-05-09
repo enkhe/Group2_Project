@@ -188,7 +188,7 @@ public class SubProgramChairUI {
     		System.out.println(option++ + ") "+ rec);
     	}
     	
-    	choice = SystemHelper.promptUserInt();
+    	choice = SystemHelper.promptUserInt() - 1;
     	   	
     	return choice;
     }
