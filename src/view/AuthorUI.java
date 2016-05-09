@@ -39,8 +39,8 @@ public class AuthorUI {
 			displayScreenHeader(MENU_TITLE);
 
 			writeln("1) Submit a Manuscript");
-			writeln("2) Modify/Remove a Manuscript");
-			writeln("3) View a manuscript review");
+			writeln("2) Remove a Manuscript");
+			writeln("3) Change a Manuscript");
 			writeln("4) Back");
 			writeln("5) Exit");
 			write(" > ");
@@ -143,7 +143,7 @@ public class AuthorUI {
 		}
 		
 		
-		Manuscript selectedManuscript = theManuscripts.get(getConsoleInt() + 1);
+		Manuscript selectedManuscript = theManuscripts.get(getConsoleInt());
 
 		// You've selected ( this manuscript.)
 		writeln("You've selected " + selectedManuscript.getTitle());
