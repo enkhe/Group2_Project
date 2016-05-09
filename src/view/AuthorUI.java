@@ -237,7 +237,13 @@ public class AuthorUI {
 	 * @return
 	 */
 	public int controllerRemoveManuscript(Manuscript theManuscriptToBeRemoved) {
-		return myAuthor.removeManuscript(theManuscriptToBeRemoved);
+		int result = myAuthor.removeManuscript(theManuscriptToBeRemoved);
+		
+		if(result != -1) {
+			myCurrentConference.removeManuscript(theManuscriptToBeRemoved);
+		}
+		
+		return result;
 	}
 	
 	/**
@@ -316,9 +322,6 @@ public class AuthorUI {
 	}
 
 	private void displayScreenHeader(String menuTitle) {
-		for(int i = 0; i < 50; i++) {
-			writeln("");
-		}
 		writeln(SystemHelper.SYS_TITLE);
 		writeln(myCurrentConference.getConferenceName());
 		writeln("Author: " + myAuthor.getUserName());
