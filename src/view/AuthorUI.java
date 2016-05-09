@@ -41,8 +41,7 @@ public class AuthorUI {
 			writeln("1) Submit a Manuscript");
 			writeln("2) Remove a Manuscript");
 			writeln("3) Change a Manuscript");
-			writeln("4) Back");
-			writeln("5) Exit");
+			writeln("0) Return to Main Menu");
 			write(" > ");
 
 			choice = myScanner.nextInt();
@@ -57,12 +56,6 @@ public class AuthorUI {
 				break;
 			case 3:
 				makeChangesToMySubmission();
-				break;
-			case 4:
-				// Call previous menu.
-				break;
-			default:
-				// Exit from the menu.
 				break;
 			}
 
