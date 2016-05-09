@@ -4,128 +4,99 @@ import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
-import model.*;
+import model.Conference;
+import model.Manuscript;
+import model.ProgramChair;
+import model.RegisteredUser;
+import model.Reviewer;
+import model.SubProgramChair;
 
 public class SetUp {
 
-	private List<RegisteredUser> myRegisteredUsers;
-	private List<Conference> myConferences;
-	private List<Manuscript> myManuscripts;
-	private Conference myCurrentConference;
-	private ProgramChair myCurrentProgramChair;
-	private List<Author> myAuthors;
-	private List<Reviewer> myReviewers;
-	private List<SubProgramChair> mySubProgramChairs;
-
+	List<RegisteredUser> myUserList;
+	List<Conference> myConferences;
+	List<Manuscript> myManuscripts;
+	
 	// Deals with serializing.
 	public SetUp() {
 		myManuscripts = new LinkedList<>();
-		myConferences = new LinkedList<>();
-		myRegisteredUsers = new LinkedList<>();
-		myCurrentConference = new Conference();
-		myCurrentProgramChair = new ProgramChair();
-		myAuthors = new LinkedList<>();
-		myReviewers = new LinkedList<>();
-		mySubProgramChairs = new LinkedList<>();
+		myUserList = new LinkedList<>();
+		myUserList = populateUserList();
+		myConferences = populateConferences();
+		
+	}
+	
+	public boolean fileExists(String strFilePath) {
+		// Check to see if the /save.ser exists.
+		File f = new File(strFilePath);
+		if(f.exists() && !f.isDirectory()) { 
+		    return true;
+		}
+		return false;
 	}
 	
 	public void serialize() {
-		ManagementSystem theManagementSystem = new ManagementSystem();
-		generateManagementSystem(theManagementSystem);
-		SystemHelper.serialize(theManagementSystem);
+		SystemHelper.serialize(generateManagementSystem());
 	}
 	
-	private void generateManagementSystem(ManagementSystem managementSystem) {
-		populateConferences(myConferences);
-		populateUserList(myRegisteredUsers);
-		populateManuscripts(myManuscripts);
+	public ManagementSystem generateManagementSystem() {
+		myConferences = populateConferences();
 		
-		managementSystem = new ManagementSystem(myConferences, myRegisteredUsers);
+		ManagementSystem managementSystem = 
+				new ManagementSystem(myConferences, myUserList);
 		
+		return managementSystem;
 	}
 
-	private void populateConferences(List<Conference> conferences) {
-		applyMyCurrentConference1();
-		conferences.add(myCurrentConference);
+	private List<Conference> populateConferences() {
+		List<Conference> conferences = new LinkedList<>();
+		
+		conferences.add(getConferenceOne());
+		conferences.add(getConferenceTwo());
+		
+		return conferences;
 	}
 
-	private void applyMyCurrentConference1() {
-		myCurrentConference = new Conference();
-		
-		myCurrentProgramChair = new ProgramChair(myRegisteredUsers.get(10));
-		
-		myCurrentProgramChair.assignSubProgramChair(2);
-		 
-		
-		myAuthors = new LinkedList<>();
-		myReviewers = new LinkedList<>();
-		mySubProgramChairs = new LinkedList<>();
-		
-		populateAuthorsForConference1(myCurrentConference, myAuthors);
-		populateReviewersForConference1(myCurrentConference, myReviewers);
-		populateSubProgramChairsForConference1(myCurrentConference, mySubProgramChairs);
-		
-		myCurrentConference.setProgramChair(myCurrentProgramChair);
-		myCurrentConference.setMyManuscripts(myManuscripts);
-		
-	}
-	
-	private void populateAuthorsForConference1 (Conference theConference, List<Author> theAuthors) {
-		
-		theConference.addAuthor((Author)myRegisteredUsers.get(4));
-		theConference.addAuthor((Author)myRegisteredUsers.get(5));
-		theConference.addAuthor((Author)myRegisteredUsers.get(6));
-		theConference.addAuthor((Author)myRegisteredUsers.get(7));
-		theConference.addAuthor((Author)myRegisteredUsers.get(8));
-		theConference.addAuthor((Author)myRegisteredUsers.get(9));
-		theConference.addAuthor((Author)myRegisteredUsers.get(10));
-		theConference.addAuthor((Author)myRegisteredUsers.get(11));
-		
-	}
-	
-	private void populateReviewersForConference1 (Conference theConference, List<Reviewer> theReviewers) {
-		
-		
-	}
-
-	private void populateSubProgramChairsForConference1 (Conference theConference, List<SubProgramChair> theSubProgramChairs) {
-		theConference.addSubprogramChair(myRegisteredUsers.get(12));
-		theConference.addSubprogramChair(myRegisteredUsers.get(13));
-		theConference.addSubprogramChair(myRegisteredUsers.get(14));
-		
-	}
 	
 
-	private void populateManuscripts(List<Manuscript> manuscripts) {
-		manuscripts.add(new Manuscript(4, 
-				"Dynamic_Locomotion.doc", 
-				"Dynamic Locomotion in Industrial Robots"));
-		manuscripts.add(new Manuscript(5, 
-				"c:/Robust Monte Carlo localization for mobile robots.docx", 
-				"Robust Monte Carlo localization for mobile robots"));
-		manuscripts.add(new Manuscript(6, 
-				"c:/exploration and mapping strategy on semantic.docx", 
-				"A robot exploration and mapping strategy based on a " 
-				+ "+semantic hierarchy of spatial representations"));
-		manuscripts.add(new Manuscript(7, 
-				"C:/Coordinated path planning for multiple robots.docx", 
-				"Coordinated path planning for multiple robots"));
-		manuscripts.add(new Manuscript(8, 
-				"c:/papers/underactuated mechanical hands.docx", 
-				"Simulation and Design of Underactuated Mechanical Hands"));
-		manuscripts.add(new Manuscript(9, 
-				"c:/Users/Documents/robot teacher.tex", 
-				"An affective mobile robot educator with a full-time job"));
-		manuscripts.add(new Manuscript(10, 
-				"c:/Users/Documents/Papers/wrappers for feature subset selection.pdf", 
-				"Wrappers For Feature Subset Selection"));
-		manuscripts.add(new Manuscript(11, 
-				"Machine_Learning.docx ", 
-				"Consistency-based Search in Feature Selection in Machine Learning"));
+	private Conference getConferenceOne() {
+		Conference theConference = new Conference();
+		
+		ProgramChair programChair = new ProgramChair(myUserList.get(10));
+		theConference.setProgramChair(programChair);
+		
+		theConference.addSubprogramChair(new SubProgramChair(myUserList.get(12)));
+		theConference.addSubprogramChair(new SubProgramChair(myUserList.get(13)));
+		theConference.addSubprogramChair(new SubProgramChair(myUserList.get(14)));
+		
+		for(int i = 5; i < 10; i++)
+			theConference.addReviewer(new Reviewer(myUserList.get(i)));
+		
+		theConference.setConferenceName("2016 IEEE International Cyber Security Conference");
+		
+		return theConference;
 	}
 	
-
-	private void populateUserList(List<RegisteredUser> registeredUsers) {
+	private Conference getConferenceTwo() {
+		Conference theConference = new Conference();
+		
+		ProgramChair programChair = new ProgramChair(myUserList.get(0));
+		theConference.setProgramChair(programChair);
+		
+		theConference.addSubprogramChair(new SubProgramChair(myUserList.get(1)));
+		theConference.addSubprogramChair(new SubProgramChair(myUserList.get(2)));
+		theConference.addSubprogramChair(new SubProgramChair(myUserList.get(3)));
+		
+		for(int i = 4; i < 9; i++)
+			theConference.addReviewer(new Reviewer(myUserList.get(i)));
+		
+		theConference.setConferenceName("2016 IEEE NetSoft Conference");
+		
+		return theConference;
+	}
+	
+	private List<RegisteredUser> populateUserList() {
+		List<RegisteredUser> registeredUsers = new LinkedList<>();
 		int count = 0;
 		registeredUsers.add(new RegisteredUser("Bat", "Enk", "benk", count++));
 		registeredUsers.add(new RegisteredUser("Tyler", "Brent", "tbrent", count++));
@@ -165,15 +136,7 @@ public class SetUp {
 		registeredUsers.add(new RegisteredUser("Leon", "Lane", "llane", count++));
 		registeredUsers.add(new RegisteredUser("Blake", "Hansen", "bhansen", count++));
 		
-	}
-
-	public boolean fileExists(String strFilePath) {
-		// Check to see if the /save.ser exists.
-		File f = new File(strFilePath);
-		if(f.exists() && !f.isDirectory()) { 
-		    return true;
-		}
-		return false;
+		return registeredUsers;
 	}
 	
 	

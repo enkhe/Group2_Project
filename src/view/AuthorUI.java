@@ -3,12 +3,15 @@ package view;
 /*
  * TCSS360 Group 2 Project
  */
-import model.*;
-
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
+
+import model.Author;
+import model.Conference;
+import model.Manuscript;
+import model.RegisteredUser;
 
 /**
  * 
@@ -86,7 +89,9 @@ public class AuthorUI {
 
 		youHaveEntered(strManuscriptTitle);
 
-		
+		//Date theDateOne = myCurrentConference.getCreationDate();
+		//Date theDateTwo = new Date();
+
 		// Check for Deadline.
 		Calendar currentDate = Calendar.getInstance();
 		

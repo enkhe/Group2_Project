@@ -6,7 +6,11 @@ package view;
 import java.util.List;
 import java.util.Scanner;
 
-import model.*;
+import model.Conference;
+import model.Manuscript;
+import model.RegisteredUser;
+import model.Review;
+import model.Reviewer;
 
 /**
  * 
@@ -29,7 +33,7 @@ public class ReviewerUI {
 	/**
 	 * Provides menu options for all Reviewer Actions.
 	 */
-	private void reviewerMenu() {
+	public void reviewerMenu() {
 		// Submit a review
 		int choice = -1;
 

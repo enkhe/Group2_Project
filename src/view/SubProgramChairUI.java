@@ -161,7 +161,11 @@ public class SubProgramChairUI {
 
     private void assignRecommendation() {
     	Manuscript manuscript = subprogramChairSelectManuscript();
-    	int recommendation = displayRecommendationSelect(manuscript.getScale());
+    	int recommendation = -1;
+    	
+    	if(Objects.nonNull(manuscript)) {
+    		recommendation = displayRecommendationSelect(manuscript.getScale());
+    	}
     	
         finalizeRecommendation(manuscript, recommendation);
     }
@@ -224,12 +228,12 @@ public class SubProgramChairUI {
      * @param theID the ID of the desired SubProgramChair object.
      */
     private void setSubProgramChair(int theID) {
+    	mySPC = null;
     	for (SubProgramChair sub : myCurrentConference.getAllSubProgramChairs()) {
     		if (sub.getID() == theID) {
     			mySPC = sub;
     		}
     	}
-    	mySPC = null;
     }
     
     /**
