@@ -1,14 +1,13 @@
 /**
  * 
  */
-package model;
+package testModel;
 
 import static org.junit.Assert.*;
-
 import java.util.Calendar;
-
 import org.junit.Before;
 import org.junit.Test;
+import model.*;
 
 /**
  * @author Tyler

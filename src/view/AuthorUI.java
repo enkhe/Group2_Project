@@ -68,16 +68,20 @@ public class AuthorUI {
 
 		// Get Manuscript FilePath.
 		writeln("Please enter the file path and name, or 0 to return.");
-		writeln("Sample path: C:\\users\\author\\documents\\paper.docx");
-		write(" > ");
+		writeln("Sample path: C:\\users\\author\\documents\\paper.docx\n");
+		write("\n > ");
 		strFilePath = getConsoleLine();
+		
+		if (Integer.parseInt(strFilePath) == 0) {
+			return;
+		}
 		
 		youHaveEntered(strFilePath);
 
 		// Get Manuscript Title.
 		writeln("Please enter the manuscript title:");
 		writeln("Sample title: ");
-		write(" > ");
+		write("\n > ");
 		strManuscriptTitle = getConsoleLine();
 
 		youHaveEntered(strManuscriptTitle);
@@ -111,17 +115,24 @@ public class AuthorUI {
 
 	public void unSubmitManuscript() {
 		displayScreenHeader("Remove a Manuscript");
-		writeln("Please select the manuscript that you'd like to remove.");
+		writeln("Please select the manuscript that you'd like to remove.\n");
 
 		// View All manuscripts
 		List<Manuscript> manuscripts = myAuthor.getMyManuscripts();
 		int counter = 0;
 		for (Manuscript manuscript : manuscripts) {
-			writeln(counter++ + ") " + manuscript.getTitle());
+			counter++;
+			writeln(counter + ") " + manuscript.getTitle());
 		}
-		write(" > ");
+		write("\n > ");
 
-		Manuscript selectedManuscript = myAuthor.getMyManuscripts().get(getConsoleInt());
+		int intConsoleInput = getConsoleInt();
+		
+		if (intConsoleInput == 0) {
+			return;
+		}
+		
+		Manuscript selectedManuscript = myAuthor.getMyManuscripts().get(intConsoleInput - 1);
 		
 		int result = controllerRemoveManuscript(selectedManuscript);
 		
@@ -145,7 +156,7 @@ public class AuthorUI {
 			writeln(counter + ") " + manuscript.getTitle());
 		}
 		writeln("\nPlease, enter 0 to go Back.\n");
-		write(" > ");
+		write("\n > ");
 
 		int intConsoleInput = getConsoleInt();
 		
@@ -167,8 +178,8 @@ public class AuthorUI {
 		writeln("\t - 2) Selecting Manuscript Title.\n");
 		
 		writeln("1) Please, enter the file path and name, or 0 to return.");
-		writeln("Sample path: C:\\users\\author\\documents\\paper.docx");
-		write(" > ");
+		writeln("Sample path: C:\\users\\author\\documents\\paper.docx\n");
+		write("\n > ");
 		strFilePath = getConsoleLine();
 		
 		if(strFilePath.equalsIgnoreCase("0")) {
@@ -203,7 +214,6 @@ public class AuthorUI {
 			writeln(unSuccessfullManuscriptReplacementMessage(myAuthor.getUserName(), selectedManuscript.getTitle(), manuscript.getTitle()));
 		}
 	}
-	
 	
 	
 	
@@ -253,10 +263,13 @@ public class AuthorUI {
 	}
 
 	private void displayScreenHeader(String menuTitle) {
-		System.out.println(SystemHelper.SYS_TITLE);
-		System.out.println(myCurrentConference.getConferenceName());
-		System.out.println("Author: " + myAuthor.getUserName());
-		System.out.println(menuTitle);
+		for(int i = 0; i < 50; i++) {
+			writeln("");
+		}
+		writeln(SystemHelper.SYS_TITLE);
+		writeln(myCurrentConference.getConferenceName());
+		writeln("Author: " + myAuthor.getUserName());
+		writeln(menuTitle + "\n");
 	}
 
 }
