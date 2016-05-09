@@ -66,6 +66,14 @@ public class Conference {
 	public void setConferenceName(String theName) {
 		myName = theName;
 	}
+	
+	/**
+	 * Set myManuscripts for Serializable
+	 */
+	public void setMyManuscripts(List<Manuscript> theManuscripts) {
+        myManuscripts = theManuscripts;
+        
+    }
 
 	/**
 	 * Adds an Author the the list.
