@@ -255,10 +255,10 @@ public class Conference implements Serializable {
 	 * creation of the conference.
 	 */
 	public boolean deadlinePassed(Calendar theDate) {
-		if ((theDate.compareTo(myDate) > 0) & (theDate.compareTo(myDeadline)  < 0 )) 
-			return true; 
+		if ((theDate.compareTo(myDate) >= 0) && (theDate.compareTo(myDeadline)  < 0 )) 
+			return false; 
 		else 
-			return false;
+			return true;
 	}
 	
 	/**

@@ -49,10 +49,10 @@ public class ConferenceTest {
 		//To test if this is working I made a Calendar date 6 days past its creation...
 		//and so on.
 		Calendar test = Calendar.getInstance();
-		assertEquals(myConference.deadlinePassed(test), false);
+		assertEquals("Deadline has not passed.", myConference.deadlinePassed(test), false);
 		//Add 6 days to check.
-		test.add(Calendar.DAY_OF_MONTH, 6);
-		assertEquals(myConference.deadlinePassed(test), true);
+		test.add(Calendar.DAY_OF_YEAR, 6);
+		assertEquals("Deadline has passed.", myConference.deadlinePassed(test), true);
 	}
 	
 	@Test
