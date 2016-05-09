@@ -4,11 +4,11 @@ package model;
  * TCSS360 - SPRING2016
  * Group 2 Project - Conferences
  */
+import java.io.Serializable;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.io.Serializable;
-import java.util.Calendar;
 
 /**
  * 
@@ -27,11 +27,6 @@ public class Conference implements Serializable {
 	private List<Author> myAuthors;
 	private List<Reviewer> myReviewers;
 	private List<SubProgramChair> mySubProgramChairs;
-	private List<RegisteredUser> myRegisteredUsers;
-	private List<Manuscript> myAuthorManuscripts;
-	private List<Manuscript> myReviewerManuscripts;
-	private List<Manuscript> mySubProgramChairManscripts;
-	private HashMap<Integer, List<RegisteredUser>> myRegisteredUserRoles;
 	private Calendar myDate;
 	private Calendar myDeadline;
 	
@@ -43,13 +38,23 @@ public class Conference implements Serializable {
 		myAuthors = new LinkedList<>();
 		myReviewers = new LinkedList<>();
 		mySubProgramChairs = new LinkedList<>();
-		myRegisteredUsers = new LinkedList<>();
 		myManuscripts = new LinkedList<>();
-		myRegisteredUserRoles = new HashMap<>();
 		myPC = new ProgramChair();
 		myDate = Calendar.getInstance();
 		myDeadline = (Calendar)myDate.clone();
 		myDeadline.add(Calendar.DAY_OF_YEAR, DEADLINE_DAYS);
+	}
+	
+	public Conference(Calendar theDeadline) {
+		myName = "N/A";
+		myAuthors = new LinkedList<>();
+		myReviewers = new LinkedList<>();
+		mySubProgramChairs = new LinkedList<>();
+		myManuscripts = new LinkedList<>();
+		myPC = new ProgramChair();
+		myDeadline= theDeadline;
+		myDate = (Calendar)myDeadline.clone();
+		myDate.add(Calendar.DAY_OF_YEAR, -5);
 	}
 	
 	/**

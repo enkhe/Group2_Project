@@ -3,6 +3,7 @@ package view;
  * TCSS360 Group 2 Project
  */
 import java.io.File;
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,7 +28,6 @@ public class SetUp {
 	// Deals with serializing.
 	public SetUp() {
 		myManuscripts = new LinkedList<>();
-		myUserList = new LinkedList<>();
 		myUserList = new LinkedList<>();
 		myConferences = new LinkedList<>();
 	}
@@ -60,11 +60,17 @@ public class SetUp {
 		Conference theConference1 = new Conference();
 		Conference theConference2 = new Conference();
 		
+		Calendar deadline = Calendar.getInstance();
+		deadline.set(2015, 4, 8);
+		Conference theConference3 = new Conference(deadline);
+		
 		doConferenceOne(theConference1);
 		doConferenceTwo(theConference2);
-
+		doConferenceThree(theConference3);
+		
 		conferences.add(theConference1);
 		conferences.add(theConference2);
+		conferences.add(theConference3);
 	}
 
 	
@@ -104,6 +110,23 @@ public class SetUp {
 		
 		
 		theConference.setConferenceName("2016 IEEE NetSoft Conference");
+		
+	}
+	
+	private void doConferenceThree(Conference theConference) {
+		ProgramChair programChair = new ProgramChair(myUserList.get(10));
+		theConference.setProgramChair(programChair);
+		
+		theConference.addSubprogramChair(new SubProgramChair(myUserList.get(12)));
+		theConference.addSubprogramChair(new SubProgramChair(myUserList.get(13)));
+		theConference.addSubprogramChair(new SubProgramChair(myUserList.get(14)));
+		
+		
+		
+		for(int i = 5; i < 10; i++)
+			theConference.addReviewer(new Reviewer(myUserList.get(i)));
+		
+		theConference.setConferenceName("2015 IEEE International Cyber Security Conference");
 		
 	}
 

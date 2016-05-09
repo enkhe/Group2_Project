@@ -9,6 +9,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
@@ -194,7 +195,7 @@ public class ManagementSystem implements Serializable {
         return selectedConference;
     }
     
-    //Very rough here, looking to make dynamic later if there is extra time.
+    
     /**
      * Prompts the user for which personal role they will manage for the conference
      * they have currently selected.
@@ -269,7 +270,12 @@ public class ManagementSystem implements Serializable {
      * @param theAuthor the Author object for the current user.
      */
     private void submitManuscript(Author theAuthor) {
-        String title;
+        if(myCurrentConference.deadlinePassed(Calendar.getInstance())) {
+        	System.out.println("Cannot submit manuscript past deadline.");
+        	return;
+        }
+        
+    	String title;
         String manuscriptPath;
         
         displayScreenHeader("Author", "Submit Manuscript");
@@ -278,6 +284,7 @@ public class ManagementSystem implements Serializable {
         manuscriptPath = SystemHelper.promptUserString();
         
         System.out.println("Please enter the title of your Manuscript.");
+        System.out.println("Sample path: C:\\users\\author\\documents\\paper.docx\n");
         title = SystemHelper.promptUserString();
         
         Manuscript newManuscript = new Manuscript(theAuthor.getID(), manuscriptPath, title);
@@ -357,7 +364,7 @@ public class ManagementSystem implements Serializable {
      */
     public static void main(String[] args) {
     	ManagementSystem ms = SystemHelper.deserialize();
-    	// ManagementSystem ms = new SetUp().generateManagementSystem();
+    	//ManagementSystem ms = new SetUp().generateManagementSystem();
         ms.loginMenu();
         SystemHelper.serialize(ms);
         
@@ -387,6 +394,7 @@ public class ManagementSystem implements Serializable {
     
     /**
      * For Testing purposes the registered users are exposed.
+     * @author Enkh
      * @return List<RegisteredUser>()
      */
     public List<RegisteredUser> getMyUserList() {
@@ -395,6 +403,7 @@ public class ManagementSystem implements Serializable {
     
     /**
      * For Testing purposes the Conferences are exposed.
+     * @author Enkh
      * @return List<Conference>()
      */
     public List<Conference> myMyConferences() {
