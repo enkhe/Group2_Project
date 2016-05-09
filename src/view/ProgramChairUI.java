@@ -61,6 +61,7 @@ public class ProgramChairUI {
                     break;
                 case 2:
                     changeManuscriptAcceptance();
+                    break;
                 case 4:
                     assignSubProgramChair();
                     break;
@@ -225,6 +226,7 @@ public class ProgramChairUI {
             //Need to add this method.
             theManuscript.setSPC(theSPC.getID());
             theSPC.assignManuscript(theManuscript);
+            System.out.println(theSPC.getLastName() + " assinged to " + theManuscript.getTitle() + "!");
         }
     }
     
