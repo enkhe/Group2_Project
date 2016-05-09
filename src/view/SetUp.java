@@ -1,5 +1,7 @@
 package view;
-
+/**
+ * TCSS360 Group 2 Project
+ */
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
@@ -11,6 +13,12 @@ import model.RegisteredUser;
 import model.Reviewer;
 import model.SubProgramChair;
 
+/**
+ * 
+ * @author Enkhamgalan Baterdene
+ * @author Shaun Coleman
+ *
+ */
 public class SetUp {
 
 	List<RegisteredUser> myUserList;

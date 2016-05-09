@@ -297,7 +297,8 @@ public class ManagementSystem implements Serializable {
         System.out.print("Enter your Last Name: ");
         String lastName = SystemHelper.promptUserString();
         int id = myUserList.size();
-        myUserList.add(new RegisteredUser(firstName, lastName, lastName, id));
+        myUserList.add(new RegisteredUser(firstName, lastName, theUserName, id));
+        
     }
     /**
      * Searches and returns a RegisteredUser based on the provide unique UserName.
