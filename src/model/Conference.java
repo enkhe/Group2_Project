@@ -309,6 +309,15 @@ public class Conference implements Serializable {
 	public int removeManuscript(Manuscript theManuscript){
 		if(exists(theManuscript)) {
 			myManuscripts.remove(theManuscript);
+			
+			for(Reviewer reviewer : myReviewers) {
+				reviewer.unassignManuscript(theManuscript);
+			}
+			
+			for(SubProgramChair sub : mySubProgramChairs) {
+				sub.unassignManuscript(theManuscript);
+			}
+			
 		} else {
 			return -1;
 		}
