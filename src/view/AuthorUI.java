@@ -68,6 +68,10 @@ public class AuthorUI {
 		writeln("Sample path: C:\\users\\author\\documents\\paper.docx\n");
 		strFilePath = SystemHelper.promptUserString();
 		
+		if (strFilePath.equals("0")) {
+			return;
+		}
+		
 		youHaveEntered(strFilePath);
 
 		// Get Manuscript Title.

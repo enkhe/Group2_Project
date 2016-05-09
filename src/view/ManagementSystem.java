@@ -280,10 +280,14 @@ public class ManagementSystem implements Serializable {
         
         displayScreenHeader("Author", "Submit Manuscript");
         
-        System.out.println("\nPlease enter the file path for your Manuscript");
+        System.out.println("\nPlease enter the file path for your Manuscript or type 0 to go back.");
         System.out.println("Sample path: C:\\users\\author\\documents\\paper.docx\n");
         manuscriptPath = SystemHelper.promptUserString();
-        
+
+		if (manuscriptPath.equals("0")) {
+			return;
+		}
+		
         System.out.println("Please enter the title of your Manuscript.");
        
         title = SystemHelper.promptUserString();
@@ -364,8 +368,8 @@ public class ManagementSystem implements Serializable {
      * @param args not currently used.
      */
     public static void main(String[] args) {
-    	ManagementSystem ms = SystemHelper.deserialize();
-    	//1ManagementSystem ms = new SetUp().generateManagementSystem();
+    	//ManagementSystem ms = SystemHelper.deserialize();
+    	ManagementSystem ms = new SetUp().generateManagementSystem();
         ms.loginMenu();
         SystemHelper.serialize(ms);
         
