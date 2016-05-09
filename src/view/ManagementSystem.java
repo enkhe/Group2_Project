@@ -385,5 +385,20 @@ public class ManagementSystem implements Serializable {
         return author;
     }
     
+    /**
+     * For Testing purposes the registered users are exposed.
+     * @return List<RegisteredUser>()
+     */
+    public List<RegisteredUser> getMyUserList() {
+    	return myUserList;
+    }
+    
+    /**
+     * For Testing purposes the Conferences are exposed.
+     * @return List<Conference>()
+     */
+    public List<Conference> myMyConferences() {
+    	return myConferences;
+    }
 
 }

@@ -29,6 +29,7 @@ public class SetUp {
 		myManuscripts = new LinkedList<>();
 		myUserList = new LinkedList<>();
 		myUserList = new LinkedList<>();
+		myConferences = new LinkedList<>();
 	}
 	
 	public boolean fileExists(String strFilePath) {
@@ -56,14 +57,19 @@ public class SetUp {
 	}
 
 	private void populateConferences(List<Conference> conferences) {
-		conferences.add(getConferenceOne());
-		conferences.add(getConferenceTwo());
+		Conference theConference1 = new Conference();
+		Conference theConference2 = new Conference();
+		
+		doConferenceOne(theConference1);
+		doConferenceTwo(theConference2);
+
+		conferences.add(theConference1);
+		conferences.add(theConference2);
 	}
 
 	
 
-	private Conference getConferenceOne() {
-		Conference theConference = new Conference();
+	private void doConferenceOne(Conference theConference) {
 		
 		ProgramChair programChair = new ProgramChair(myUserList.get(10));
 		theConference.setProgramChair(programChair);
@@ -79,11 +85,10 @@ public class SetUp {
 		
 		theConference.setConferenceName("2016 IEEE International Cyber Security Conference");
 		
-		return theConference;
 	}
 	
-	private Conference getConferenceTwo() {
-		Conference theConference = new Conference();
+	private void doConferenceTwo(Conference theConference) {
+		//Conference theConference = new Conference();
 		
 		ProgramChair programChair = new ProgramChair(myUserList.get(0));
 		theConference.setProgramChair(programChair);
@@ -95,9 +100,11 @@ public class SetUp {
 		for(int i = 4; i < 9; i++)
 			theConference.addReviewer(new Reviewer(myUserList.get(i)));
 		
+		//theConference.getAllSubProgramChairs().get(0).assignManuscript(myManuscripts.get(0));
+		
+		
 		theConference.setConferenceName("2016 IEEE NetSoft Conference");
 		
-		return theConference;
 	}
 
 	/**
