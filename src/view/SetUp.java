@@ -72,6 +72,8 @@ public class SetUp {
 		theConference.addSubprogramChair(new SubProgramChair(myUserList.get(13)));
 		theConference.addSubprogramChair(new SubProgramChair(myUserList.get(14)));
 		
+		
+		
 		for(int i = 5; i < 10; i++)
 			theConference.addReviewer(new Reviewer(myUserList.get(i)));
 		

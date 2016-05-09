@@ -109,9 +109,6 @@ public class AuthorUI {
 	}
 	
 	
-	public int controllerAuthorSubmitManuscript (Manuscript manuscript) {
-		return myAuthor.submitManuscript(manuscript);
-	}
 
 	public void unSubmitManuscript() {
 		displayScreenHeader("Remove a Manuscript");
@@ -224,28 +221,75 @@ public class AuthorUI {
 		}
 	}
 	
+
+	/**
+	 * 
+	 * @param manuscript
+	 * @return
+	 */
+	public int controllerAuthorSubmitManuscript (Manuscript manuscript) {
+		return myAuthor.submitManuscript(manuscript);
+	}
 	
-	
+	/**
+	 * 
+	 * @param theManuscriptToBeRemoved
+	 * @return
+	 */
 	public int controllerRemoveManuscript(Manuscript theManuscriptToBeRemoved) {
 		return myAuthor.removeManuscript(theManuscriptToBeRemoved);
 	}
 	
+	/**
+	 * 
+	 * @param previous
+	 * @param theReplacementManuscript
+	 * @return
+	 */
 	public int controllerMakeChangesToSubmition(Manuscript previous, Manuscript theReplacementManuscript) {
 		return myAuthor.replaceManuscript(previous, theReplacementManuscript);
 	}
 	
+	/**
+	 * 
+	 * @param userName
+	 * @param origManuscriptTitle
+	 * @param replacementManuscriptTitle
+	 * @return
+	 */
 	public String successfullManuscriptReplacementMessage(String userName, String origManuscriptTitle, String replacementManuscriptTitle) {
 		return userName + " have succesfully replaced " + origManuscriptTitle + " with " + replacementManuscriptTitle;
 	}
+	
+	/**
+	 * 
+	 * @param userName
+	 * @param origManuscriptTitle
+	 * @param replacementManuscriptTitle
+	 * @return
+	 */
 	public String unSuccessfullManuscriptReplacementMessage(String userName, String origManuscriptTitle, String replacementManuscriptTitle) {
 		return userName + ", there was some error in replacing " + origManuscriptTitle + " with "
 				+ replacementManuscriptTitle + ".";
 	}
 	
+	/**
+	 * 
+	 * @param theUserName
+	 * @param theManuscriptTitle
+	 * @return
+	 */
 	public String unsubmitManuscriptSuccessfullMessage (String theUserName, String theManuscriptTitle) {
 		return theUserName + " have successfully removed a manuscript with a title of "
 				+ theManuscriptTitle;
 	}
+	
+	/**
+	 * 
+	 * @param theUserName
+	 * @param theManuscriptTitle
+	 * @return
+	 */
 	public String unsubmitManuscriptUnSuccessfullMessage (String theUserName, String theManuscriptTitle) {
 		return theUserName + ", there was some error in removing the manuscript: " + theManuscriptTitle + ".";
 	}
