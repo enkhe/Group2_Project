@@ -21,6 +21,10 @@ public class ProgramChairUI {
      */
     private final int MAX_SUBPC_ASSIGNED_MANUSCRIPTS = 4;
     
+    private final int ACCEPT = 1;
+    
+    private final int REJECT = 0;
+    
 	
 	/**
      * The currently logged in user.  Null if no user is logged in.
@@ -125,10 +129,10 @@ public class ProgramChairUI {
             
             // Note magic nums
             if (choice == 1) {
-                selectedManuscript.setAcceptStatus(1);
+                selectedManuscript.setAcceptStatus(ACCEPT);
                 System.out.println("\n" + selectedManuscript.getTitle() + " accepted!");
             } else if (choice == 2) {
-                selectedManuscript.setAcceptStatus(0);
+                selectedManuscript.setAcceptStatus(REJECT);
                 System.out.println("\n" + selectedManuscript.getTitle() + " rejected!");
             } else { 
                 System.out.println("Invalid input; returning to Program Chair menu.");
@@ -171,6 +175,7 @@ public class ProgramChairUI {
         displayPCManuscriptOptionList();
         choice = SystemHelper.promptUserInt();
         
+        //Not tested, assuming perfect user input.
         try {
             selectedManuscript = manuscripts.get(choice - 1);
         } catch (IndexOutOfBoundsException e) {
@@ -247,7 +252,7 @@ public class ProgramChairUI {
      * 
      * @return true if the check is passed, false if the business rule would be broken.
      */
-    private boolean brCheck_SubprogamNotAuthor(Manuscript theManuscript, SubProgramChair theSPC) {
+    public boolean brCheck_SubprogamNotAuthor(Manuscript theManuscript, SubProgramChair theSPC) {
         return theSPC.getID() != theManuscript.getAuthorID();    
     }
 
@@ -257,7 +262,7 @@ public class ProgramChairUI {
      * 
      * @return true if the check is passed, false if the business rule would be broken.
      */
-    private boolean brCheck_SubprogramChairNotOverAssigned(SubProgramChair theSPC) {
+    public boolean brCheck_SubprogramChairNotOverAssigned(SubProgramChair theSPC) {
         return theSPC.getMyAssignedManuscripts().size() < MAX_SUBPC_ASSIGNED_MANUSCRIPTS;
     }
     
