@@ -4,6 +4,7 @@ package view;
  */
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 import model.Conference;
@@ -40,19 +41,16 @@ public class ReviewerUI {
 		do {
 			displayScreenHeader("Reviewer Menu");
 
-			writeln("1) Download all Manuscripts");
+		    writeln("\nPlease enter a command below.");
+			writeln("1) View all assigned manuscripts");
 			writeln("2) Update/Remove a Review");
 			writeln("3) Upload Review");
-			writeln("4) Back");
-			writeln("5) Exit");
-			writeln("\n > ");
-
-			choice = myScanner.nextInt();
-			myScanner.nextLine();
+			writeln("0) Back");
+			choice = SystemHelper.promptUserInt();
 
 			switch (choice) {
 			case 1:
-				reviewerDownloadAllManuscripts();
+				viewAllAssignedManuscripts();
 				break;
 			case 2:
 				reviewerUpdateRemoveReview();
@@ -60,17 +58,31 @@ public class ReviewerUI {
 			case 3:
 				reviewerUploadReview();
 				break;
-			case 4:
-				// Call previous menu.
+			case 0:
+				// return to previous menu
 				break;
 			default:
-				// Exit from the menu.
+				System.out.println("\n Invalid menu command \n");
 				break;
 			}
 
 		} while (choice != 0);
 	}
 
+	public void viewAllAssignedManuscripts() {
+		for(Manuscript manuscript : myReviewer.getMyAssignedManuscripts()) {
+			Review review = manuscript.getReviews().get(myReviewer.getID());
+			
+			System.out.print(manuscript.getTitle());
+			if(Objects.nonNull(review)) {
+				System.out.println("   Review Score: " + review.getScore() 
+						+ " Review Path: " + review.getReviewFile());
+			} else {
+				System.out.println("   No review submitted.");
+			}
+		}
+	}
+	
 	public void reviewerDownloadAllManuscripts() {
 		displayScreenHeader("Download all Manuscripts");
 
@@ -98,9 +110,8 @@ public class ReviewerUI {
 			// display with index
 			writeln(counter++ + ") " + manuscript.getFile());
 		}
-
-		write(" > ");
-		int intSelection = myScanner.nextInt();
+		
+		int intSelection = SystemHelper.promptUserInt();
 
 		StringBuilder sb = new StringBuilder();
 		sb.append(myScanner.nextLine());
@@ -142,10 +153,8 @@ public class ReviewerUI {
 		writeln("Updating review for " + selectedManuscript.getTitle());
 		writeln("Please enter a new score: ");
 		writeln("1 being weakest to 10 being the best.\n");
-		writeln(" > ");
-
-		myScanner = new Scanner(System.in);
-		intScore = myScanner.nextInt();
+		
+		intScore = SystemHelper.promptUserInt();
 
 		Review revNewReview = new Review(intScore, strFilePath);
 		selectedManuscript.setReview(myReviewer.getID(), revNewReview);
@@ -160,54 +169,32 @@ public class ReviewerUI {
 		// reviewed
 		List<Manuscript> myManuscripts = myReviewer.getMyAssignedManuscripts();
 
-		int counter = 0;
+		int counter = 1;
 		for (Manuscript manuscript : myManuscripts) {
-			// display with index
-			String rev = manuscript.getReviews().get(myReviewer.getID()).getReviewFile();
-
-			writeln("Index\tManuscript File Path \t hasReview");
-
-			write(counter++ + ") " + manuscript.getFile());
-
-			if (rev.isEmpty()) {
-				writeln("\t\t\t\t No");
-			} else {
-				writeln("\t\t\t\t Yes");
-			}
+			
+			write(counter++ + ") " + manuscript.getTitle());
 
 		}
 
-		writeln(" > ");
-
-		// select index
-		myScanner = new Scanner(System.in);
-		int intSelectedManuscriptIndex = myScanner.nextInt();
+		int choice = SystemHelper.promptUserInt();
 		
 		// selected manuscript that needs an review update.
-		Manuscript theManuscript = myReviewer.getMyAssignedManuscripts().get(intSelectedManuscriptIndex - 1);
+		Manuscript theManuscript = myReviewer.getMyAssignedManuscripts().get(choice - 1);
 		
-		String strReview = theManuscript.getReviews().get(myReviewer.getID()).getReviewFile();
-		Review revReview = new Review();
-		revReview.setReviewFile(theManuscript.getFile());
 		int intScore = -1;
-		
-		if(strReview.isEmpty()){
-			writeln("Review for " + theManuscript.getTitle() + " is empty.");
-		} else {
-			writeln("Review for " + theManuscript.getTitle() + " and it has a score of " 
-					+ theManuscript.getReviews().get(myReviewer.getID()).getScore());
-		}
-		
-		writeln("Please enter a review score: ");
+
+		writeln("Please enter a review score.");
 		writeln("1 being weakest to 10 being the best.\n");
-		writeln(" > ");
-		myScanner = new Scanner(System.in);
-		intScore = myScanner.nextInt();
+		intScore = SystemHelper.promptUserInt();
 		
-		Review revNewReview = new Review(intScore, theManuscript.getFile());
+		writeln("Please, enter the file path for the full review.");
+		writeln("Sample path: C:\\users\\author\\documents\\paper.docx\n");
+		String reviewPath = SystemHelper.promptUserString();
+		
+		Review revNewReview = new Review(intScore, reviewPath);
 		theManuscript.setReview(myReviewer.getID(), revNewReview);
 		
-		writeln("You've successfully update a review for " + theManuscript.getTitle() + " with a score of " + intScore);
+		writeln("You've successfully saved a review for " + theManuscript.getTitle() + " with a score of " + intScore);
 	}
 
 	private void write(String theInput) {
