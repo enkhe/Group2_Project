@@ -150,12 +150,21 @@ public class AuthorUI {
 		writeln("Please, select the manuscript that you'd like to make changes to.");
 
 		List<Manuscript> theManuscripts = myAuthor.getMyManuscripts();
+		if (theManuscripts.size() == 0) {
+			writeln("Currently, there were no manuscripts found under the username, " + myAuthor.getUserName());
+			writeln("Press 0 to return.\n");
+			write(" > ");
+			getConsoleLine();
+			return;
+		}
+		
+
+		writeln("Please, enter 0 to go Back.\n");
 		int counter = 0;
 		for (Manuscript manuscript : theManuscripts) {
 			counter ++;
 			writeln(counter + ") " + manuscript.getTitle());
 		}
-		writeln("\nPlease, enter 0 to go Back.\n");
 		write("\n > ");
 
 		int intConsoleInput = getConsoleInt();
