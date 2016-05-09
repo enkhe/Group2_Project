@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
- * Author: Amrit Puri
+/**
+ * @Author: Amrit Puri
  * Group 2 - TCSS 360A
  */
 
@@ -14,14 +14,14 @@ public class SubProgramChair  extends RegisteredUser implements Serializable {
     /** This is a unique serial ID for this class */
 	private static final long serialVersionUID = 1L;
 	private List<Manuscript> myManuscripts;
-    
+
     /**
 		Default Constructor
      */
     public SubProgramChair() {
 		myManuscripts = new ArrayList<Manuscript>();
     }
-
+	
     /**
 		Overloaded Constructor
 		
@@ -62,23 +62,5 @@ public class SubProgramChair  extends RegisteredUser implements Serializable {
     	if (myManuscripts.contains(theManuscript)) {
     		myManuscripts.remove(theManuscript);
     	}
-    }
-
-    /**
-		This method assigns a user as a Reviewer.
-		
-		@param the ID of the user to be made a Reviewer
-     */
-    public void assignReviewer(int theID) {
-    	
-    }
-
-    /**
-		Submits a recommendation for a Manuscript.
-		
-		@param the recommendation
-     */
-    public void submitRecommendation(boolean theRecommendation) {
-    	
     }
 }

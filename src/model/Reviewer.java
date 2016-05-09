@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
- * Author: Amrit Puri
+/**
+ * @Author: Amrit Puri
  * Group 2 - TCSS 360A
  */
 
@@ -14,8 +14,7 @@ public class Reviewer extends RegisteredUser implements Serializable {
     /** This is a unique serial ID for this class */
 	private static final long serialVersionUID = 1L;
 	private List<Manuscript> myManuscripts;
-    
-    
+	
     /**
 		Default constructor
      */
@@ -42,14 +41,26 @@ public class Reviewer extends RegisteredUser implements Serializable {
     public List<Manuscript> getMyAssignedManuscripts() {
         return myManuscripts;
     }
-
+    
     /**
-		Allows this Reviewer to submit a Review.
+		Assigns a Manuscript to this Reviewer.
 		
-		@param an Integer representing the score attributed to a manuscript
-		@param a String representing the file path to a review
+		@param the Manuscript to be assigned
      */
-    public void submitReview(int theScore, String theReviewPath) {
-    	
+    public void assignManuscript(Manuscript theManuscript) {
+    	if (!myManuscripts.contains(theManuscript)) {
+        	myManuscripts.add(theManuscript);
+    	}
+    }
+    
+    /**
+		Unassigns a Manuscript from this Reviewer.
+		
+		@param the Manuscript to be unassigned
+     */
+    public void unassignManuscript(Manuscript theManuscript) {
+    	if (myManuscripts.contains(theManuscript)) {
+    		myManuscripts.remove(theManuscript);
+    	}
     }
 }

@@ -1,4 +1,4 @@
-package test;
+package testView;
 
 import static org.junit.Assert.*;
 import model.Conference;

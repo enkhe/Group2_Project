@@ -208,7 +208,6 @@ public class SubProgramChairUI {
         if(Objects.nonNull(theReviewer)) {
             if(brcheck_ReviewerNotOverAssigned(theReviewer)
                && brcheck_ReviewerNotManuscriptAuthor(theReviewer, theManuscript)) {
-                mySPC.assignReviewer(theReviewer.getID());
                 theManuscript.setReview(theReviewer.getID(), null);
                 System.out.println(theReviewer.getLastName() + " is assigned " 
                                    + theManuscript.getTitle() + "!");
