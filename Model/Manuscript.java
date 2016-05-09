@@ -104,7 +104,7 @@ public class Manuscript implements Serializable {
 	 * recommendation.
 	 */
 	public void setRecommendation(int theRecommendation) {
-		if(theRecommendation >= 0 && theRecommendation <= 5) {
+		if(theRecommendation >= 0 && theRecommendation <= 4) {
 			myRecommendation = theRecommendation;
 		} else {
 			throw new IllegalArgumentException("Invalid number used for the Scale.");
