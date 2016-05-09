@@ -58,9 +58,12 @@ public class Reviewer extends RegisteredUser implements Serializable {
 		
 		@param the Manuscript to be unassigned
      */
-    public void unassignManuscript(Manuscript theManuscript) {
+    public int unassignManuscript(Manuscript theManuscript) {
     	if (myManuscripts.contains(theManuscript)) {
     		myManuscripts.remove(theManuscript);
+    		return 1;
     	}
+    	
+    	return 0;
     }
 }

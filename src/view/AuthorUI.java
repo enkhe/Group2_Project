@@ -42,10 +42,7 @@ public class AuthorUI {
 			writeln("2) Remove a Manuscript");
 			writeln("3) Change a Manuscript");
 			writeln("0) Return to Main Menu");
-			write(" > ");
-
-			choice = myScanner.nextInt();
-			myScanner.nextLine();
+			choice = SystemHelper.promptUserInt();
 
 			switch (choice) {
 			case 1:
@@ -69,27 +66,17 @@ public class AuthorUI {
 		// Get Manuscript FilePath.
 		writeln("Please enter the file path and name, or 0 to return.");
 		writeln("Sample path: C:\\users\\author\\documents\\paper.docx\n");
-		write("\n > ");
-		strFilePath = getConsoleLine();
-		
-		if (Integer.parseInt(strFilePath) == 0) {
-			return;
-		}
+		strFilePath = SystemHelper.promptUserString();
 		
 		youHaveEntered(strFilePath);
 
 		// Get Manuscript Title.
 		writeln("Please enter the manuscript title:");
 		writeln("Sample title: ");
-		write("\n > ");
-		strManuscriptTitle = getConsoleLine();
+		strManuscriptTitle = SystemHelper.promptUserString();
 
 		youHaveEntered(strManuscriptTitle);
 
-		//Date theDateOne = myCurrentConference.getCreationDate();
-		//Date theDateTwo = new Date();
-
-		// Check for Deadline.
 		Calendar currentDate = Calendar.getInstance();
 		
 		if (!myCurrentConference.deadlinePassed(currentDate)) { 
@@ -198,7 +185,7 @@ public class AuthorUI {
 		// Get Manuscript Title.
 		writeln("2) Please enter the manuscript title:");
 		writeln("Sample title: \" Scikit-learn: Machine learning in Python \"");
-		write(" > ");
+		write("\n > ");
 
 		strManuscriptTitle = getConsoleLine();
 		
@@ -253,7 +240,13 @@ public class AuthorUI {
 	 * @return
 	 */
 	public int controllerMakeChangesToSubmition(Manuscript previous, Manuscript theReplacementManuscript) {
-		return myAuthor.replaceManuscript(previous, theReplacementManuscript);
+		int result = myAuthor.replaceManuscript(previous, theReplacementManuscript);
+		
+		if(result == 0) {
+			myCurrentConference.modifyManuscript(previous, theReplacementManuscript);
+		}
+		
+		return result;
 	}
 	
 	/**

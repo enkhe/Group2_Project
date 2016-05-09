@@ -325,6 +325,30 @@ public class Conference implements Serializable {
 		return 0;
 	}
 	
+	public int modifyManuscript(Manuscript theOriginal, Manuscript theNew) {
+		if(exists(theOriginal)) {
+			myManuscripts.remove(theOriginal);
+			myManuscripts.add(theNew);
+			
+			for(Reviewer reviewer : myReviewers) {
+				if(reviewer.unassignManuscript(theOriginal) == 1) {
+					reviewer.assignManuscript(theNew);
+				}
+			}
+			
+			for(SubProgramChair sub : mySubProgramChairs) {
+				if(sub.unassignManuscript(theOriginal) == 1) {
+					sub.assignManuscript(theNew);
+				}
+			}
+			
+		} else {
+			return -1;
+		}
+		
+		return 0;
+	}
+	
 	/**
 	 * Private method that checks if a Manuscript exists on the list
 	 * of Manuscripts the Author has already submitted. Returns true if it exists
