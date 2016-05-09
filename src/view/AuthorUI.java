@@ -39,19 +39,11 @@ public class AuthorUI {
 			displayScreenHeader(MENU_TITLE);
 
 			writeln("1) Submit a Manuscript");
-<<<<<<< HEAD
-			writeln("2) Unsubmit a Manuscript");
-			writeln("3) Make Changes to my Submission(s)");
-			writeln("4) Back");
-			writeln("5) Exit");
-			write("\n > ");
-=======
 			writeln("2) Remove a Manuscript");
 			writeln("3) Change a Manuscript");
 			writeln("4) Back");
 			writeln("5) Exit");
 			write(" > ");
->>>>>>> 0e3e483db371cbdacf761260ed4f1e72257e045e
 
 			choice = myScanner.nextInt();
 			myScanner.nextLine();
@@ -162,11 +154,8 @@ public class AuthorUI {
 			return;
 		}
 		
-<<<<<<< HEAD
 		Manuscript selectedManuscript = theManuscripts.get(intConsoleInput - 1);
-=======
-		Manuscript selectedManuscript = theManuscripts.get(getConsoleInt());
->>>>>>> 0e3e483db371cbdacf761260ed4f1e72257e045e
+
 
 		
 		// You've selected ( this manuscript.)
