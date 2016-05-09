@@ -281,10 +281,11 @@ public class ManagementSystem implements Serializable {
         displayScreenHeader("Author", "Submit Manuscript");
         
         System.out.println("\nPlease enter the file path for your Manuscript");
+        System.out.println("Sample path: C:\\users\\author\\documents\\paper.docx\n");
         manuscriptPath = SystemHelper.promptUserString();
         
         System.out.println("Please enter the title of your Manuscript.");
-        System.out.println("Sample path: C:\\users\\author\\documents\\paper.docx\n");
+       
         title = SystemHelper.promptUserString();
         
         Manuscript newManuscript = new Manuscript(theAuthor.getID(), manuscriptPath, title);
