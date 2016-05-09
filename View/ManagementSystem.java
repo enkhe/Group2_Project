@@ -2,6 +2,11 @@ package view;
 /*
  * TCSS360 Group 2 Project
  */
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -152,10 +157,12 @@ public class ManagementSystem implements Serializable {
                 loggedIn = true;
                 mainMenu();
             }
+        } else {
+        	System.out.println("Invalid User Name.");
         }
         
         setAsLoggedOff();
-        System.out.println("Returning to Login Menu");
+        System.out.println("\nReturning to Login Menu");
     }
     
     /**
@@ -202,9 +209,9 @@ public class ManagementSystem implements Serializable {
         choice = SystemHelper.promptUserInt();
         
         if(choice == 1 && myCurrentConference.isAuthor(myCurrentUser.getID())) {
-            System.err.println("Comming Soon!");
+            new AuthorUI(myCurrentUser, myCurrentConference).authorMenu();
         } else if (choice == 2 && myCurrentConference.isReviewer(myCurrentUser.getID())) {
-        	System.err.println("Comming Soon!");
+        	new ReviewerUI(myCurrentUser, myCurrentConference).reviewerMenu();
         } else if (choice == 3 && myCurrentConference.isSubprogramChair(myCurrentUser.getID())) {
         	new SubProgramChairUI(myCurrentUser, myCurrentConference).subProgramChairMenu();
         } else if (choice == 4 && myCurrentConference.isProgramChair(myCurrentUser.getID())) {
@@ -332,14 +339,15 @@ public class ManagementSystem implements Serializable {
         boolean isSub = myCurrentConference.isSubprogramChair(myCurrentUser.getID());
         boolean isPC = myCurrentConference.isProgramChair(myCurrentUser.getID());
         
-        System.out.print("1) Author ");
-        if(!isAuthor) System.out.println("(Unavailable)");
-        System.out.print("2) Reviewer ");
-        if(!isReviewer) System.out.println("(Unavailable)");
-        System.out.print("3) Subprogram Chair ");
-        if(!isSub) System.out.println("(Unavailable)");
-        System.out.print("4) Program Chair ");
-        if(!isPC) System.out.println("(Unavailable)");
+        
+        if(isAuthor) System.out.println("1) Author ");
+        if(isReviewer) System.out.println("2) Reviewer ");
+        if(isSub) System.out.println("3) Subprogram Chair ");
+        if(isPC) System.out.println("4) Program Chair ");
+        
+        if(!isAuthor && !isReviewer && !isSub && !isPC) {
+        	System.out.println("No roles to select. Enter any number to return.");
+        }
     }
     
     /**
@@ -348,9 +356,8 @@ public class ManagementSystem implements Serializable {
      * @param args not currently used.
      */
     public static void main(String[] args) {
-    	//new SetUp().serialize();
-    	//ManagementSystem ms = SystemHelper.deserialize();
-    	ManagementSystem ms = new SetUp().generateManagementSystem();
+    	ManagementSystem ms = SystemHelper.deserialize();
+    	// ManagementSystem ms = new SetUp().generateManagementSystem();
         ms.loginMenu();
         SystemHelper.serialize(ms);
         
@@ -377,4 +384,6 @@ public class ManagementSystem implements Serializable {
            
         return author;
     }
+    
+
 }

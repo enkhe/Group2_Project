@@ -24,6 +24,9 @@ public class SubProgramChair  extends RegisteredUser implements Serializable {
 
     /**
 		Overloaded Constructor
+		
+		@param a RegisteredUser from which a SubProgramChair will be instantiated with the
+		same attributes
      */
     public SubProgramChair(RegisteredUser theUser) {
     	super(theUser.getFirstName(), theUser.getLastName(), theUser.getUserName(), theUser.getID());
@@ -31,14 +34,18 @@ public class SubProgramChair  extends RegisteredUser implements Serializable {
     }
 
     /**
-	 * Returns a list of all Manuscripts the SPC is assigned.
+	 * Gets the Manuscripts assigned to this SubProgramChair.
+	 * 
+	 * @return a list of all Manuscripts the SPC is assigned
      */
     public List<Manuscript> getMyAssignedManuscripts() {
     	return myManuscripts;
     }
     
     /**
-
+		Assigns a Manuscript to this SubProgramChair.
+		
+		@param the Manuscript to be assigned
      */
     public void assignManuscript(Manuscript theManuscript) {
     	if (!myManuscripts.contains(theManuscript)) {
@@ -47,7 +54,9 @@ public class SubProgramChair  extends RegisteredUser implements Serializable {
     }
     
     /**
-
+		Unassigns a Manuscript from this SubPrograChair.
+		
+		@param the Manuscript to be unassigned
      */
     public void unassignManuscript(Manuscript theManuscript) {
     	if (myManuscripts.contains(theManuscript)) {
@@ -56,14 +65,18 @@ public class SubProgramChair  extends RegisteredUser implements Serializable {
     }
 
     /**
-
+		This method assigns a user as a Reviewer.
+		
+		@param the ID of the user to be made a Reviewer
      */
     public void assignReviewer(int theID) {
     	
     }
 
     /**
-
+		Submits a recommendation for a Manuscript.
+		
+		@param the recommendation
      */
     public void submitRecommendation(boolean theRecommendation) {
     	

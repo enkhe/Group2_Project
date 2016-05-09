@@ -25,6 +25,9 @@ public class Reviewer extends RegisteredUser implements Serializable {
 
     /**
 		Overloaded Constructor
+		
+		@param a RegisteredUser from which a Reviewer will be instantiated with the
+		same attributes
      */
     public Reviewer(RegisteredUser theUser) {
     	super(theUser.getFirstName(), theUser.getLastName(), theUser.getUserName(), theUser.getID());
@@ -32,14 +35,19 @@ public class Reviewer extends RegisteredUser implements Serializable {
     }
 
     /**
-	 * Returns a list of all Manuscripts the Reviewer is assigned.
+     * Gets the Manuscripts assigned to this Reviewer.
+     * 
+	 * @return a list of all Manuscripts the Reviewer is assigned
      */
     public List<Manuscript> getMyAssignedManuscripts() {
         return myManuscripts;
     }
 
     /**
-
+		Allows this Reviewer to submit a Review.
+		
+		@param an Integer representing the score attributed to a manuscript
+		@param a String representing the file path to a review
      */
     public void submitReview(int theScore, String theReviewPath) {
     	

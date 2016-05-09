@@ -7,23 +7,24 @@ package model;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.io.Serializable;
 import java.util.Calendar;
 
 /**
  * 
  * @author Enkh
+ * @coauthor Tyler Brent
  * @version v1.00
  *
  */
-public class Conference {
-	private String filePath;
-	private String review;
+public class Conference implements Serializable {
+
+	private static final long serialVersionUID = -8029606779383723400L;
 	private String myName;
-	private ProgramChair myCurrentProgramChair;
+	private ProgramChair myPC;
 	private List<Manuscript> myManuscripts;
 	private List<Author> myAuthors;
 	private List<Reviewer> myReviewers;
-	private List<ProgramChair> myProgramChairs;
 	private List<SubProgramChair> mySubProgramChairs;
 	private List<RegisteredUser> myRegisteredUsers;
 	private List<Manuscript> myAuthorManuscripts;
@@ -39,12 +40,11 @@ public class Conference {
 		myName = "N/A";
 		myAuthors = new LinkedList<>();
 		myReviewers = new LinkedList<>();
-		myProgramChairs = new LinkedList<>();
 		mySubProgramChairs = new LinkedList<>();
 		myRegisteredUsers = new LinkedList<>();
 		myManuscripts = new LinkedList<>();
 		myRegisteredUserRoles = new HashMap<>();
-		myCurrentProgramChair = new ProgramChair();
+		myPC = new ProgramChair();
 		myDate = Calendar.getInstance();
 	}
 	
@@ -52,12 +52,7 @@ public class Conference {
 	 * Sets Program Chair
 	 */
 	public void setProgramChair(ProgramChair thePC) {
-		ProgramChair programChair = new ProgramChair();
-		myProgramChairs.add(programChair);
-		Integer userID = programChair.getID();
-		List<RegisteredUser> userRoles = myRegisteredUserRoles.get(userID);
-		//userRoles.add((RegisteredUser)programChair);
-		myRegisteredUserRoles.put(userID, userRoles);
+		myPC = thePC;
 	}
 
 	/**
@@ -66,12 +61,19 @@ public class Conference {
 	public void setConferenceName(String theName) {
 		myName = theName;
 	}
+	
+	/**
+	 * Set myManuscripts for Serializable
+	 */
+	public void setMyManuscripts(List<Manuscript> theManuscripts) {
+        myManuscripts = theManuscripts;
+        
+    }
 
 	/**
 	 * Adds an Author the the list.
 	 */
 	public void addAuthor(Author theAuthor) {
-		// TODO Auto-generated method stub
 		myAuthors.add(theAuthor);
 	}
 
@@ -179,15 +181,11 @@ public class Conference {
 	/**
 	 * Checks if an given user is an ProgramChair.
 	 */
-	public boolean isProgramChair(Integer theId) {
-		boolean isPC = false;
-		for(ProgramChair pc : myProgramChairs) {
-			if (pc.getID() == theId) {
-				isPC = true;
-				break;
-			}
+	public boolean isProgramChair(Integer theID) {
+		if(theID == myPC.getID()) {
+			return true;
 		}
-		return isPC;
+		return false;
 	}
 
 	/**
@@ -201,7 +199,7 @@ public class Conference {
 	 * Gets the current ProgramChair id.
 	 */
 	public int getProgramChairId() {
-		return myCurrentProgramChair.getID();
+		return myPC.getID();
 	}
 	
 

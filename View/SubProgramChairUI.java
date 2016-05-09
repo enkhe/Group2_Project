@@ -161,7 +161,11 @@ public class SubProgramChairUI {
 
     private void assignRecommendation() {
     	Manuscript manuscript = subprogramChairSelectManuscript();
-    	int recommendation = displayRecommendationSelect(manuscript.getScale());
+    	int recommendation = -1;
+    	
+    	if(Objects.nonNull(manuscript)) {
+    		recommendation = displayRecommendationSelect(manuscript.getScale());
+    	}
     	
         finalizeRecommendation(manuscript, recommendation);
     }

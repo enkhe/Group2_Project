@@ -33,7 +33,7 @@ public class ReviewerUI {
 	/**
 	 * Provides menu options for all Reviewer Actions.
 	 */
-	private void reviewerMenu() {
+	public void reviewerMenu() {
 		// Submit a review
 		int choice = -1;
 
