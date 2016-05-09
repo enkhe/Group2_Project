@@ -25,7 +25,7 @@ public class SystemHelper {
     /**
      * A constant to represent the path to save persistent serializable data
      */
-    public final static String SAVE_FILE = "/save.ser";
+    public final static String SAVE_FILE = "save.ser";
     
     /**
      * A constant to represent the title of the system for menu output.
@@ -35,7 +35,7 @@ public class SystemHelper {
     /**
      * A constant used to store the format string for detailed manuscript display.
      */
-    public final static String PC_MAN_DISPLAY_FORMAT = "\n%20s %15s %10s %s";
+    public final static String PC_MAN_DISPLAY_FORMAT = "\n%-20s %-15s %-10s %s\n";
 
     private SystemHelper() {
     	// Cannot be instantiated.
@@ -51,7 +51,6 @@ public class SystemHelper {
         int choice = scanner.nextInt();
         // flushes the rest of the line/
         scanner.nextLine();
-        scanner.close();
         return choice;
     }
     
@@ -63,7 +62,6 @@ public class SystemHelper {
     	Scanner scanner = new Scanner(System.in);
     	System.out.print(SystemHelper.PROMPT);
     	String input = scanner.nextLine();
-    	scanner.close();
         return input;
     }
     
@@ -102,6 +100,7 @@ public class SystemHelper {
 	         inFile.close();
 	     } catch(IOException e) {
 	         System.err.println("Error: Unable to load from save.ser");
+	         e.printStackTrace();
 	     } catch (ClassNotFoundException e) {
 	         System.err.println("Error: save.ser does not contain a ManagementSystem.");
 	     }
