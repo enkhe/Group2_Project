@@ -70,7 +70,8 @@ public class AuthorUI {
 	}
 
 	public void submitManuscriptMenu() {
-		displayScreenHeader("");
+		displayScreenHeader("Submit a Manuscript.");
+		
 		String strFilePath, strManuscriptTitle = "";
 
 		// Get Manuscript FilePath.
@@ -111,6 +112,7 @@ public class AuthorUI {
 	}
 
 	public void unSubmitManuscript() {
+		displayScreenHeader("Unsubmit a Manuscript.");
 		writeln("Please select the manuscript that you'd like to remove.");
 
 		// View All manuscripts
@@ -133,34 +135,52 @@ public class AuthorUI {
 	}
 
 	public void makeChangesToMySubmission() {
+		displayScreenHeader("Make Changes to my Submission(s).");
 		// View All manuscripts
-		writeln("Please, select the manuscript that you'd like to make changes to.");
+		writeln("\nPlease, select the manuscript that you'd like to make changes to.\n");
 
 		List<Manuscript> theManuscripts = myAuthor.getMyManuscripts();
 		int counter = 0;
 		for (Manuscript manuscript : theManuscripts) {
-			writeln(counter ++ + ") " + manuscript.getTitle());
+			counter ++;
+			writeln(counter + ") " + manuscript.getTitle());
+		}
+		writeln("\nPlease, enter 0 to go Back.\n");
+		write(" > ");
+		
+		int intConsoleInput = getConsoleInt();
+		
+		if (intConsoleInput == 0) {
+			return;
 		}
 		
-		
-		Manuscript selectedManuscript = theManuscripts.get(getConsoleInt());
+		Manuscript selectedManuscript = theManuscripts.get(intConsoleInput - 1);
 
+
+		
 		// You've selected ( this manuscript.)
-		writeln("You've selected " + selectedManuscript.getTitle());
+		writeln("You've selected the title, \"" + selectedManuscript.getTitle() + "\"");
 		
 		String strFilePath, strManuscriptTitle = "";
 
+		
 		// Get Manuscript FilePath.
-		writeln("Please enter the file path and name, or 0 to return.");
-		writeln("Sample path: C:\\users\\author\\documents\\paper.docx");
+		writeln("\nSelecting the replacement Manuscript.");
+		writeln("Requires: ");
+		writeln("\t - 1) Selecting Manuscript File Path.");
+		writeln("\t - 2) Selecting Manuscript Title.");
+		
+		
+		writeln("1) Please, enter the file path and name, or 0 to return.");
+		writeln("Sample path: C:\\users\\author\\documents\\paper.docx\n");
 		write(" > ");
 		strFilePath = getConsoleLine();
 
 		youHaveEntered(strFilePath);
 
 		// Get Manuscript Title.
-		writeln("Please enter the manuscript title:");
-		writeln("Sample title: ");
+		writeln("2) Please enter the manuscript title:");
+		writeln("Sample title: \" Scikit-learn: Machine learning in Python \"");
 		write(" > ");
 		strManuscriptTitle = getConsoleLine();
 
@@ -198,12 +218,15 @@ public class AuthorUI {
 	private void writeln(String theInput) {
 		System.out.println(theInput);
 	}
-
+	
 	private void displayScreenHeader(String menuTitle) {
-		System.out.println(SystemHelper.SYS_TITLE);
-		System.out.println(myCurrentConference.getConferenceName());
-		System.out.println("Author: " + myAuthor.getUserName());
-		System.out.println(menuTitle);
+		for(int i = 0; i < 50; i++) {
+			writeln("");
+		}
+		writeln(SystemHelper.SYS_TITLE);
+		writeln(myCurrentConference.getConferenceName());
+		writeln("Author: " + myAuthor.getUserName());
+		writeln(menuTitle);
 	}
 
 }
