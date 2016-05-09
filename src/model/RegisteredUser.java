@@ -4,8 +4,11 @@ package model;
  * Group 2 - TCSS 360A
  */
 
-public class RegisteredUser {
+import java.io.Serializable;
+
+public class RegisteredUser implements Serializable {
 	
+	private static final long serialVersionUID = 7108419094297515234L;
 	private String myFirstName;
 	private String myLastName;
 	private String myUserName;
