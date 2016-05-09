@@ -18,7 +18,7 @@ import java.util.Calendar;
 public class Conference {
 	private String filePath;
 	private String review;
-	private Conference myCurrentConference;
+	private String myName;
 	private ProgramChair myCurrentProgramChair;
 	private List<Manuscript> myManuscripts;
 	private List<Author> myAuthors;
@@ -36,7 +36,7 @@ public class Conference {
 	 * Conference Constructor
 	 */
 	public Conference() {
-		myCurrentConference = this;
+		myName = "N/A";
 		myAuthors = new LinkedList<>();
 		myReviewers = new LinkedList<>();
 		myProgramChairs = new LinkedList<>();
@@ -63,8 +63,8 @@ public class Conference {
 	/**
 	 * 
 	 */
-	public void setConferenceName(String theConferenceName) {
-		myCurrentConference.setConferenceName(theConferenceName);
+	public void setConferenceName(String theName) {
+		myName = theName;
 	}
 
 	/**
@@ -194,7 +194,7 @@ public class Conference {
 	 * Gets the Conference name.
 	 */
 	public String getConferenceName() {
-		return myCurrentConference.getConferenceName();
+		return myName;
 	}
 
 	/**
@@ -326,6 +326,4 @@ public class Conference {
 		
 		return exists;
 	}
-	
-	
 }
