@@ -20,6 +20,7 @@ import java.util.Calendar;
 public class Conference implements Serializable {
 
 	private static final long serialVersionUID = -8029606779383723400L;
+	private static final int DEADLINE_DAYS = 5;
 	private String myName;
 	private ProgramChair myPC;
 	private List<Manuscript> myManuscripts;
@@ -32,6 +33,7 @@ public class Conference implements Serializable {
 	private List<Manuscript> mySubProgramChairManscripts;
 	private HashMap<Integer, List<RegisteredUser>> myRegisteredUserRoles;
 	private Calendar myDate;
+	private Calendar myDeadline;
 	
 	/**
 	 * Conference Constructor
@@ -46,6 +48,8 @@ public class Conference implements Serializable {
 		myRegisteredUserRoles = new HashMap<>();
 		myPC = new ProgramChair();
 		myDate = Calendar.getInstance();
+		myDeadline = (Calendar)myDate.clone();
+		myDeadline.add(Calendar.DAY_OF_YEAR, DEADLINE_DAYS);
 	}
 	
 	/**
@@ -251,11 +255,10 @@ public class Conference implements Serializable {
 	 * creation of the conference.
 	 */
 	public boolean deadlinePassed(Calendar theDate) {
-		int deadlineDays = 5;
-		if ((theDate.get(Calendar.DAY_OF_MONTH) > myDate.get(Calendar.DAY_OF_MONTH) + deadlineDays)) {
-			return true;
-		}
-		return false;
+		if ((theDate.compareTo(myDate) > 0) & (theDate.compareTo(myDeadline)  < 0 )) 
+			return true; 
+		else 
+			return false;
 	}
 	
 	/**
