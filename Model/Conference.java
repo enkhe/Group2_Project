@@ -7,15 +7,19 @@ package model;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.io.Serializable;
 import java.util.Calendar;
 
 /**
  * 
  * @author Enkh
+ * @coauthor Tyler Brent
  * @version v1.00
  *
  */
-public class Conference {
+public class Conference implements Serializable {
+
+	private static final long serialVersionUID = -8029606779383723400L;
 	private String myName;
 	private ProgramChair myPC;
 	private List<Manuscript> myManuscripts;
