@@ -22,10 +22,12 @@ public class ProgramChair extends RegisteredUser implements Serializable {
 	public ProgramChair() {
 		mySubPCAssignments = new ArrayList<Integer>();
 	}
-
     /**
 		Overloaded Constructor
-    */
+		
+		@param a RegisteredUser from which a ProgramChair will be instantiated with the
+		same attributes
+     */
     public ProgramChair(RegisteredUser theUser) {
     	super(theUser.getFirstName(), theUser.getLastName(), theUser.getUserName(), theUser.getID());
 		mySubPCAssignments = new ArrayList<Integer>();
