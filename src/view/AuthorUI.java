@@ -43,7 +43,7 @@ public class AuthorUI {
 			writeln("3) View a manuscript review");
 			writeln("4) Back");
 			writeln("5) Exit");
-			writeln("\n > ");
+			write(" > ");
 
 			choice = myScanner.nextInt();
 			myScanner.nextLine();
@@ -119,9 +119,9 @@ public class AuthorUI {
 		for (Manuscript manuscript : manuscripts) {
 			writeln(counter++ + ") " + manuscript.getTitle());
 		}
-		writeln(" > ");
+		write(" > ");
 
-		Manuscript selectedManuscript = myAuthor.getMyManuscripts().get(getConsoleInt() - 1);
+		Manuscript selectedManuscript = myAuthor.getMyManuscripts().get(getConsoleInt());
 
 		int result = myAuthor.removeManuscript(selectedManuscript);
 		if (result == 0) {
