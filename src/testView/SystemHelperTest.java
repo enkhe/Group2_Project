@@ -1,6 +1,12 @@
+package testView;
+
 import static org.junit.Assert.*;
-import Model.*;
-import View.*;
+
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import model.*;
+import view.*;
 
 /**
  * TCSS360
@@ -8,7 +14,7 @@ import View.*;
  */
 
 
-public class ProgramChairUITest {
+public class SystemHelperTest {
 	
 	@Before
 	public void beforeAllTests() {

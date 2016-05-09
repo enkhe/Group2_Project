@@ -1,13 +1,15 @@
 /**
+
  * Author: Tyler Brent
  * Group2 - TCSS360A
  */
-package model;
+package testModel;
 
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
+import model.*;
 
 /**
  * Test class for Manuscript.

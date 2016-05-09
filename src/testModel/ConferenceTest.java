@@ -1,6 +1,10 @@
+package testModel;
+
 import static org.junit.Assert.*;
-import Model.*;
-import View.*;
+
+import org.junit.Before;
+import org.junit.Test;
+import model.*;
 
 /**
  * TCSS360
@@ -8,7 +12,8 @@ import View.*;
  */
 
 
-public class SubProgramChairTest {
+ 
+public class ConferenceTest {
 	
 	@Before
 	public void beforeAllTests() {
