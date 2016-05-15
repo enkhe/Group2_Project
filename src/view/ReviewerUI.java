@@ -1,7 +1,4 @@
 package view;
-/*
- * TCSS360 Group 2 Project
- */
 
 import java.util.List;
 import java.util.Objects;
@@ -14,6 +11,7 @@ import model.Review;
 import model.Reviewer;
 
 /**
+ * TCSS360 Group 2 Project
  * 
  * @author Enkhamgalan Baterdene
  * @version 1.0
@@ -25,6 +23,11 @@ public class ReviewerUI {
 	Conference myCurrentConference;
 	Scanner myScanner;
 
+	/**
+	 * Constructs Reviewer UI.
+	 * @param theUser
+	 * @param theConference
+	 */
 	public ReviewerUI(RegisteredUser theUser, Conference theConference) {
 		myReviewer = theConference.getReviewer(theUser.getID());
 		myCurrentConference = theConference;
@@ -69,6 +72,9 @@ public class ReviewerUI {
 		} while (choice != 0);
 	}
 
+	/**
+	 * View all assigned manuscripts menu option.
+	 */
 	public void viewAllAssignedManuscripts() {
 		for(Manuscript manuscript : myReviewer.getMyAssignedManuscripts()) {
 			Review review = manuscript.getReviews().get(myReviewer.getID());
@@ -83,6 +89,9 @@ public class ReviewerUI {
 		}
 	}
 	
+	/**
+	 * Reviewer download all manuscript.
+	 */
 	public void reviewerDownloadAllManuscripts() {
 		displayScreenHeader("Download all Manuscripts");
 
@@ -97,6 +106,9 @@ public class ReviewerUI {
 		}
 	}
 
+	/**
+	 * Reveiwer update remove review.
+	 */
 	public void reviewerUpdateRemoveReview() {
 		displayScreenHeader("Update/Remove a Review");
 
@@ -104,7 +116,6 @@ public class ReviewerUI {
 
 		// Assigned Manuscripts:
 		// Please select the manuscript to update the review
-		//
 		int counter = 0;
 		for (Manuscript manuscript : myManuscripts) {
 			// display with index
@@ -146,6 +157,10 @@ public class ReviewerUI {
 		}
 	}
 
+	/**
+	 * Update given manuscript menu option.
+	 * @param selectedManuscript
+	 */
 	private void updateGivenManuscript(Manuscript selectedManuscript) {
 		int intScore = -1;
 		String strFilePath = selectedManuscript.getFile();
@@ -162,6 +177,9 @@ public class ReviewerUI {
 		writeln("You've successfully updated " + selectedManuscript.getTitle());
 	}
 
+	/**
+	 * Reviewer upload review menu option.
+	 */
 	public void reviewerUploadReview() {
 		displayScreenHeader("Upload Review");
 
@@ -197,14 +215,26 @@ public class ReviewerUI {
 		writeln("You've successfully saved a review for " + theManuscript.getTitle() + " with a score of " + intScore);
 	}
 
+	/**
+	 * Write line out to console.
+	 * @param theInput
+	 */
 	private void write(String theInput) {
 		System.out.println(theInput);
 	}
 
+	/**
+	 * Write new line out to console.
+	 * @param theInput
+	 */
 	private void writeln(String theInput) {
 		System.out.println(theInput);
 	}
 
+	/**
+	 * Display screen header.
+	 * @param menuTitle
+	 */
 	private void displayScreenHeader(String menuTitle) {
 		System.out.println(SystemHelper.SYS_TITLE);
 		System.out.println(myCurrentConference.getConferenceName());

@@ -1,19 +1,14 @@
 package view;
 
-/*
- * TCSS360 Group 2 Project
- */
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Scanner;
-
 import model.Author;
 import model.Conference;
 import model.Manuscript;
 import model.RegisteredUser;
 
 /**
+ * TCSS360 Group 2 Project
  * 
  * @author Enkhamgalan Baterdene
  * @version v1.0
@@ -23,15 +18,21 @@ public class AuthorUI {
 
 	private Author myAuthor;
 	private Conference myCurrentConference;
-	private Scanner myScanner;
 	public final String MENU_TITLE = "Author Menu";
 
+	/**
+	 * Constructs Author UI.
+	 * @param theRegisteredUser
+	 * @param theConference
+	 */
 	public AuthorUI(RegisteredUser theRegisteredUser, Conference theConference) {
 		myCurrentConference = theConference;
 		myAuthor = theConference.getAuthor(theRegisteredUser.getID());
-		myScanner = new Scanner(System.in);
 	}
 
+	/**
+	 * Author main menu.
+	 */
 	public void authorMenu() {
 		int choice = -1;
 
@@ -59,6 +60,9 @@ public class AuthorUI {
 		} while (choice != 0);
 	}
 
+	/**
+	 * Author submit manuscript menu.
+	 */
 	public void submitManuscriptMenu() {
 		displayScreenHeader("Submit a Manuscript");
 		String strFilePath, strManuscriptTitle = "";
@@ -72,14 +76,14 @@ public class AuthorUI {
 			return;
 		}
 		
-		youHaveEntered(strFilePath);
+		SystemHelper.youHaveEntered(strFilePath);
 
 		// Get Manuscript Title.
 		writeln("Please enter the manuscript title:");
 		writeln("Sample title: ");
 		strManuscriptTitle = SystemHelper.promptUserString();
 
-		youHaveEntered(strManuscriptTitle);
+		SystemHelper.youHaveEntered(strManuscriptTitle);
 
 		Calendar currentDate = Calendar.getInstance();
 		
@@ -99,8 +103,9 @@ public class AuthorUI {
 
 	}
 	
-	
-
+	/**
+	 * Author unsubmit manuscript menu option.
+	 */
 	public void unSubmitManuscript() {
 		displayScreenHeader("Remove a Manuscript");
 		writeln("Please select the manuscript that you'd like to remove.\n");
@@ -112,9 +117,8 @@ public class AuthorUI {
 			counter++;
 			writeln(counter + ") " + manuscript.getTitle());
 		}
-		write("\n > ");
 
-		int intConsoleInput = getConsoleInt();
+		int intConsoleInput = SystemHelper.promptUserInt();
 		
 		if (intConsoleInput == 0) {
 			return;
@@ -131,7 +135,9 @@ public class AuthorUI {
 		}
 	}
 	
-	
+	/**
+	 * Author make changes to my submission menu option.
+	 */
 	public void makeChangesToMySubmission() {
 		displayScreenHeader("Change a Manuscript");
 		// View All manuscripts
@@ -142,20 +148,17 @@ public class AuthorUI {
 			writeln("Currently, there were no manuscripts found under the username, " + myAuthor.getUserName());
 			writeln("Press 0 to return.\n");
 			write(" > ");
-			getConsoleLine();
 			return;
 		}
 		
-
 		writeln("Please, enter 0 to go Back.\n");
 		int counter = 0;
 		for (Manuscript manuscript : theManuscripts) {
 			counter ++;
 			writeln(counter + ") " + manuscript.getTitle());
 		}
-		write("\n > ");
 
-		int intConsoleInput = getConsoleInt();
+		int intConsoleInput = SystemHelper.promptUserInt();
 		
 		if (intConsoleInput == 0) {
 			return;
@@ -176,30 +179,28 @@ public class AuthorUI {
 		
 		writeln("1) Please, enter the file path and name, or 0 to return.");
 		writeln("Sample path: C:\\users\\author\\documents\\paper.docx\n");
-		write("\n > ");
-		strFilePath = getConsoleLine();
+		
+		strFilePath = SystemHelper.promptUserString();
 		
 		if(strFilePath.equalsIgnoreCase("0")) {
 			writeln("\n Returned to main menu.");
 			return;
 		}
 
-		youHaveEntered(strFilePath);
+		SystemHelper.youHaveEntered(strFilePath);
 
 		// Get Manuscript Title.
 		writeln("2) Please enter the manuscript title:");
 		writeln("Sample title: \" Scikit-learn: Machine learning in Python \"");
-		write("\n > ");
 
-		strManuscriptTitle = getConsoleLine();
+		strManuscriptTitle = SystemHelper.promptUserString();
 		
 		if(strManuscriptTitle.equalsIgnoreCase("0")) {
 			writeln("\n Returned to main menu.");
 			return;
 		}
 		
-
-		youHaveEntered(strManuscriptTitle);
+		SystemHelper.youHaveEntered(strManuscriptTitle);
 
 		Manuscript manuscript = new Manuscript(myAuthor.getID(), strFilePath, strManuscriptTitle);
 		
@@ -214,7 +215,7 @@ public class AuthorUI {
 	
 
 	/**
-	 * 
+	 * Controller: Author submit manuscript.
 	 * @param manuscript
 	 * @return
 	 */
@@ -223,7 +224,7 @@ public class AuthorUI {
 	}
 	
 	/**
-	 * 
+	 * Controller: Author remove manuscript.
 	 * @param theManuscriptToBeRemoved
 	 * @return
 	 */
@@ -238,6 +239,7 @@ public class AuthorUI {
 	}
 	
 	/**
+	 * Controller: Author make changes to submission.
 	 * 
 	 * @param previous
 	 * @param theReplacementManuscript
@@ -254,6 +256,7 @@ public class AuthorUI {
 	}
 	
 	/**
+	 * Message: Successful manuscript replacement.
 	 * 
 	 * @param userName
 	 * @param origManuscriptTitle
@@ -265,6 +268,7 @@ public class AuthorUI {
 	}
 	
 	/**
+	 * Message: Unsuccessful manuscript replacement.
 	 * 
 	 * @param userName
 	 * @param origManuscriptTitle
@@ -277,6 +281,7 @@ public class AuthorUI {
 	}
 	
 	/**
+	 * Message: Unsubmit manuscript successful.
 	 * 
 	 * @param theUserName
 	 * @param theManuscriptTitle
@@ -288,6 +293,7 @@ public class AuthorUI {
 	}
 	
 	/**
+	 * Message: Unsubmit manuscript unsuccessful.
 	 * 
 	 * @param theUserName
 	 * @param theManuscriptTitle
@@ -297,27 +303,27 @@ public class AuthorUI {
 		return theUserName + ", there was some error in removing the manuscript: " + theManuscriptTitle + ".";
 	}
 	
-	
-	private String getConsoleLine() {
-		return new Scanner(System.in).nextLine();
-	}
 
-	private int getConsoleInt() {
-		return new Scanner(System.in).nextInt();
-	}
-
-	private void youHaveEntered(String theInput) {
-		writeln("You have entered: " + theInput);
-	}
-
+	/**
+	 * Write line out to console.
+	 * @param theInput
+	 */
 	private void write(String theInput) {
-		System.out.print(theInput);
+		System.out.println(theInput);
 	}
 
+	/**
+	 * Write new line out to console.
+	 * @param theInput
+	 */
 	private void writeln(String theInput) {
 		System.out.println(theInput);
 	}
 
+	/**
+	 * Display screen header.
+	 * @param menuTitle
+	 */
 	private void displayScreenHeader(String menuTitle) {
 		writeln(SystemHelper.SYS_TITLE);
 		writeln(myCurrentConference.getConferenceName());

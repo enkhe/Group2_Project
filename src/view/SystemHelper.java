@@ -106,6 +106,15 @@ public class SystemHelper {
 	     }
      
      return openedMS;
- }
+    }
+    
+    /**
+     * Confirms what somebody has entered into an console.
+     * 
+     * @param theInput the message to be written out to console.
+     */
+    public static void youHaveEntered(String theInput) {
+		System.out.println("You have entered: " + theInput);
+	}
 	
 }
