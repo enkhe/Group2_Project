@@ -5,6 +5,7 @@ package model;
  * Group 2 Project - Conferences
  */
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -253,6 +254,18 @@ public class Conference implements Serializable {
 		}
 		
 		return author;
+	}
+	
+	/**
+	 * Returns this conferences manuscript submission deadline as a string in
+	 * MM\DD\YYYY format.
+	 * 
+	 * @return the submission deadline as a string in MM\DD\YYYY format.
+	 */
+	public String getDeadlineString() {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("MM\\dd\\YYYY");
+    	String deadlineString = dateFormat.format(myDeadline.getTime());
+		return deadlineString;
 	}
 	
 	/**

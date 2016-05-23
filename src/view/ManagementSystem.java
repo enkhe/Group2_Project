@@ -2,12 +2,8 @@ package view;
 /*
  * TCSS360 Group 2 Project
  */
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -80,7 +76,7 @@ public class ManagementSystem implements Serializable {
      * Displays a menu providing the user with the ability to login, register or exit.
      */
     private void loginMenu() {
-        int input = -1;
+        int menuChoice = -1;
 
         do {
             System.out.println("Welcome to the MSEE Conference Management System!");
@@ -88,9 +84,9 @@ public class ManagementSystem implements Serializable {
             System.out.println("1) Login");
             System.out.println("2) Register");
             System.out.println("0) Exit");
-            input = SystemHelper.promptUserInt();
+            menuChoice = SystemHelper.promptUserInt();
                     
-            switch (input) {
+            switch (menuChoice) {
                 case 1:
                     login();
                     break;
@@ -102,10 +98,9 @@ public class ManagementSystem implements Serializable {
                 default:
                     System.out.println("Invalid command.\n");
             }
-        } while (input != 0);
+        } while (menuChoice != 0);
     }
 
-    // Note: Not a User Story; may want to remove after initalizng some users.
     /**
      * Displays a menu to allow the user to register by entering a Username, First Name
      * and Last Name. 
@@ -255,7 +250,7 @@ public class ManagementSystem implements Serializable {
     }
     
     /**
-     * 
+     * Set the current user as logged off.
      */
     private void setAsLoggedOff() {
         myCurrentUser = null;
@@ -293,6 +288,8 @@ public class ManagementSystem implements Serializable {
         title = SystemHelper.promptUserString();
         
         Manuscript newManuscript = new Manuscript(theAuthor.getID(), manuscriptPath, title);
+        
+        //Break out or move to model
         if (theAuthor.submitManuscript(newManuscript) != -1) {
         	myCurrentConference.submitManuscript(newManuscript);
         }
@@ -300,14 +297,18 @@ public class ManagementSystem implements Serializable {
     }
     
     /**
-     * 
+     * Prompts the user for their first and last name to finalize new user creation. 
      */
     private void createNewUser(String theUserName) {
         System.out.println("Username is available!");
         System.out.print("Enter your First Name: ");
         String firstName = SystemHelper.promptUserString();
+        if(firstName.equals("0")) return;
+        
         System.out.print("Enter your Last Name: ");
         String lastName = SystemHelper.promptUserString();
+        if(lastName.equals("0")) return;
+        
         int id = myUserList.size();
         myUserList.add(new RegisteredUser(firstName, lastName, theUserName, id));
     }
@@ -328,6 +329,12 @@ public class ManagementSystem implements Serializable {
         return null;
     }
     
+    /**
+     * Displays the header for the current menu screen.
+     * 
+     * @param role the role of the current user.
+     * @param menuTitle the title of the current menu screen.
+     */
     private void displayScreenHeader(String role, String menuTitle) {
         System.out.println(SystemHelper.SYS_TITLE);
         if(loggedIn) {
@@ -337,14 +344,26 @@ public class ManagementSystem implements Serializable {
         System.out.println(menuTitle);
     }
     
+    /**
+     * Displays the possible conferences and their submission deadlines.
+     */
     private void displayConferenceSelections() {
-        for (int i = 0; i < myConferences.size(); i++) {
-            System.out.println((i+1) + ") " 
-                               + myConferences.get(i).getConferenceName());
+        System.out.printf("\n%s  %-50s %s\n", "#", "Conference Name", "Submission Deadline");
+        SystemHelper.displayDashedLine();
+    	for (int i = 0; i < myConferences.size(); i++) {
+            String conferenceName = myConferences.get(i).getConferenceName();
+        	String deadlineString = myConferences.get(i).getDeadlineString();
+        	
+        	System.out.printf(SystemHelper.CONFERENCE_MENU_FORMAT, i+1, conferenceName, 
+        			                                               deadlineString);
         }
-        System.out.println("0) Return");
+        System.out.println("\n\n0) Return");
     }
     
+    /**
+     * Displays the role selection menu based on the available roles of the currently
+     * logged in user.
+     */
     private void displayRoleSelections() {
         boolean isAuthor = myCurrentConference.isAuthor(myCurrentUser.getID());
         boolean isReviewer = myCurrentConference.isReviewer(myCurrentUser.getID());
@@ -356,7 +375,7 @@ public class ManagementSystem implements Serializable {
         if(isReviewer) System.out.println("2) Reviewer ");
         if(isSub) System.out.println("3) Subprogram Chair ");
         if(isPC) System.out.println("4) Program Chair ");
-        
+
         if(!isAuthor && !isReviewer && !isSub && !isPC) {
         	System.out.println("No roles to select. Enter any number to return.");
         }
@@ -396,6 +415,8 @@ public class ManagementSystem implements Serializable {
            
         return author;
     }
+    
+    // Need to check if these are needed.
     
     /**
      * For Testing purposes the registered users are exposed.
