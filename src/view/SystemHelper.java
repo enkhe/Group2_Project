@@ -36,6 +36,20 @@ public class SystemHelper {
      * A constant used to store the format string for detailed manuscript display.
      */
     public final static String PC_MAN_DISPLAY_FORMAT = "\n%-25s %-20s %-25s %s\n";
+    
+    /**
+     * A constant used to store the format string for detailed manuscript display.
+     */
+    public final static String SPC_MAN_DISPLAY_FORMAT = "\n%-25s %-20s %-25s %s\n";
+    
+    /**
+     * A constant string used in table output when there is no information to display.
+     */
+    public final static String NOTHING_TO_DISPLAY = "----------";
+    /**
+     * A constant used to represent the table width for output formatting.
+     */
+    public final static int TABLE_WIDTH = 95;
 
     private SystemHelper() {
     	// Cannot be instantiated.
@@ -63,6 +77,12 @@ public class SystemHelper {
     	System.out.print(SystemHelper.PROMPT);
     	String input = scanner.nextLine();
         return input;
+    }
+    
+    public static void displayDashedLine() {
+    	for(int i = 0; i < TABLE_WIDTH; i++) {
+	        System.out.print("-");
+	    }
     }
     
     /**

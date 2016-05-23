@@ -1,6 +1,8 @@
 package view;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 import model.Conference;
 import model.Manuscript;
@@ -13,7 +15,7 @@ import model.SubProgramChair;
  * A class containing the UI elements of a Subprogram Chair.
  * 
  * @author Shaun Coleman
- * @version MAY 8 2015
+ * @version MAY 20 2015
  * 
  */
 public class SubProgramChairUI {
@@ -22,6 +24,21 @@ public class SubProgramChairUI {
      * A constant int used to represent the maximum manuscripts a reviewer can be assigned.
      */
     private final int MAX_REVIEWER_ASSIGNED_MANUSCRIPTS = 4;
+    
+    /**
+     * A constant to represent the menu selection for assigning a reviewer.
+     */
+    private final int ASSIGN_REVIEWER = 1;
+    
+    /**
+     * A constant to represent the menu selection for making a recommendation.
+     */
+    private final int MAKE_RECOMMENDATION = 2;
+    
+    /**
+     * A constant to represent the menu selection for exiting the menu.
+     */
+    private final int EXIT = 0;
 	
 	/**
      * The currently logged in user.  Null if no user is logged in.
@@ -34,9 +51,9 @@ public class SubProgramChairUI {
     private Conference myCurrentConference;
     
     /**
-     * 
-     * @param theUser
-     * @param theConference
+     * Constructs a new SubProgramChairUI object with the given RegisteredUser and Conference.
+     * @param theUser the RegisteredUser to act as the current SubProgramChair.
+     * @param theConference the currently selected conference.
      */
     public SubProgramChairUI(RegisteredUser theUser, Conference theConference) {
     	myCurrentConference = theConference;
@@ -60,13 +77,13 @@ public class SubProgramChairUI {
             choice = SystemHelper.promptUserInt();
             
             switch (choice) {
-                case 1:
+                case ASSIGN_REVIEWER:
                     assignReviewer();
                     break;
-                case 2:
+                case MAKE_RECOMMENDATION:
                     assignRecommendation();
                     break;
-                case 0:
+                case EXIT:
                     //Empty; exiting menu.
                     break;
                 default:
@@ -94,9 +111,9 @@ public class SubProgramChairUI {
     }
     
     /**
-     * 
-     * @param mySPC
-     * @return
+     * Displays a menu to select a manuscript from the SubProgramChair's 
+     * currently assigned manuscripts.
+     * @return the selected Manuscript.
      */
     private Manuscript subprogramChairSelectManuscript() {
         int choice = -1;
@@ -158,6 +175,9 @@ public class SubProgramChairUI {
         return selectedReviewer;
     }
 
+    /**
+     * Initiates the menus required to assign a recommendation.
+     */
     private void assignRecommendation() {
     	
     	if(mySPC.getMyAssignedManuscripts().size() <= 0) {
@@ -175,6 +195,11 @@ public class SubProgramChairUI {
         finalizeRecommendation(manuscript, recommendation);
     }
     
+    /**
+     * Displays an option list to select the from the Recommendation Scale.
+     * @param theScale the List of scale values to select from.
+     * @return the selected scale value.
+     */
     private int displayRecommendationSelect(List<String> theScale) {
     	int choice = -1;
     	int option = 1;
@@ -192,11 +217,84 @@ public class SubProgramChairUI {
     	return choice;
     }
     
-    private void finalizeRecommendation(Manuscript theManuscript, int theRecommendation) {
+    /**
+	 * Displays the header information for the current screen.
+	 * 
+	 * @param menuTitle the title of the current menu screen.
+	 */
+	private void displayScreenHeader(String menuTitle) {
+	    System.out.println(SystemHelper.SYS_TITLE);
+	    System.out.println(myCurrentConference.getConferenceName());
+	    System.out.println("Subprogram Chair: " + mySPC.getUserName());
+	    System.out.println(menuTitle);
+	    displayManuscriptTable();
+	}
+	
+	/**
+	 * Displays a status table for the manuscripts assigned to the current SubProgramChair
+	 */
+	private void displayManuscriptTable() {
+	    //Headers
+	    System.out.printf(SystemHelper.SPC_MAN_DISPLAY_FORMAT, "Title", 
+	                      "Reviewer", "Review Score", "Recommendation");
+	    SystemHelper.displayDashedLine();
+	     
+	    for (Manuscript manuscript : mySPC.getMyAssignedManuscripts()) {
+	        String title = manuscript.getTitle();
+	        String recommendation = manuscript.getRecommendation();
+	        
+	        Map<Integer, Review> reviews = manuscript.getReviews();
+	        Set<Integer> reviewers = reviews.keySet();
+	        
+	        if(reviewers.isEmpty()) {
+	        	System.out.printf(SystemHelper.SPC_MAN_DISPLAY_FORMAT, title, 
+	        			SystemHelper.NOTHING_TO_DISPLAY, SystemHelper.NOTHING_TO_DISPLAY,
+	        			recommendation);
+	        } else {
+		        displayDetailLineForEachReviewer(reviews, reviewers, title, recommendation);
+		    }
+	    }   
+	}
+	
+	/**
+	 * Displays a table detail line for each reviewer of the current manuscript.
+	 * 
+	 * @param reviews - A Map of reviews for the current manuscript.
+	 * @param reviewers - A Set of reviewer IDs for each review given to the current manuscript.
+	 * @param title - The title of the current manuscript.
+	 * @param recommendation - The recommendation given to the current manuscript.
+	 */
+	private void displayDetailLineForEachReviewer(Map<Integer, Review> reviews, Set<Integer> reviewers, 
+			                                      String title, String recommendation) {
+		for(Integer reviewID : reviewers) {
+			String reviewerLastName = searchReviewerLastName(reviewID);
+        	Review review = reviews.get(reviewID);
+        	// Need a get max scale for review scores.
+        	String reviewScore = review == null ? "--/10" : review.getScore() + "/10";
+        	
+        	System.out.printf(SystemHelper.SPC_MAN_DISPLAY_FORMAT, title, 
+     		           reviewerLastName, reviewScore, recommendation);
+        	
+        	title = "";
+        	recommendation = "";
+		}
+	}
+	
+	// Possible methods to be pushed to model.
+
+	/**
+	 * Finalizes the "Make Recommendation" option by assigning a selected recommendation to
+	 * the selected manuscript if the recommendation was valid.  Displays an error message if
+	 * the recommendation was not valid.
+	 * 
+	 * @param theManuscript - The Manuscript to be assigned the specified recommendation.
+	 * @param theRecommendation - The recommendation score to assign.
+	 */
+	private void finalizeRecommendation(Manuscript theManuscript, int theRecommendation) {
         try {
         	theManuscript.getScale().get(theRecommendation);
         	theManuscript.setRecommendation(theRecommendation);
-        	System.out.println(theManuscript.getTitle() + "'s recommendation set to" 
+        	System.out.println(theManuscript.getTitle() + "'s recommendation set to " 
         	                  + theManuscript.getScale().get(theRecommendation) + "!");
         } catch (IndexOutOfBoundsException e) {
         	System.out.println("Invalid recommendation selection.");
@@ -204,6 +302,14 @@ public class SubProgramChairUI {
     	
     }
     
+	/**
+	 * Finalizes the "Assign Reviewer" option by assigning a selected Reviewer to
+	 * the selected manuscript if the recommendation was valid.  Displays an error message if
+	 * the Reviewer is unable to be assigned.
+	 * 
+	 * @param theManuscript - The Manuscript to be assigned to specified Reviewer.
+	 * @param theReviewer - The Reviewer to be assigned to the specified Manuscript.
+	 */
     private void finalizeReviewerAssignment(Manuscript theManuscript, Reviewer theReviewer) {
         if(Objects.nonNull(theReviewer)) {
             if(brcheck_ReviewerNotOverAssigned(theReviewer)
@@ -220,15 +326,43 @@ public class SubProgramChairUI {
         }
     }
     
+    /**
+     * Business Rule check to insure the Reviewer is not at the maximum assigned manuscripts.
+     * @param theReviewer the Reviewer in question.
+     * 
+     * @return true if the check is passed, false if the business rule would be broken.
+     */
     public boolean brcheck_ReviewerNotOverAssigned(Reviewer theReviewer) {
-    	return theReviewer.getMyAssignedManuscripts().size() < 4;
-    }
-    
-    public boolean brcheck_ReviewerNotManuscriptAuthor(Reviewer theReviewer, Manuscript theManuscript) {
-    	return theReviewer.getID() != theManuscript.getAuthorID();
+    	return theReviewer.getMyAssignedManuscripts().size() < MAX_REVIEWER_ASSIGNED_MANUSCRIPTS;
     }
     
     /**
+     * Business Rule check to insure the Reviewer is not assigned a manuscript they authored
+     * @param theManuscript the Manuscript in question.
+     * @param theReviewer the Reviewer in question.
+     * 
+     * @return true if the check is passed, false if the business rule would be broken.
+     */
+    public boolean brcheck_ReviewerNotManuscriptAuthor(Reviewer theReviewer, Manuscript theManuscript) {
+    	return theReviewer.getID() != theManuscript.getAuthorID();
+    }
+	
+	/**
+	 * A linear search used to identify the last name of the reviewer with the specified user ID.
+	 * @param reviewID - The User ID of the target reviewer.
+	 * @return the last name of the target reviewer.
+	 */
+	private String searchReviewerLastName(int reviewID) {
+		for(Reviewer reviewer : myCurrentConference.getAllReviewers()) {
+	    	if(reviewID == reviewer.getID()) {
+	    		return reviewer.getLastName();
+	    	}
+	    }
+		
+		return SystemHelper.NOTHING_TO_DISPLAY;
+	}
+
+	/**
      * Linear search for the correct SubProgramChair object based on the passed
      * user id.  Sets the current SubProgramChair to the found object, or null if
      * the object is not found.
@@ -247,15 +381,5 @@ public class SubProgramChairUI {
     	return 0;
     }
     
-    /**
-     * Displays the header information for the current screen.
-     * 
-     * @param menuTitle the title of the current menu screen.
-     */
-    private void displayScreenHeader(String menuTitle) {
-        System.out.println(SystemHelper.SYS_TITLE);
-        System.out.println(myCurrentConference.getConferenceName());
-        System.out.println("Subprogram Chair: " + mySPC.getUserName());
-        System.out.println(menuTitle);
-    }
+    
 }
