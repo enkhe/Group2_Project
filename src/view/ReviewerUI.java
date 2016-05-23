@@ -43,7 +43,10 @@ public class ReviewerUI {
 
 		do {
 			displayScreenHeader("Reviewer Menu");
-
+			
+			writeln("All Assigned Manuscripts:");
+			viewAllAssignedManuscripts();
+			
 		    writeln("\nPlease enter a command below.");
 			writeln("1) View all assigned manuscripts");
 			writeln("2) Update/Remove a Review");

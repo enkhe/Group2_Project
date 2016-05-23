@@ -368,8 +368,12 @@ public class ManagementSystem implements Serializable {
      * @param args not currently used.
      */
     public static void main(String[] args) {
-    	//ManagementSystem ms = SystemHelper.deserialize();
-    	ManagementSystem ms = new SetUp().generateManagementSystem();
+    	ManagementSystem ms = new ManagementSystem();
+    	boolean readFromSer = true;
+    	if (readFromSer)
+    		ms = SystemHelper.deserialize(); 
+    	else 
+    		ms = new SetUp().generateManagementSystem();
         ms.loginMenu();
         SystemHelper.serialize(ms);
         

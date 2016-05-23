@@ -11,6 +11,7 @@ import model.Conference;
 import model.Manuscript;
 import model.ProgramChair;
 import model.RegisteredUser;
+import model.Review;
 import model.Reviewer;
 import model.SubProgramChair;
 
@@ -27,6 +28,10 @@ public class SetUp {
 	
 	// Deals with serializing.
 	public SetUp() {
+		initialize();
+	}
+	
+	private void initialize() {
 		myManuscripts = new LinkedList<>();
 		myUserList = new LinkedList<>();
 		myConferences = new LinkedList<>();
@@ -46,9 +51,10 @@ public class SetUp {
 	}
 	
 	public ManagementSystem generateManagementSystem() {
+		initialize();
 		populateUserList(myUserList);
-		populateConferences(myConferences);
 		populateManuscripts(myManuscripts);
+		populateConferences(myConferences);
 		
 		ManagementSystem managementSystem = 
 				new ManagementSystem(myConferences, myUserList);
@@ -74,21 +80,76 @@ public class SetUp {
 	}
 
 	
-
 	private void doConferenceOne(Conference theConference) {
 		
-		ProgramChair programChair = new ProgramChair(myUserList.get(10));
+		ProgramChair programChair = new ProgramChair(myUserList.get(10)); // jrobinson
 		theConference.setProgramChair(programChair);
 		
-		theConference.addSubprogramChair(new SubProgramChair(myUserList.get(12)));
-		theConference.addSubprogramChair(new SubProgramChair(myUserList.get(13)));
-		theConference.addSubprogramChair(new SubProgramChair(myUserList.get(14)));
+		SubProgramChair spc1 = new SubProgramChair(myUserList.get(12)); // ewilson 
+		SubProgramChair spc2 = new SubProgramChair(myUserList.get(13)); // gweaver
+		SubProgramChair spc3 = new SubProgramChair(myUserList.get(14)); // gwatts
 		
+		// ssharp, csummers, rlindsey, jparsons, jglover
+		Reviewer rev1 = new Reviewer(myUserList.get(5));
+		Reviewer rev2 = new Reviewer(myUserList.get(6));
+		Reviewer rev3 = new Reviewer(myUserList.get(7));
+		Reviewer rev4 = new Reviewer(myUserList.get(8));
+		Reviewer rev5 = new Reviewer(myUserList.get(9));
 		
+		theConference.addReviewer(rev1);
+		theConference.addReviewer(rev2);
+		theConference.addReviewer(rev3);
+		theConference.addReviewer(rev4);
+		theConference.addReviewer(rev5);
 		
-		for(int i = 5; i < 10; i++)
-			theConference.addReviewer(new Reviewer(myUserList.get(i)));
+		theConference.addSubprogramChair(spc1);
+		theConference.addSubprogramChair(spc2);
+		theConference.addSubprogramChair(spc3);
+		Manuscript man1, man2, man3, man4, man5, man6 = new Manuscript();
 		
+		man1 = myManuscripts.get(0);
+		man2 = myManuscripts.get(1);
+		man3 = myManuscripts.get(2);
+		man4 = myManuscripts.get(3);
+		man5 = myManuscripts.get(4);
+		man6 = myManuscripts.get(5);
+		
+		man1.setReview(rev2.getID(), new Review()); // 4, "excellent"
+			rev2.assignManuscript(man1);
+		man1.setReview(rev1.getID(), new Review()); // 3, "well written"
+			rev1.assignManuscript(man1);
+		
+		man2.setReview(rev2.getID(), new Review());
+			rev2.assignManuscript(man2);
+		man2.setReview(rev3.getID(), new Review()); // 2, "need work."
+			rev3.assignManuscript(man2);
+		
+		man3.setReview(rev4.getID(), new Review());
+			rev4.assignManuscript(man3);
+		man3.setReview(rev5.getID(), new Review());
+			rev5.assignManuscript(man3);
+		
+		man4.setReview(rev4.getID(), new Review());
+			rev4.assignManuscript(man4);
+		man4.setReview(rev5.getID(), new Review());
+			rev5.assignManuscript(man4);
+			
+		man5.setReview(rev4.getID(), new Review());
+			rev4.assignManuscript(man5);
+		man5.setReview(rev5.getID(), new Review());
+			rev5.assignManuscript(man5);
+		
+		man6.setReview(rev4.getID(), new Review());
+			rev4.assignManuscript(man6);
+		man6.setReview(rev5.getID(), new Review());
+			rev5.assignManuscript(man6);
+			
+		spc1.assignManuscript(man1);
+		spc1.assignManuscript(man2);
+		spc1.assignManuscript(man3);
+		spc2.assignManuscript(man4);
+		spc2.assignManuscript(man5);
+		spc3.assignManuscript(man6);
 		theConference.setConferenceName("2016 IEEE International Cyber Security Conference");
 		
 	}
@@ -170,16 +231,16 @@ public class SetUp {
 		registeredUsers.add(new RegisteredUser("Shaun", 	"Coleman", 		"scoleman", 	count++));
 		registeredUsers.add(new RegisteredUser("Amrit", 	"Puti", 		"aputi", 		count++));
 		registeredUsers.add(new RegisteredUser("Tiffancy", 	"Jimenez", 		"tjimenez", 	count++));
-		registeredUsers.add(new RegisteredUser("Stephen", 	"Sharp", 		"ssharp", 		count++));
+		registeredUsers.add(new RegisteredUser("Stephen", 	"Sharp", 		"ssharp", 		count++)); // 5
 		registeredUsers.add(new RegisteredUser("Carolyn", 	"Summers", 		"csummers", 	count++));
 		registeredUsers.add(new RegisteredUser("Rodney", 	"Lindsey", 		"rlindsey", 	count++));
 		registeredUsers.add(new RegisteredUser("Javier", 	"Parsons", 		"jparsons", 	count++));
-		registeredUsers.add(new RegisteredUser("Janice", 	"Glover", 		"jglover", 		count++));
-		registeredUsers.add(new RegisteredUser("Jan", 		"Robinson", 	"jrobinson", 	count++));
+		registeredUsers.add(new RegisteredUser("Janice", 	"Glover", 		"jglover", 		count++)); // 9
+		registeredUsers.add(new RegisteredUser("Jan", 		"Robinson", 	"jrobinson", 	count++)); // 10
 		registeredUsers.add(new RegisteredUser("Victor", 	"Simon", 		"vsimon", 		count++));
-		registeredUsers.add(new RegisteredUser("Ethel", 	"Wilson", 		"ewilson", 		count++));
+		registeredUsers.add(new RegisteredUser("Ethel", 	"Wilson", 		"ewilson", 		count++)); // 12
 		registeredUsers.add(new RegisteredUser("Gilberto", 	"Weaver", 		"gweaver", 		count++));
-		registeredUsers.add(new RegisteredUser("Gwendolyn", "Watts", 		"gwatts", 		count++));
+		registeredUsers.add(new RegisteredUser("Gwendolyn", "Watts", 		"gwatts", 		count++)); // 14
 		registeredUsers.add(new RegisteredUser("Jeanne", 	"Burton", 		"jburton", 		count++));
 		registeredUsers.add(new RegisteredUser("Jamie", 	"Dennis", 		"jdennis", 		count++));
 		registeredUsers.add(new RegisteredUser("Clay", 		"Mcguire", 		"cmcguire", 	count++));

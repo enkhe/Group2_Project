@@ -39,6 +39,8 @@ public class AuthorUI {
 		do {
 			displayScreenHeader(MENU_TITLE);
 
+			viewAllAuthorManuscripts();
+			
 			writeln("1) Submit a Manuscript");
 			writeln("2) Remove a Manuscript");
 			writeln("3) Change a Manuscript");
@@ -60,6 +62,16 @@ public class AuthorUI {
 		} while (choice != 0);
 	}
 
+	public void viewAllAuthorManuscripts() {
+		writeln("Author Manuscripts:");
+		
+		List<Manuscript> manuscripts = myAuthor.getMyManuscripts();
+		writeln("Title");
+		for (Manuscript manuscript : manuscripts) {
+			writeln("" + manuscript.getTitle());
+		}
+		writeln("");
+	}
 	/**
 	 * Author submit manuscript menu.
 	 */
