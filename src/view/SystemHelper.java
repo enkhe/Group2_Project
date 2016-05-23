@@ -35,17 +35,17 @@ public class SystemHelper {
     /**
      * A constant used to store the format string for conference menu selection.
      */
-    public final static String CONFERENCE_MENU_FORMAT = "\n%1d) %-50s %10s";
+    public final static String CONFERENCE_MENU_FORMAT = "\n%1d) %-70s %10s";
     
     /**
      * A constant used to store the format string for detailed manuscript display.
      */
-    public final static String PC_MAN_DISPLAY_FORMAT = "\n%-25s %-20s %-25s %s\n";
+    public final static String PC_MAN_DISPLAY_FORMAT = "\n%-30s %-20s %-25s %s\n";
     
     /**
      * A constant used to store the format string for detailed manuscript display.
      */
-    public final static String SPC_MAN_DISPLAY_FORMAT = "\n%-25s %-20s %-25s %s\n";
+    public final static String SPC_MAN_DISPLAY_FORMAT = "\n%-30s %-20s %-25s %s\n";
     
     /**
      * A constant string used in table output when there is no information to display.
@@ -55,7 +55,7 @@ public class SystemHelper {
     /**
      * A constant used to represent the table width for output formatting.
      */
-    public final static int TABLE_WIDTH = 95;
+    public final static int TABLE_WIDTH = 100;
 
     /**
      * SystemHelper cannot be instantiated.

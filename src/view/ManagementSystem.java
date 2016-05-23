@@ -238,7 +238,7 @@ public class ManagementSystem implements Serializable {
                     selectRole();
                     break;
                 case 2:
-                    submitManuscript(getAuthorforSubmit());
+                    submitManuscript();
                     break;
                 case 0:
                     //empty, logout happens upon returning from this method.
@@ -264,7 +264,7 @@ public class ManagementSystem implements Serializable {
      * 
      * @param theAuthor the Author object for the current user.
      */
-    private void submitManuscript(Author theAuthor) {
+    private void submitManuscript() {
         if(myCurrentConference.deadlinePassed(Calendar.getInstance())) {
         	System.out.println("Cannot submit manuscript past deadline.");
         	return;
@@ -275,22 +275,23 @@ public class ManagementSystem implements Serializable {
         
         displayScreenHeader("Author", "Submit Manuscript");
         
-        System.out.println("\nPlease enter the file path for your Manuscript or type 0 to go back.");
-        System.out.println("Sample path: C:\\users\\author\\documents\\paper.docx\n");
+        System.out.println("\nPlease enter the file path for your Manuscript or 0 to go back.");
+        System.out.println("Sample path: C:\\users\\author\\documents\\paper.docx");
         manuscriptPath = SystemHelper.promptUserString();
 
-		if (manuscriptPath.equals("0")) {
-			return;
-		}
+		if (manuscriptPath.equals("0"))	return;
 		
-        System.out.println("Please enter the title of your Manuscript.");
+        System.out.println("Please enter the title of your Manuscript or 0 to go back.");
        
         title = SystemHelper.promptUserString();
         
-        Manuscript newManuscript = new Manuscript(theAuthor.getID(), manuscriptPath, title);
+        if (title.equals("0"))	return;
+        
+        Author author = getAuthorforSubmit();
+        Manuscript newManuscript = new Manuscript(author.getID(), manuscriptPath, title);
         
         //Break out or move to model
-        if (theAuthor.submitManuscript(newManuscript) != -1) {
+        if (author.submitManuscript(newManuscript) != -1) {
         	myCurrentConference.submitManuscript(newManuscript);
         }
         System.out.println("\n" + manuscriptPath + " submitted!");
@@ -312,6 +313,7 @@ public class ManagementSystem implements Serializable {
         int id = myUserList.size();
         myUserList.add(new RegisteredUser(firstName, lastName, theUserName, id));
     }
+    
     /**
      * Searches and returns a RegisteredUser based on the provide unique UserName.
      * 
@@ -348,7 +350,7 @@ public class ManagementSystem implements Serializable {
      * Displays the possible conferences and their submission deadlines.
      */
     private void displayConferenceSelections() {
-        System.out.printf("\n%s  %-50s %s\n", "#", "Conference Name", "Submission Deadline");
+        System.out.printf("\n%s  %-70s %s\n", "#", "Conference Name", "Submission Deadline");
         SystemHelper.displayDashedLine();
     	for (int i = 0; i < myConferences.size(); i++) {
             String conferenceName = myConferences.get(i).getConferenceName();
@@ -377,8 +379,10 @@ public class ManagementSystem implements Serializable {
         if(isPC) System.out.println("4) Program Chair ");
 
         if(!isAuthor && !isReviewer && !isSub && !isPC) {
-        	System.out.println("No roles to select. Enter any number to return.");
+        	System.out.println("No roles to select.");
         }
+        
+        System.out.println("0) Back");
     }
     
     /**

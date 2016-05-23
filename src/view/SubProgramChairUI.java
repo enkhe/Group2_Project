@@ -100,7 +100,7 @@ public class SubProgramChairUI {
      * @param mySPC the subprogram chair making the assignment.
      */
     private void assignReviewer() {
-        Manuscript selectedManuscript = subprogramChairSelectManuscript();
+        Manuscript selectedManuscript = selectManuscriptPrompt();
         Reviewer selectedReviewer = null;
         
         if(Objects.nonNull(selectedManuscript)) {
@@ -115,16 +115,18 @@ public class SubProgramChairUI {
      * currently assigned manuscripts.
      * @return the selected Manuscript.
      */
-    private Manuscript subprogramChairSelectManuscript() {
+    private Manuscript selectManuscriptPrompt() {
         int choice = -1;
         Manuscript selectedManuscript = null;
         
         displayScreenHeader("Manuscript Selection");
         
-        System.out.println("\nPlease select a manuscript below");
+        System.out.println("\nPlease select a manuscript below, or 0 to go back.");
+        
         displaySubPCManuscriptOptionList();
-       
         choice = SystemHelper.promptUserInt();
+        
+        if(choice == 0) return null;
         
         try {
             selectedManuscript = mySPC.getMyAssignedManuscripts().get(choice -1);
@@ -144,6 +146,7 @@ public class SubProgramChairUI {
         for(Manuscript manuscript : manuscripts) {
             System.out.println(option++ + ") " + manuscript.getTitle());
         }
+        System.out.println("0) Back");
     }
     
     /**
@@ -153,16 +156,12 @@ public class SubProgramChairUI {
      */
     private Reviewer selectReviewerToAssign() {
         int choice = -1;
-        int option = 1;
+
         List<Reviewer> reviewers = myCurrentConference.getAllReviewers();
         Reviewer selectedReviewer = null;
         
         displayScreenHeader("Reviewer Selection");
-        System.out.println("\nPlease choose the Reviewer to assign to this paper.");
-        
-        for (Reviewer reviewer : reviewers) {
-            System.out.println(option++ + ") " + reviewer.getLastName());
-        }
+        displayReviewerSelectMenu(reviewers);
         
         choice = SystemHelper.promptUserInt();
         
@@ -174,23 +173,36 @@ public class SubProgramChairUI {
         
         return selectedReviewer;
     }
+    
+    private void displayReviewerSelectMenu(List<Reviewer> theReviewers) {
+        int option = 1;
+    	System.out.println("\nSelect the Reviewer to assign to this paper, or 0 to go back.");
+        
+        for (Reviewer reviewer : theReviewers) {
+            System.out.println(option++ + ") " + reviewer.getLastName());
+        }
+        System.out.println("0) Back");
+    }
 
     /**
      * Initiates the menus required to assign a recommendation.
      */
     private void assignRecommendation() {
+    	int recommendation = -1;
     	
     	if(mySPC.getMyAssignedManuscripts().size() <= 0) {
     		System.out.println("\nNo papers assigned");
     		return;
     	}
     	
-    	Manuscript manuscript = subprogramChairSelectManuscript();
-    	int recommendation = -1;
+    	Manuscript manuscript = selectManuscriptPrompt();
+    	
+    	if(Objects.isNull(manuscript)) return;
 
-    	if(Objects.nonNull(manuscript)) {
-    		recommendation = displayRecommendationSelect(manuscript.getScale());
-    	}
+    	displayRecommendationSelect(manuscript.getScale());
+    	recommendation = SystemHelper.promptUserInt() - 1;
+    	
+    	if(recommendation == 0) return;
     	
         finalizeRecommendation(manuscript, recommendation);
     }
@@ -200,21 +212,16 @@ public class SubProgramChairUI {
      * @param theScale the List of scale values to select from.
      * @return the selected scale value.
      */
-    private int displayRecommendationSelect(List<String> theScale) {
-    	int choice = -1;
+    private void displayRecommendationSelect(List<String> theScale) {
     	int option = 1;
     	
     	displayScreenHeader("Select Recommendation Score");
-    	
-    	System.out.println("Please enter a recommendation score below.");
+    	System.out.println("\nPlease select the recommendation score, or 0 to go back.");
     	
     	for (String rec : theScale) {
     		System.out.println(option++ + ") "+ rec);
     	}
-    	
-    	choice = SystemHelper.promptUserInt() - 1;
-    	   	
-    	return choice;
+    	System.out.println("0) Back");
     }
     
     /**
