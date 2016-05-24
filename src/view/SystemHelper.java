@@ -33,31 +33,40 @@ public class SystemHelper {
     public final static String SYS_TITLE = "\nMSEE Conference Management System";
     
     /**
-     * A constant used to store the format string for detailed manuscript display.
+     * A constant used to store the format string for conference menu selection.
      */
-    public final static String PC_MAN_DISPLAY_FORMAT = "\n%-25s %-20s %-25s %s\n";
+    public final static String CONFERENCE_MENU_FORMAT = "\n%1d) %-70s %10s";
     
     /**
      * A constant used to store the format string for detailed manuscript display.
      */
-    public final static String SPC_MAN_DISPLAY_FORMAT = "\n%-25s %-20s %-25s %s\n";
+    public final static String PC_MAN_DISPLAY_FORMAT = "\n%-30s %-20s %-25s %s\n";
+    
+    /**
+     * A constant used to store the format string for detailed manuscript display.
+     */
+    public final static String SPC_MAN_DISPLAY_FORMAT = "\n%-30s %-20s %-25s %s\n";
     
     /**
      * A constant string used in table output when there is no information to display.
      */
     public final static String NOTHING_TO_DISPLAY = "----------";
+    
     /**
      * A constant used to represent the table width for output formatting.
      */
-    public final static int TABLE_WIDTH = 95;
+    public final static int TABLE_WIDTH = 100;
 
-    private SystemHelper() {
-    	// Cannot be instantiated.
-    }
+    /**
+     * SystemHelper cannot be instantiated.
+     */
+    private SystemHelper() {}
     
     /**
+     * A helper method used to prompt the user for integer input.
+     * This method assumes perfect user input.
      * 
-     * @return
+     * @return the integer input from the user.
      */
     public static int promptUserInt() {
         Scanner scanner = new Scanner(System.in);
@@ -69,8 +78,10 @@ public class SystemHelper {
     }
     
     /**
+     * A helper method used to prompt the user for String input.
+     * Assumes perfect user input.
      * 
-     * @return
+     * @return the String input from the user.
      */
     public static String promptUserString() {
     	Scanner scanner = new Scanner(System.in);
@@ -79,6 +90,9 @@ public class SystemHelper {
         return input;
     }
     
+    /**
+     * Displays a horizontal dashed line for Table formatting.
+     */
     public static void displayDashedLine() {
     	for(int i = 0; i < TABLE_WIDTH; i++) {
 	        System.out.print("-");

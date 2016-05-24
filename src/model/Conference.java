@@ -5,8 +5,8 @@ package model;
  * Group 2 Project - Conferences
  */
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -80,10 +80,12 @@ public class Conference implements Serializable {
     }
 
 	/**
-	 * Adds an Author the the list.
+	 * Adds an Author the the list if the Author is not already in the list.
 	 */
 	public void addAuthor(Author theAuthor) {
-		myAuthors.add(theAuthor);
+		if(!myAuthors.contains(theAuthor)) {
+			myAuthors.add(theAuthor);
+		}
 	}
 
 	/**
@@ -244,7 +246,7 @@ public class Conference implements Serializable {
 	 * Get an author from conferences list by the ID.
 	 */
 	public Author getAuthor(int theID) {
-		Author author = new Author();
+		Author author = null;
 		
 		for(Author theAuthor : myAuthors) {
 			if(theAuthor.getID() == theID) {
@@ -253,6 +255,18 @@ public class Conference implements Serializable {
 		}
 		
 		return author;
+	}
+	
+	/**
+	 * Returns this conferences manuscript submission deadline as a string in
+	 * MM\DD\YYYY format.
+	 * 
+	 * @return the submission deadline as a string in MM\DD\YYYY format.
+	 */
+	public String getDeadlineString() {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("MM\\dd\\YYYY");
+    	String deadlineString = dateFormat.format(myDeadline.getTime());
+		return deadlineString;
 	}
 	
 	/**
@@ -291,15 +305,16 @@ public class Conference implements Serializable {
 	 * Takes a Manuscript and adds it to the Authors list of Manuscripts
 	 * if the following conditions are met.
 	 * 1) The Manuscript must not already exist.
-	 * 2) the Author must not exceed 4 submissions.
+	 * 2) the Author must not exceed 4 submissions. 
 	 * 
-	 * 0 is returned for a successful add.
-	 * -1 is returned for an unsuccessful add.
+	 * @return 0 is returned for a successful add.
+	 *         -1 is returned for an unsuccessful add.
 	 */
-	public int submitManuscript(Manuscript theManuscript){
+	public int submitManuscript(Manuscript theManuscript, Author theAuthor){
 		
 		if(!exists(theManuscript)) {
 			myManuscripts.add(theManuscript);
+			addAuthor(theAuthor);
 		} else {
 			return -1;
 		}
@@ -333,28 +348,35 @@ public class Conference implements Serializable {
 		return 0;
 	}
 	
-	public int modifyManuscript(Manuscript theOriginal, Manuscript theNew) {
-		if(exists(theOriginal)) {
-			myManuscripts.remove(theOriginal);
-			myManuscripts.add(theNew);
-			
-			for(Reviewer reviewer : myReviewers) {
-				if(reviewer.unassignManuscript(theOriginal) == 1) {
-					reviewer.assignManuscript(theNew);
-				}
-			}
-			
-			for(SubProgramChair sub : mySubProgramChairs) {
-				if(sub.unassignManuscript(theOriginal) == 1) {
-					sub.assignManuscript(theNew);
-				}
-			}
-			
-		} else {
-			return -1;
+	public int modifyManuscript(Manuscript theOriginal, String theTitle) {
+		int result = -1;
+		if(myManuscripts.contains(theOriginal)) {
+			Manuscript manuscriptToUpdate = myManuscripts.get(myManuscripts.indexOf(theOriginal));
+			manuscriptToUpdate.setTitle(theTitle);
+			result = 0;
 		}
 		
-		return 0;
+//		if(exists(theOriginal)) {
+//			myManuscripts.remove(theOriginal);
+//			myManuscripts.add(theNew);
+//			
+//			for(Reviewer reviewer : myReviewers) {
+//				if(reviewer.unassignManuscript(theOriginal) == 1) {
+//					reviewer.assignManuscript(theNew);
+//				}
+//			}
+//			
+//			for(SubProgramChair sub : mySubProgramChairs) {
+//				if(sub.unassignManuscript(theOriginal) == 1) {
+//					sub.assignManuscript(theNew);
+//				}
+//			}
+//			
+//		} else {
+//			return -1;
+//		}
+		
+		return result;
 	}
 	
 	/**
