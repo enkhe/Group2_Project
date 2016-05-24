@@ -3,22 +3,18 @@ package view;
  * TCSS360 Group 2 Project
  */
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
-import model.Author;
 import model.Conference;
-import model.Manuscript;
 import model.RegisteredUser;
 
 /**
  * Manages the user interface for a Conference Management System,
  * 
  * @author Shaun Coleman
- * @version 1.7
+ * @version MAY 24 2015
  */
 public class ManagementSystem implements Serializable {
     /**
@@ -148,11 +144,7 @@ public class ManagementSystem implements Serializable {
         myCurrentUser = getUser(enteredName);
         
         if (Objects.nonNull(myCurrentUser)) {
-            myCurrentConference = selectConference();
-            if (Objects.nonNull(myCurrentConference)) {
-                loggedIn = true;
-                mainMenu();
-            }
+            selectConference();
         } else {
         	System.out.println("Invalid User Name.");
         }
@@ -166,8 +158,7 @@ public class ManagementSystem implements Serializable {
      * 
      * @return the Conference to be used during the user's session.
      */
-    private Conference selectConference() {
-        Conference selectedConference = null;
+    private void selectConference() {
         int input = -1;
         do {
             displayScreenHeader("User", "Conference Selection");
@@ -178,16 +169,15 @@ public class ManagementSystem implements Serializable {
             
             if (input != 0) {
                 try {
-                    selectedConference = myConferences.get(input-1);
-                    input = 0;
+                    myCurrentConference = myConferences.get(input-1);
+                    loggedIn = true;
+                    selectRole();
                 } catch (IndexOutOfBoundsException e) {
                     System.out.println("Invalid command.");
                 }
             }
             
         } while (input != 0);
-        
-        return selectedConference;
     }
     
     
@@ -197,56 +187,26 @@ public class ManagementSystem implements Serializable {
      */
     private void selectRole() {
         int choice = -1;
-        displayScreenHeader("User","Role Selection");
-        System.out.println("\nPlease enter a command below.");
-
-        displayRoleSelections();
-        
-        choice = SystemHelper.promptUserInt();
-        
-        if(choice == 1 && myCurrentConference.isAuthor(myCurrentUser.getID())) {
-            new AuthorUI(myCurrentUser, myCurrentConference).authorMenu();
-        } else if (choice == 2 && myCurrentConference.isReviewer(myCurrentUser.getID())) {
-        	new ReviewerUI(myCurrentUser, myCurrentConference).reviewerMenu();
-        } else if (choice == 3 && myCurrentConference.isSubprogramChair(myCurrentUser.getID())) {
-        	new SubProgramChairUI(myCurrentUser, myCurrentConference).subProgramChairMenu();
-        } else if (choice == 4 && myCurrentConference.isProgramChair(myCurrentUser.getID())) {
-            new ProgramChairUI(myCurrentUser, myCurrentConference).programChairMenu();
-        } else {
-            System.out.println("\nInvalid input, please select a valid role.");
-        }
-    }
-    
-    /**
-     * Prompts the user to either select a role, submit a paper to become and Author
-     * of the current Conference, or return to the login menu. 
-     */
-    private void mainMenu() {
-        int choice = -1;
         do {
-            displayScreenHeader("User", "Main Menu");
-        
-            System.out.println("\nPlease enter a command below:");
-            System.out.println("1) Select a Role");
-            System.out.println("2) Submit a Manuscript");
-            System.out.println("0) Log out");
-            
-            choice = SystemHelper.promptUserInt();
-            
-            switch (choice) {
-                case 1:
-                    selectRole();
-                    break;
-                case 2:
-                    submitManuscript();
-                    break;
-                case 0:
-                    //empty, logout happens upon returning from this method.
-                    break;
-                default:
-                    break;
-            }
-        } while (choice !=0);
+	        displayScreenHeader("User","Role Selection");
+	        System.out.println("\nPlease enter a command below.");
+	
+	        displayRoleSelections();
+	        
+	        choice = SystemHelper.promptUserInt();
+	        
+	        if(choice == 1) {
+	            new AuthorUI(myCurrentUser, myCurrentConference).authorMenu();
+	        } else if (choice == 2 && myCurrentConference.isReviewer(myCurrentUser.getID())) {
+	        	new ReviewerUI(myCurrentUser, myCurrentConference).reviewerMenu();
+	        } else if (choice == 3 && myCurrentConference.isSubprogramChair(myCurrentUser.getID())) {
+	        	new SubProgramChairUI(myCurrentUser, myCurrentConference).subProgramChairMenu();
+	        } else if (choice == 4 && myCurrentConference.isProgramChair(myCurrentUser.getID())) {
+	            new ProgramChairUI(myCurrentUser, myCurrentConference).programChairMenu();
+	        } else if (choice != 0) {
+	            System.out.println("\nInvalid input, please select a valid role.");
+	        }
+        } while(choice != 0);
     }
     
     /**
@@ -257,46 +217,7 @@ public class ManagementSystem implements Serializable {
         myCurrentConference = null;
         loggedIn = false;
     }
-    
-    /**
-     * Submits a Manuscript from the currently selected user to the currently selected
-     * conference.
-     * 
-     * @param theAuthor the Author object for the current user.
-     */
-    private void submitManuscript() {
-        if(myCurrentConference.deadlinePassed(Calendar.getInstance())) {
-        	System.out.println("Cannot submit manuscript past deadline.");
-        	return;
-        }
-        
-    	String title;
-        String manuscriptPath;
-        
-        displayScreenHeader("Author", "Submit Manuscript");
-        
-        System.out.println("\nPlease enter the file path for your Manuscript or 0 to go back.");
-        System.out.println("Sample path: C:\\users\\author\\documents\\paper.docx");
-        manuscriptPath = SystemHelper.promptUserString();
 
-		if (manuscriptPath.equals("0"))	return;
-		
-        System.out.println("Please enter the title of your Manuscript or 0 to go back.");
-       
-        title = SystemHelper.promptUserString();
-        
-        if (title.equals("0"))	return;
-        
-        Author author = getAuthorforSubmit();
-        Manuscript newManuscript = new Manuscript(author.getID(), manuscriptPath, title);
-        
-        //Break out or move to model
-        if (author.submitManuscript(newManuscript) != -1) {
-        	myCurrentConference.submitManuscript(newManuscript);
-        }
-        System.out.println("\n" + manuscriptPath + " submitted!");
-    }
-    
     /**
      * Prompts the user for their first and last name to finalize new user creation. 
      */
@@ -367,20 +288,15 @@ public class ManagementSystem implements Serializable {
      * logged in user.
      */
     private void displayRoleSelections() {
-        boolean isAuthor = myCurrentConference.isAuthor(myCurrentUser.getID());
         boolean isReviewer = myCurrentConference.isReviewer(myCurrentUser.getID());
         boolean isSub = myCurrentConference.isSubprogramChair(myCurrentUser.getID());
         boolean isPC = myCurrentConference.isProgramChair(myCurrentUser.getID());
         
         
-        if(isAuthor) System.out.println("1) Author ");
+        System.out.println("1) Author ");
         if(isReviewer) System.out.println("2) Reviewer ");
         if(isSub) System.out.println("3) Subprogram Chair ");
         if(isPC) System.out.println("4) Program Chair ");
-
-        if(!isAuthor && !isReviewer && !isSub && !isPC) {
-        	System.out.println("No roles to select.");
-        }
         
         System.out.println("0) Back");
     }
@@ -398,26 +314,6 @@ public class ManagementSystem implements Serializable {
         
         System.out.println("\nThanks for using the MSEE Conference Management System!");
         System.out.println("Exiting program.");
-    }
-    
-    /**
-    * (Business Rule - Become an Author by submitting a manuscript).
-    * Returns the Author object used to submit a manuscript by the current user, or if
-    * the user is not an author for the current conference yet a new Author object 
-    * will be created, added to the conference, then returned.
-    * 
-    * @return the Author object to be used to submit a Manuscript.
-    */
-    private Author getAuthorforSubmit() {
-        Author author;
-        if(myCurrentConference.isAuthor(myCurrentUser.getID())) {
-           author = myCurrentConference.getAuthor(myCurrentUser.getID());
-        } else {
-           author = new Author(myCurrentUser);
-           myCurrentConference.addAuthor(author);
-        }
-           
-        return author;
     }
     
     // Need to check if these are needed.

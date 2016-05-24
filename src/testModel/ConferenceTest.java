@@ -98,7 +98,7 @@ public class ConferenceTest {
 		Manuscript m = new Manuscript();
 		//Should be zero right now since none have been added
 		assertEquals(myConference.getAllAuthorsManuscript(author.getID()).size(), 0);
-		myConference.submitManuscript(m);
+		myConference.submitManuscript(m, new Author());
 		//Should be one now that we added a manuscript
 		assertEquals(myConference.getAllAuthorsManuscript(author.getID()).size(), 1);
 		myConference.removeManuscript(m);

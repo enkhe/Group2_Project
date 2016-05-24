@@ -4,7 +4,6 @@ import java.util.Objects;
 
 import model.Conference;
 import model.Manuscript;
-import model.ProgramChair;
 import model.RegisteredUser;
 import model.SubProgramChair;
 
@@ -30,21 +29,16 @@ public class ProgramChairUI {
      * A constant used to assign a rejected status.
      */
     private final int REJECT = 0;
-    
-    /**
-     * A constant to represent the menu selection for displaying all manuscripts.
-     */
-    private final int DISPLAY_ALL = 1;
    
     /**
      * A constant to represent the menu selection for changing the acceptance of a manuscript.
      */
-    private final int CHANGE_ACCEPTANCE = 2;
+    private final int CHANGE_ACCEPTANCE = 1;
     
     /**
      * A constant to represent the menu selection for designating a subprogram chair.
      */
-    private final int DESIGNATE_SUBPROGRAM_CHAIR = 3;
+    private final int DESIGNATE_SUBPROGRAM_CHAIR = 2;
     
 	
 	/**
@@ -78,17 +72,13 @@ public class ProgramChairUI {
             displayScreenHeader("Program Chair Menu");
         
             System.out.println("\nPlease enter a command below.");
-            System.out.println("1) View all Manuscript status.");
-            System.out.println("2) Accept or Reject a Manuscript.");
-            System.out.println("3) Assign a Manuscript to a Subprogram Chair.");
+            System.out.println("1) Accept or Reject a Manuscript.");
+            System.out.println("2) Assign a Manuscript to a Subprogram Chair.");
             System.out.println("0) Return to main menu.");
             
             choice = SystemHelper.promptUserInt();
             
             switch (choice) {
-                case DISPLAY_ALL:
-                    displayManuscriptsForProgramChair();
-                    break;
                 case CHANGE_ACCEPTANCE:
                     changeManuscriptAcceptance();
                     break;
