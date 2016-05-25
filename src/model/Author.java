@@ -18,7 +18,7 @@ public class Author extends RegisteredUser implements Serializable {
 
 	private static final long serialVersionUID = -1558785409225599245L;
 	/** The list of Manuscripts this Author has submitted. */
-	List<Manuscript> myManuscripts;
+	private List<Manuscript> myManuscripts;
 
 	/**
 	 * Default constructor.
