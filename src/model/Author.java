@@ -40,11 +40,9 @@ public class Author extends RegisteredUser implements Serializable {
 	
 	/**
 	 * Takes a Manuscript and adds it to the Authors list of Manuscripts
-	 * if the following conditions are met. In addition now creates a copy
+	 * if the manuscript exists. In addition now creates a copy
 	 * of the file submitted. Any file type can be handled. File paths must be
 	 * seperated by "\\".
-	 * 1) The Manuscript must not already exist.
-	 * 2) the Author must not exceed 4 submissions.
 	 * 
 	 * 0 is returned for a successful add.
 	 * -1 is returned for an unsuccessful add.
