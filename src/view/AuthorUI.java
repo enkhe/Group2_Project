@@ -13,17 +13,21 @@ import model.Manuscript;
 import model.RegisteredUser;
 
 /**
+ * Author's console based user interface.
  * 
  * @author Enkhamgalan Baterdene
  * @version v1.0
- *
  */
 public class AuthorUI {
-
     private Author myAuthor;
     private Conference myCurrentConference;
     public final String MENU_TITLE = "Author Menu";
 
+    /**
+     * Author console based user interface that takes user and conference information.
+     * @param theRegisteredUser - An registered user.
+     * @param theConference - Current conference that Author has selected.
+     */
     public AuthorUI(RegisteredUser theRegisteredUser, Conference theConference) {
         myCurrentConference = theConference;
         myAuthor = theConference.getAuthor(theRegisteredUser.getID());
@@ -32,6 +36,10 @@ public class AuthorUI {
         }
     }
 
+    /**
+     * Author's main menu.
+     * @return - Value for returning to main menu.
+     */
     public int authorMenu() {
         int choice = -1;
 
@@ -69,6 +77,9 @@ public class AuthorUI {
         return choice;
     }
 
+    /**
+     * Menu item for Author's submit manuscript menu.
+     */
     public void submitManuscriptMenu() {
         if(myCurrentConference.deadlinePassed(Calendar.getInstance())) {
             System.out.println("Submittion deadline passed, no further submissions are allowed.");
@@ -107,7 +118,7 @@ public class AuthorUI {
     
     
     /**
-     * 
+     * Menu item for Author's unsubmit manuscript.
      */
     public void unSubmitManuscript() {
         displayScreenHeader("Remove a Manuscript");
@@ -131,6 +142,9 @@ public class AuthorUI {
         }
     }
 
+    /**
+     * Menu item for Author manuscript submission.
+     */
     public void makeChangesToMySubmission() {
         displayScreenHeader("Change a Manuscript");
         
@@ -186,7 +200,7 @@ public class AuthorUI {
      * @return
      */
     public int controllerAuthorSubmitManuscript (Manuscript manuscript) {
-        return myAuthor.submitManuscript(manuscript);
+        return myAuthor.submitManuscript(myCurrentConference.getConferenceName(), manuscript);
     }
     
     /**
@@ -219,9 +233,9 @@ public class AuthorUI {
     
     /**
      * 
-     * @param userName
-     * @param origManuscriptTitle
-     * @param replacementManuscriptTitle
+     * @param userName - Author's username.
+     * @param origManuscriptTitle - Author's manuscript original title.
+     * @param replacementManuscriptTitle - Author's manuscripts replacement title.
      * @return
      */
     public String successfullManuscriptReplacementMessage(String userName, String origManuscriptTitle, String replacementManuscriptTitle) {
@@ -230,9 +244,9 @@ public class AuthorUI {
     
     /**
      * 
-     * @param userName
-     * @param origManuscriptTitle
-     * @param replacementManuscriptTitle
+     * @param userName - Author's user name.
+     * @param origManuscriptTitle - Author's manuscript original title.
+     * @param replacementManuscriptTitle - Author's manuscripts replacement title.
      * @return
      */
     public String unSuccessfullManuscriptReplacementMessage(String userName, String origManuscriptTitle, String replacementManuscriptTitle) {
@@ -242,9 +256,9 @@ public class AuthorUI {
     
     /**
      * 
-     * @param theUserName
-     * @param theManuscriptTitle
-     * @return
+     * @param theUserName - Author's user name.
+     * @param theManuscriptTitle - Author's manuscript title.
+     * @return - System message that states un submit manuscript has successfully submitted.
      */
     public String unsubmitManuscriptSuccessfullMessage (String theUserName, String theManuscriptTitle) {
         return theUserName + " has successfully removed the manuscript "
@@ -253,9 +267,9 @@ public class AuthorUI {
     
     /**
      * 
-     * @param theUserName
-     * @param theManuscriptTitle
-     * @return
+     * @param theUserName - Author's user name.
+     * @param theManuscriptTitle - Author's manuscript title.
+     * @return - System message that states manuscript has error submitting.
      */
     public String unsubmitManuscriptUnSuccessfullMessage (String theUserName, String theManuscriptTitle) {
         return theUserName + ", there was some error in removing the manuscript: " + theManuscriptTitle + ".";
@@ -274,27 +288,15 @@ public class AuthorUI {
 	    return SystemHelper.promptUserInt();
 	    
 	}
-
-	/**
-     * 
-     * @param theInput
-     */
+    
     private void youHaveEntered(String theInput) {
         writeln("You have entered: " + theInput);
     }
 
-    /**
-     * 
-     * @param theInput
-     */
     private void writeln(String theInput) {
         System.out.println(theInput);
     }
-
-    /**
-     * 
-     * @param menuTitle
-     */
+    
     private void displayScreenHeader(String menuTitle) {
         writeln(SystemHelper.SYS_TITLE);
         writeln(myCurrentConference.getConferenceName());

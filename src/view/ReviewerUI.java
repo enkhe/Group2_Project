@@ -14,10 +14,10 @@ import model.Review;
 import model.Reviewer;
 
 /**
+ * Reviewer console based interface.
  * 
  * @author Enkhamgalan Baterdene
  * @version 1.0
- *
  */
 public class ReviewerUI {
 
@@ -25,6 +25,12 @@ public class ReviewerUI {
 	Conference myCurrentConference;
 	Scanner myScanner;
 
+	/**
+	 * Reviewer console based interface that takes registered user and conference.
+	 * 
+	 * @param theUser - An registered user who has been assigned as an reviewer.
+	 * @param theConference - The current conference that user has selected.
+	 */
 	public ReviewerUI(RegisteredUser theUser, Conference theConference) {
 		myReviewer = theConference.getReviewer(theUser.getID());
 		myCurrentConference = theConference;
@@ -32,7 +38,7 @@ public class ReviewerUI {
 	}
 
 	/**
-	 * Provides menu options for all Reviewer Actions.
+	 * Reviewer's main menu.
 	 */
 	public int reviewerMenu() {
 		// Submit a review
@@ -75,6 +81,9 @@ public class ReviewerUI {
 		return choice;
 	}
 
+	/**
+	 * Display Reviewer's reviews for manuscripts.
+	 */
 	public void viewAllAssignedManuscripts() {
 		for(Manuscript manuscript : myReviewer.getMyAssignedManuscripts()) {
 			Review review = manuscript.getReviews().get(myReviewer.getID());
@@ -89,6 +98,9 @@ public class ReviewerUI {
 		}
 	}
 	
+	/**
+	 * Reviewer menu for downloading all manuscripts.
+	 */
 	public void reviewerDownloadAllManuscripts() {
 		displayScreenHeader("Download all Manuscripts");
 
@@ -103,6 +115,9 @@ public class ReviewerUI {
 		}
 	}
 
+	/**
+	 * Reviewer menu for updating a current review.
+	 */
 	public void reviewerUpdateRemoveReview() {
 		displayScreenHeader("Update/Remove a Review");
 
@@ -168,6 +183,9 @@ public class ReviewerUI {
 		writeln("You've successfully updated " + selectedManuscript.getTitle());
 	}
 
+	/**
+	 * Reivewer menu for uploading reviews.
+	 */
 	public void reviewerUploadReview() {
 		displayScreenHeader("Upload Review");
 
@@ -217,5 +235,4 @@ public class ReviewerUI {
 		System.out.println("Reviewer: " + myReviewer.getUserName());
 		System.out.println(menuTitle);
 	}
-
 }
