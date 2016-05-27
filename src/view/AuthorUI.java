@@ -32,7 +32,7 @@ public class AuthorUI {
         }
     }
 
-    public void authorMenu() {
+    public int authorMenu() {
         int choice = -1;
 
         do {
@@ -41,22 +41,32 @@ public class AuthorUI {
             writeln("1) Submit a Manuscript");
             writeln("2) Remove a Manuscript");
             writeln("3) Change a Manuscript");
-            writeln("0) Return to Main Menu");
+            writeln("9) Exit to Login Menu");
+            writeln("0) Return to Role Selection");
             choice = SystemHelper.promptUserInt();
 
             switch (choice) {
-            case 1:
-                submitManuscriptMenu();
-                break;
-            case 2:
-                unSubmitManuscript();
-                break;
-            case 3:
-                makeChangesToMySubmission();
-                break;
+	            case 1:
+	                submitManuscriptMenu();
+	                break;
+	            case 2:
+	                unSubmitManuscript();
+	                break;
+	            case 3:
+	                makeChangesToMySubmission();
+	                break;
+	            case 9:
+	            	choice = SystemHelper.EXIT_TO_LOGIN;
+	            	return choice;
+	            case 0:
+	            	break;
+	            default:
+	            	writeln("Invalid Input.");
             }
 
         } while (choice != 0);
+        
+        return choice;
     }
 
     public void submitManuscriptMenu() {

@@ -35,10 +35,11 @@ public class SubProgramChairUI {
      */
     private final int MAKE_RECOMMENDATION = 2;
     
+    private final int EXIT = 9;
     /**
      * A constant to represent the menu selection for exiting the menu.
      */
-    private final int EXIT = 0;
+    private final int BACK = 0;
 	
 	/**
      * The currently logged in user.  Null if no user is logged in.
@@ -63,7 +64,7 @@ public class SubProgramChairUI {
     /**
      * Provides menu options for all Subprogram Chair Actions.
      */
-    public void subProgramChairMenu() {
+    public int subProgramChairMenu() {
         int choice = -1;
         
         do {
@@ -72,7 +73,8 @@ public class SubProgramChairUI {
             System.out.println("\nPlease enter a command below.");
             System.out.println("1) Assign a Reviewer to a Manuscript.");
             System.out.println("2) Submit a Recommendation.");
-            System.out.println("0) Return to main menu.");
+            System.out.println("9) Exit to Login Menu.");
+            System.out.println("0) Return to Role Selection.");
             
             choice = SystemHelper.promptUserInt();
             
@@ -84,6 +86,9 @@ public class SubProgramChairUI {
                     assignRecommendation();
                     break;
                 case EXIT:
+                	choice = SystemHelper.EXIT_TO_LOGIN;
+                	return choice;
+                case BACK:
                     //Empty; exiting menu.
                     break;
                 default:
@@ -91,6 +96,8 @@ public class SubProgramChairUI {
             }
         
         } while (choice != 0);   
+        
+        return choice;
     }
     
     /**

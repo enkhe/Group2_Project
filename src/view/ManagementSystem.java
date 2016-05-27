@@ -134,7 +134,6 @@ public class ManagementSystem implements Serializable {
      */
     private void login() {
         String enteredName;
-        
         displayScreenHeader("", "Login");
         System.out.println("\nPlease enter your username or 0 to return.");
         enteredName = SystemHelper.promptUserString();
@@ -158,7 +157,7 @@ public class ManagementSystem implements Serializable {
      * 
      * @return the Conference to be used during the user's session.
      */
-    private void selectConference() {
+    private int selectConference() {
         int input = -1;
         do {
             displayScreenHeader("User", "Conference Selection");
@@ -166,18 +165,21 @@ public class ManagementSystem implements Serializable {
             
             displayConferenceSelections();
             input = SystemHelper.promptUserInt();
-            
+            int exitCode = 0;
             if (input != 0) {
                 try {
                     myCurrentConference = myConferences.get(input-1);
                     loggedIn = true;
-                    selectRole();
+                    exitCode = selectRole();
                 } catch (IndexOutOfBoundsException e) {
                     System.out.println("Invalid command.");
                 }
+                
             }
-            
+            if(exitCode == SystemHelper.EXIT_TO_LOGIN) return exitCode;
         } while (input != 0);
+        
+        return 0;
     }
     
     
@@ -185,7 +187,7 @@ public class ManagementSystem implements Serializable {
      * Prompts the user for which personal role they will manage for the conference
      * they have currently selected.
      */
-    private void selectRole() {
+    private int selectRole() {
         int choice = -1;
         do {
 	        displayScreenHeader("User","Role Selection");
@@ -195,18 +197,23 @@ public class ManagementSystem implements Serializable {
 	        
 	        choice = SystemHelper.promptUserInt();
 	        
+	        int exitCode = 0;
 	        if(choice == 1) {
-	            new AuthorUI(myCurrentUser, myCurrentConference).authorMenu();
+	           exitCode = new AuthorUI(myCurrentUser, myCurrentConference).authorMenu();
 	        } else if (choice == 2 && myCurrentConference.isReviewer(myCurrentUser.getID())) {
-	        	new ReviewerUI(myCurrentUser, myCurrentConference).reviewerMenu();
+	        	exitCode = new ReviewerUI(myCurrentUser, myCurrentConference).reviewerMenu();
 	        } else if (choice == 3 && myCurrentConference.isSubprogramChair(myCurrentUser.getID())) {
-	        	new SubProgramChairUI(myCurrentUser, myCurrentConference).subProgramChairMenu();
+	        	exitCode = new SubProgramChairUI(myCurrentUser, myCurrentConference).subProgramChairMenu();
 	        } else if (choice == 4 && myCurrentConference.isProgramChair(myCurrentUser.getID())) {
-	            new ProgramChairUI(myCurrentUser, myCurrentConference).programChairMenu();
+	            exitCode = new ProgramChairUI(myCurrentUser, myCurrentConference).programChairMenu();
 	        } else if (choice != 0) {
 	            System.out.println("\nInvalid input, please select a valid role.");
 	        }
+	        
+	        if (exitCode == SystemHelper.EXIT_TO_LOGIN) return exitCode;
         } while(choice != 0);
+        
+        return 0;
     }
     
     /**
