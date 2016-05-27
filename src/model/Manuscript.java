@@ -2,6 +2,7 @@
  * Author: Tyler Brent
  * Group 2 - TCSS 360A
  */
+
 package model;
 import java.util.Map;
 import java.io.File;
@@ -14,6 +15,13 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+/**
+ * 
+ * This class represents a Manuscript that Authors of a Conference can submit.
+ * All information about a Manuscript that has been submitted is held here.
+ *
+ */
 
 public class Manuscript implements Serializable {
 
@@ -35,11 +43,6 @@ public class Manuscript implements Serializable {
 	/** Scale for SPC recommendations */
 	private List<String> myScale;
 	
-	/**
-	 * Default constructor.
-	 * ID's are set to -1 by default symbolizing that no Author
-	 * or no Subprogram Chair was designated.
-	 */
 	public Manuscript() {
 		myAuthor = -1;
 		mySPC = -1;
@@ -56,11 +59,6 @@ public class Manuscript implements Serializable {
 		myScale.add("Strongly Recommended");
 	}
 	
-	/**
-	 * Sets myAuthor to theAuthor ID being passed.
-	 * 
-	 * @param theAuthor of the paper in ID form.
-	 */
 	public Manuscript(int theAuthor) {
 		this();
 		myAuthor = theAuthor;
@@ -74,31 +72,25 @@ public class Manuscript implements Serializable {
 	}
 	
 	/**
-	 * Sets mySubprogramChair to theSubprogramChair ID being
-	 * passed.
-	 * 
-	 * @param theSPC of the paper in ID form.
+	 * Precondition: Takes an int that is the ID of the Subprogram Chair (SPC).
+	 * Postcondition: Sets the Subprogram chair of this Manuscript to the one provided.
 	 */
 	public void setSPC(int theSPC) {
 		mySPC = theSPC;
 	}
 	
 	/**
-	 * Sets myFilePath to theFilePath String being passed.
-	 * 
-	 * @param theFilePath theFilePath in String form.
+	 * Precondition: Takes a String that represents the file path of the Manuscript.
+	 * Postcondition: Sets the file path of this Manuscript to the one provided.
 	 */
 	public void setFilePath(String theFilePath) {
 		myFilePath = theFilePath;
 	}
 	
 	/**
-	 * Adds a review of the manuscript to a HashMap. The
-	 * key is an Integer (ID), and the Value is a Review 
-	 * Object.
-	 * 
-	 * @param theID of the person making the review.
-	 * @param theReview the Review itself as an Object.
+	 * Precondition: Takes an int as the ID of the Reviewer and a Review object as the review
+	 * of the Manuscript.
+	 * Postcondition: Adds the review to the Manuscript and creates a copy of the review file.
 	 */
 	public void setReview(int theID, Review theReview) {
 		myReviews.put(theID, theReview);
@@ -127,9 +119,10 @@ public class Manuscript implements Serializable {
 	}
 	
 	/**
-	 * Sets the recommendation given by the SPC as an int that will be
-	 * later used to index myScale for the String representation of that
-	 * recommendation.
+	 * Precondition: Takes an int ranging from 0 to 4 that represents the recommendation.
+	 * 0 being Strongly Not Recommended, 4 being Strong Recommended.
+	 * Postcondition: Sets the recommendation of this Manuscript to the one provided. Throws
+	 * an exception if an incorrect number is passed.
 	 */
 	public void setRecommendation(int theRecommendation) {
 		if(theRecommendation >= 0 && theRecommendation <= 4) {
@@ -140,8 +133,9 @@ public class Manuscript implements Serializable {
 	}
 	
 	/**
-	 * My status given as an int. Pass 0 for reject or 1
-	 * for accept.
+	 * Precondition: Takes an int that represents the acceptance status of the Manuscript.
+	 * 0 for rejected, 1 for accepted.
+	 * Postcondition: Sets the acceptance status of this Manuscript to the one provide.
 	 */
 	public void setAcceptStatus(int theAcceptStatus) {
 		if(theAcceptStatus == 0 || theAcceptStatus == 1) {
@@ -152,51 +146,47 @@ public class Manuscript implements Serializable {
 	}
 	
 	/**
-	 * Set the title of the paper.
+	 * Precondition: Takes a String as the title of the Manuscript.
+	 * Postcondition: Sets the title of the Manuscript to the one provided.
 	 */
 	public void setTitle(String theTitle) {
 		myTitle = theTitle;
 	}
 	
 	/**
-	 * Gets the ID of the Author.
-	 * 
-	 * @return myAuthor ID number.
+	 * Precondition: None.
+	 * Postcondition: Returns the Author of this paper as an int ID.
 	 */
 	public int getAuthorID() {
 		return myAuthor;
 	}
 	
 	/**
-	 * Gets the ID of the Subprogram Chair.
-	 * 
-	 * @return the ID of the Subprogram Chair.
+	 * Precondition: None.
+	 * Postcondition: Returns the Subprogram Chair of this Manuscript as an int ID.
 	 */
 	public int getSPC() {
 		return mySPC;
 	}
 	/**
-	 * Gets the FilePath of the Manuscript.
-	 * 
-	 * @return a String of the FilePath.
+	 * Precondition: None.
+	 * Postcondition: Returns the file path of this Manuscript as a String.
 	 */
 	public String getFile() {
 		return myFilePath;
 	}
 	
 	/**
-	 * Gets all the reviews made for this paper.
-	 * 
-	 * @return Map of all reviews.
+	 * Precondition: None.
+	 * Postcondition: Returns a map holding the reviews and reviewers of the Manuscript.
 	 */
 	public Map<Integer, Review> getReviews() {
 		return myReviews;
 	}
 	
 	/**
-	 * Uses the recommendation from the SPC that has been passed and stored as an
-	 * int as the index for myScale and returns the corresponding String acceptance message.
-	 * If no recommendation has been made it will return "No Recommendation".
+	 * Precondition: None.
+	 * Postcondition: Returns the recommendation for the Manuscript as a String.
 	 */
 	public String getRecommendation() {
 		if(myRecommendation != -1) {
@@ -207,17 +197,16 @@ public class Manuscript implements Serializable {
 	}
 	
 	/**
-	 * Returns a list of the SPC recommendation scale.
+	 * Precondition: None.
+	 * Postcondition: Returns a List representing the scale used for recommending papers.
 	 */
 	public List<String> getScale() {
 		return myScale;
 	}
 	
 	/**
-	 * Returns acceptance status of the paper in String form. 
-	 * Accepted returned if status is 1.
-	 * Rejected returned if status is 0.
-	 * Pending returned if status is -1. (default value)
+	 * Precondition: None.
+	 * Postcondition: Returns the current acceptance status of the Manuscript as a String.
 	 */
 	public String getAcceptStatus() {
 		if(myAcceptStatus == 0) {
@@ -231,7 +220,8 @@ public class Manuscript implements Serializable {
 	}
 	
 	/**
-	 * Get the title of the paper.
+	 * Precondition: None.
+	 * Postcondition: Returns the title of the Manuscript.
 	 */
 	public String getTitle() {
 		return myTitle;
