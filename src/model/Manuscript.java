@@ -4,7 +4,13 @@
  */
 package model;
 import java.util.Map;
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -96,6 +102,28 @@ public class Manuscript implements Serializable {
 	 */
 	public void setReview(int theID, Review theReview) {
 		myReviews.put(theID, theReview);
+		
+		//get file name and extension of review
+		int fileIndexOfNameAndExtension = theReview.getReviewFile().lastIndexOf(File.separator);
+		String fileNameAndExtension = theReview.getReviewFile().substring(fileIndexOfNameAndExtension, 
+				theReview.getReviewFile().length());
+		
+		//parse filepath of manuscript to get destination
+		String path = getFile().substring(0, getFile().lastIndexOf(File.separator));
+		
+		//get the full paths to the files
+		Path from = Paths.get(theReview.getReviewFile());
+		Path to = Paths.get(path+ File.separator + fileNameAndExtension); 
+		
+		//copy the files over
+		try {
+			Files.copy(from, to, StandardCopyOption.REPLACE_EXISTING);
+		} catch (IOException e) {
+			System.err.println("Huston, there seems to be a problem!");
+			System.err.println("I advise you to check out Authors submitManuscript method immediatly.");
+			System.err.println("Also, be sure to check that you entered your file path correctly!");
+			e.printStackTrace();
+		}
 	}
 	
 	/**
