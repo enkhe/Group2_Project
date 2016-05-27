@@ -16,8 +16,8 @@ import java.util.List;
 
 /**
  * 
- * This class handles functions of Author in a Conference.
- * You can submit manuscripts, unsubmit manuscripts, and replace manuscripts.
+ * This class handles functions of controller Author in a Conference.
+ * You can submit manuscripts, remove manuscripts, and replace manuscripts.
  * You can also get a list of all manuscripts associated with this Author.
  *
  */
@@ -42,12 +42,9 @@ public class Author extends RegisteredUser implements Serializable {
 	}
 	
 	/**
-	 * Takes a Manuscript and adds it to the Authors list of Manuscripts
-	 * if the manuscript exists. In addition now creates a copy
-	 * of the file submitted. Any file type can be handled.
-	 * 
-	 * 0 is returned for a successful add.
-	 * -1 is returned for an unsuccessful add.
+	 * Precondition: Takes a String ConferenceName and a Manuscript to be submitted.
+	 * Postcondition: Adds a manuscript to the Authors list and creates a copy of it.
+	 * Returns -1 if the submission fails. Returns 0 if the submission succeeds.
 	 */
 	public int submitManuscript(String theConferenceName, Manuscript theManuscript){
 		
@@ -90,11 +87,9 @@ public class Author extends RegisteredUser implements Serializable {
 	}
 	
 	/**
-	 * Takes a Manuscript object, checks if it exists on the list. If it does the 
-	 * Manuscript is removed from the list.
-	 * 
-	 * 	0 is returned for a successful remove.
-	 * -1 is returned for an unsuccessful remove.
+	 *	Precondition: Takes a manuscript to be removed.
+	 *	Postcondition: Removes the manuscript from the Authors list of Manuscripts. 
+	 *	Returns -1 for a failed removal. Returns 0 for success.
 	 */
 	public int removeManuscript(Manuscript theManuscript){
 		if(exists(theManuscript)) {
@@ -107,11 +102,9 @@ public class Author extends RegisteredUser implements Serializable {
 	}
 	
 	/**
-	 * Takes two manuscripts, the Manuscript to be changed and the replacement Manuscript 
-	 * and changes the title of the Manuscript that is to be changed.
-	 * 
-	 * Returns -1 for failure.
-	 * Returns 0 for success.
+	 * Precondition: Takes two Manuscripts. A Manuscript to be changed and a Manuscript containing the changes.
+	 * Postcondition: Changes the title of the Manuscript to be changed. Returns -1 if the change was
+	 * unsuccessful. Returns 0 for success.
 	 */
 	public int replaceManuscript(Manuscript theManuscript, Manuscript theReplacement) {
 		if(exists(theManuscript)) {
@@ -123,13 +116,14 @@ public class Author extends RegisteredUser implements Serializable {
 	}
 	
 	/**
-	 * Returns a list of all Manuscripts the Author has submitted.
+	 * Precondition: None.
+	 * Postcondition: Returns a list of all Manuscripts the Author has submitted.
 	 */
 	public List<Manuscript> getMyManuscripts() {
 		return myManuscripts;
 	}
 	
-	/**
+	/*
 	 * Private method that checks if a Manuscript exists on the list
 	 * of Manuscripts the Author has already submitted. Returns true if it exists
 	 * and false if it doesn't.
