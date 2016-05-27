@@ -34,8 +34,6 @@ public class Author extends RegisteredUser implements Serializable {
 		
 		super(theUser.getFirstName(), theUser.getLastName(), theUser.getUserName(), theUser.getID());
 		myManuscripts = new ArrayList<>();
-		File file = new File("Authors\\" + theUser.getUserName());
-		file.mkdirs();
 	}
 	
 	/**
@@ -51,17 +49,24 @@ public class Author extends RegisteredUser implements Serializable {
 		
 		if(!exists(theManuscript)) {
 			//get file name and extension
-			int fileIndexOfNameAndExtension = theManuscript.getFile().lastIndexOf('\\');
+			int fileIndexOfNameAndExtension = theManuscript.getFile().lastIndexOf(File.separator);
 			String fileNameAndExtension = theManuscript.getFile().substring(fileIndexOfNameAndExtension, 
 					theManuscript.getFile().length());
 			
+			//create the file system
+			File file = new File("Authors" + File.separator + getUserName() 
+							+ File.separator + theManuscript.getTitle());
+			file.mkdirs();
+			
 			//get the full paths to the files
 			Path from = Paths.get(theManuscript.getFile());
-			Path to = Paths.get("Authors\\" + getUserName() + "\\" + fileNameAndExtension); 
+			Path to = Paths.get("Authors" + File.separator + getUserName() + File.separator 
+					+ theManuscript.getTitle() + File.separator + fileNameAndExtension); 
 			
 			//copy the files over
 			try {
 				Files.copy(from, to, StandardCopyOption.REPLACE_EXISTING);
+				theManuscript.setFilePath(to.toString());
 			} catch (IOException e) {
 				System.err.println("Huston, there seems to be a problem!");
 				System.err.println("I advise you to check out Authors submitManuscript method immediatly.");
