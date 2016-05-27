@@ -10,8 +10,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /*
- * Author: -
+ * Author: Tyler Brent
  * Group 2 - TCSS 360A
+ */
+
+/**
+ * 
+ * This class handles functions of Author in a Conference.
+ * You can submit manuscripts, unsubmit manuscripts, and replace manuscripts.
+ * You can also get a list of all manuscripts associated with this Author.
+ *
  */
 
 public class Author extends RegisteredUser implements Serializable {
@@ -20,15 +28,12 @@ public class Author extends RegisteredUser implements Serializable {
 	/** The list of Manuscripts this Author has submitted. */
 	private List<Manuscript> myManuscripts;
 
-	/**
-	 * Default constructor.
-	 */
 	public Author() {
 		myManuscripts = new ArrayList<>();
 	}
 	
 	/**
-	 * Overloaded constructor.
+	 * Overloaded constructor accepts a RegisteredUser.
 	 */
 	public Author(RegisteredUser theUser){
 		
@@ -39,13 +44,12 @@ public class Author extends RegisteredUser implements Serializable {
 	/**
 	 * Takes a Manuscript and adds it to the Authors list of Manuscripts
 	 * if the manuscript exists. In addition now creates a copy
-	 * of the file submitted. Any file type can be handled. File paths must be
-	 * seperated by "\\".
+	 * of the file submitted. Any file type can be handled.
 	 * 
 	 * 0 is returned for a successful add.
 	 * -1 is returned for an unsuccessful add.
 	 */
-	public int submitManuscript(Manuscript theManuscript){
+	public int submitManuscript(String theConferenceName, Manuscript theManuscript){
 		
 		if(!exists(theManuscript)) {
 			//get file name and extension
@@ -54,13 +58,13 @@ public class Author extends RegisteredUser implements Serializable {
 					theManuscript.getFile().length());
 			
 			//create the file system
-			File file = new File("Authors" + File.separator + getUserName() 
+			File file = new File(theConferenceName + File.separator + "Authors" + File.separator + getUserName() 
 							+ File.separator + theManuscript.getTitle());
 			file.mkdirs();
 			
 			//get the full paths to the files
 			Path from = Paths.get(theManuscript.getFile());
-			Path to = Paths.get("Authors" + File.separator + getUserName() + File.separator 
+			Path to = Paths.get(theConferenceName + File.separator + "Authors" + File.separator + getUserName() + File.separator 
 					+ theManuscript.getTitle() + File.separator + fileNameAndExtension); 
 			
 			//copy the files over
@@ -103,16 +107,15 @@ public class Author extends RegisteredUser implements Serializable {
 	}
 	
 	/**
-	 * Takes a Manuscript and a String filePath for the Manuscript, then checks if it
-	 * exists on the list of Manuscript the Author has submitted. If it does, only the Manuscripts
-	 * filePath is updated.
+	 * Takes two manuscripts, the Manuscript to be changed and the replacement Manuscript 
+	 * and changes the title of the Manuscript that is to be changed.
 	 * 
-	 *  0 is returned for a successful replacement.
-	 * -1 is returned for an unsuccessful replacement.
+	 * Returns -1 for failure.
+	 * Returns 0 for success.
 	 */
 	public int replaceManuscript(Manuscript theManuscript, Manuscript theReplacement) {
-		if(removeManuscript(theManuscript) == 0) {
-			submitManuscript(theReplacement);
+		if(exists(theManuscript)) {
+			theManuscript.setTitle(theReplacement.getTitle());
 			return 0;
 		}
 		
