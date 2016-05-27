@@ -137,10 +137,7 @@ public class ReviewerUI {
 		StringBuilder sb = new StringBuilder();
 		sb.append(myScanner.nextLine());
 		sb.delete(0, 3);
-
-		// In case myScanner.nextInt(); doesn't work.
-		// intSelection = Integer.parseInt(sb.toString());
-
+		
 		// You've selected
 		Manuscript selectedManuscript = myManuscripts.get(intSelection - 1);
 		// Reviewer for the manuscript
@@ -234,6 +231,22 @@ public class ReviewerUI {
 		System.out.println(myCurrentConference.getConferenceName());
 		System.out.println("Reviewer: " + myReviewer.getUserName());
 		System.out.println(menuTitle);
+		displayManuscriptsForReviewer();
+	}
+
+	private void displayManuscriptsForReviewer() {
+		List<Manuscript> manuscripts = myReviewer.getMyAssignedManuscripts();
 		
+		System.out.printf(SystemHelper.REV_MAN_DISPLAY_FORMAT, "Manuscript Titles", "Score");
+		SystemHelper.displayDashedLinesFor(myReviewer);
+		
+		if (manuscripts.size() < 1) {
+			System.out.println("Not Available.\n");
+		}
+		
+		for(Manuscript man : manuscripts ) {
+			int reviewScore = man.getReviews().get(myReviewer.getID()).getScore();
+			System.out.printf(SystemHelper.REV_MAN_DISPLAY_FORMAT, man.getTitle(), Integer.toString(reviewScore));
+		}
 	}
 }

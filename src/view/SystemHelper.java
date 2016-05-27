@@ -13,6 +13,7 @@ import java.util.Scanner;
 import model.Author;
 import model.ProgramChair;
 import model.RegisteredUser;
+import model.Reviewer;
 
 /**
  * A class containing static helper methods and constants for ManagementSystem.
@@ -48,7 +49,9 @@ public class SystemHelper {
     
     
     public final static String AUT_MAN_DISPLAY_FORMAT = "%-30s %-30s %s\n";
-    		
+    	
+    public final static String REV_MAN_DISPLAY_FORMAT = "%-30s %s\n";
+	
     /**
      * A constant used to store the format string for detailed manuscript display.
      */
@@ -164,12 +167,10 @@ public class SystemHelper {
      * @param user - A registered user. (i.e. Author, Program Chair, Sub Program Chair, Reviewer)
      */
 	public static void displayDashedLinesFor(RegisteredUser user) {
-		int numLines = 0;
-		if (user instanceof Author) {
-			numLines = TABLE_WIDTH_1;
-		} else if (user instanceof ProgramChair) {
+		int numLines = TABLE_WIDTH_1;
+		if (user instanceof ProgramChair) {
 			numLines = TABLE_WIDTH;
-		}
+		} 
 		for(int i = 0; i < numLines; i++) {
 	        System.out.print("-");
 	    }
