@@ -302,6 +302,21 @@ public class AuthorUI {
         writeln(myCurrentConference.getConferenceName());
         writeln("Author: " + myAuthor.getUserName());
         writeln(menuTitle + "\n");
+        displayManuscriptsForAuthor();
     }
 
+	private void displayManuscriptsForAuthor() {
+		List<Manuscript> manuscripts = myCurrentConference.getAllAuthorsManuscript(myAuthor.getID());
+		
+		System.out.printf(SystemHelper.AUT_MAN_DISPLAY_FORMAT, "Manuscript Titles:");
+		SystemHelper.displayDashedLinesFor(myAuthor);
+		
+		if (manuscripts.size() < 1) {
+			System.out.println("Not Available.\n");
+		}
+	    
+		for ( Manuscript man : manuscripts ) {
+			System.out.printf(SystemHelper.AUT_MAN_DISPLAY_FORMAT, man.getTitle());
+		}
+	}
 }
