@@ -304,11 +304,11 @@ public class AuthorUI {
         writeln(menuTitle + "\n");
         displayManuscriptsForAuthor();
     }
-
+    
 	private void displayManuscriptsForAuthor() {
 		List<Manuscript> manuscripts = myCurrentConference.getAllAuthorsManuscript(myAuthor.getID());
 		
-		System.out.printf(SystemHelper.AUT_MAN_DISPLAY_FORMAT, "Manuscript Titles:");
+		System.out.printf(SystemHelper.AUT_MAN_DISPLAY_FORMAT, "Manuscript Titles", "Submission Deadline", "Acceptance Status");
 		SystemHelper.displayDashedLinesFor(myAuthor);
 		
 		if (manuscripts.size() < 1) {
@@ -316,7 +316,7 @@ public class AuthorUI {
 		}
 	    
 		for ( Manuscript man : manuscripts ) {
-			System.out.printf(SystemHelper.AUT_MAN_DISPLAY_FORMAT, man.getTitle());
+			System.out.printf(SystemHelper.AUT_MAN_DISPLAY_FORMAT, man.getTitle(), myCurrentConference.getDeadlineString(), man.getAcceptStatus());
 		}
 	}
 }

@@ -47,7 +47,7 @@ public class SystemHelper {
     public final static String PC_MAN_DISPLAY_FORMAT = "\n%-30s %-20s %-25s %s\n";
     
     
-    public final static String AUT_MAN_DISPLAY_FORMAT = "%-30s\n";
+    public final static String AUT_MAN_DISPLAY_FORMAT = "%-30s %-30s %s\n";
     		
     /**
      * A constant used to store the format string for detailed manuscript display.
@@ -67,7 +67,7 @@ public class SystemHelper {
     /**
      * A constant used to represent the table width for output formatting with less contents.
      */
-    public final static int TABLE_WIDTH_1 = 50;
+    public final static int TABLE_WIDTH_1 = 80;
     
     /**
      * 

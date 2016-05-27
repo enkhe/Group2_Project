@@ -234,5 +234,6 @@ public class ReviewerUI {
 		System.out.println(myCurrentConference.getConferenceName());
 		System.out.println("Reviewer: " + myReviewer.getUserName());
 		System.out.println(menuTitle);
+		
 	}
 }
