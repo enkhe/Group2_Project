@@ -65,7 +65,7 @@ public class ProgramChairUI {
     /**
      * Provides menu options for all Program Chair Actions.
      */
-    public void programChairMenu() {
+    public int programChairMenu() {
         int choice = -1;
         
         do {
@@ -74,7 +74,8 @@ public class ProgramChairUI {
             System.out.println("\nPlease enter a command below.");
             System.out.println("1) Accept or Reject a Manuscript.");
             System.out.println("2) Assign a Manuscript to a Subprogram Chair.");
-            System.out.println("0) Return to main menu.");
+            System.out.println("9) Exit to Login Menu");
+            System.out.println("0) Back to Role Selection.");
             
             choice = SystemHelper.promptUserInt();
             
@@ -85,6 +86,9 @@ public class ProgramChairUI {
                 case DESIGNATE_SUBPROGRAM_CHAIR:
                     assignSubProgramChair();
                     break;
+                case 9:
+                	choice = SystemHelper.EXIT_TO_LOGIN;
+                	return choice;
                 case 0:
                     // empty; leaving method.
                     break;
@@ -93,6 +97,8 @@ public class ProgramChairUI {
             }
         
         } while (choice != 0); 
+        
+        return choice;
     }
     
     /**

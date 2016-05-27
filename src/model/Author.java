@@ -1,10 +1,16 @@
 package model;
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
 /*
- * Author: Tyler Brent
+ * Author: -
  * Group 2 - TCSS 360A
  */
 
@@ -12,7 +18,7 @@ public class Author extends RegisteredUser implements Serializable {
 
 	private static final long serialVersionUID = -1558785409225599245L;
 	/** The list of Manuscripts this Author has submitted. */
-	List<Manuscript> myManuscripts;
+	private List<Manuscript> myManuscripts;
 
 	/**
 	 * Default constructor.
@@ -28,13 +34,15 @@ public class Author extends RegisteredUser implements Serializable {
 		
 		super(theUser.getFirstName(), theUser.getLastName(), theUser.getUserName(), theUser.getID());
 		myManuscripts = new ArrayList<>();
+		File file = new File("Authors\\" + theUser.getUserName());
+		file.mkdirs();
 	}
 	
 	/**
 	 * Takes a Manuscript and adds it to the Authors list of Manuscripts
-	 * if the following conditions are met.
-	 * 1) The Manuscript must not already exist.
-	 * 2) the Author must not exceed 4 submissions.
+	 * if the manuscript exists. In addition now creates a copy
+	 * of the file submitted. Any file type can be handled. File paths must be
+	 * seperated by "\\".
 	 * 
 	 * 0 is returned for a successful add.
 	 * -1 is returned for an unsuccessful add.
@@ -42,7 +50,29 @@ public class Author extends RegisteredUser implements Serializable {
 	public int submitManuscript(Manuscript theManuscript){
 		
 		if(!exists(theManuscript)) {
+			//get file name and extension
+			int fileIndexOfNameAndExtension = theManuscript.getFile().lastIndexOf('\\');
+			String fileNameAndExtension = theManuscript.getFile().substring(fileIndexOfNameAndExtension, 
+					theManuscript.getFile().length());
+			
+			//get the full paths to the files
+			Path from = Paths.get(theManuscript.getFile());
+			Path to = Paths.get("Authors\\" + getUserName() + "\\" + fileNameAndExtension); 
+			
+			//copy the files over
+			try {
+				Files.copy(from, to, StandardCopyOption.REPLACE_EXISTING);
+			} catch (IOException e) {
+				System.err.println("Huston, there seems to be a problem!");
+				System.err.println("I advise you to check out Authors submitManuscript method immediatly.");
+				System.err.println("Also, be sure to check that you entered your file path correctly!");
+				e.printStackTrace();
+				return -1;
+			}
+			
+			//if it worked, add the manuscript to the list.
 			myManuscripts.add(theManuscript);
+			
 		} else {
 			return -1;
 		}

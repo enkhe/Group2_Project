@@ -56,7 +56,12 @@ public class SystemHelper {
      * A constant used to represent the table width for output formatting.
      */
     public final static int TABLE_WIDTH = 100;
-
+    
+    /**
+     * 
+     */
+    public final static int EXIT_TO_LOGIN = -25;
+    
     /**
      * SystemHelper cannot be instantiated.
      */

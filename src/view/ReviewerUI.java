@@ -34,7 +34,7 @@ public class ReviewerUI {
 	/**
 	 * Provides menu options for all Reviewer Actions.
 	 */
-	public void reviewerMenu() {
+	public int reviewerMenu() {
 		// Submit a review
 		int choice = -1;
 
@@ -45,28 +45,34 @@ public class ReviewerUI {
 			writeln("1) View all assigned manuscripts");
 			writeln("2) Update/Remove a Review");
 			writeln("3) Upload Review");
-			writeln("0) Back");
+			writeln("9) Exit to Login Menu");
+			writeln("0) Back to Role Selection");
 			choice = SystemHelper.promptUserInt();
 
 			switch (choice) {
-			case 1:
-				viewAllAssignedManuscripts();
-				break;
-			case 2:
-				reviewerUpdateRemoveReview();
-				break;
-			case 3:
-				reviewerUploadReview();
-				break;
-			case 0:
-				// return to previous menu
-				break;
-			default:
-				System.out.println("\n Invalid menu command \n");
-				break;
+				case 1:
+					viewAllAssignedManuscripts();
+					break;
+				case 2:
+					reviewerUpdateRemoveReview();
+					break;
+				case 3:
+					reviewerUploadReview();
+					break;
+				case 9:
+					choice = SystemHelper.EXIT_TO_LOGIN;
+					return choice;
+				case 0:
+					// return to previous menu
+					break;
+				default:
+					System.out.println("\n Invalid menu command \n");
+					break;
 			}
 
 		} while (choice != 0);
+		
+		return choice;
 	}
 
 	public void viewAllAssignedManuscripts() {
