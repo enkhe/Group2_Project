@@ -173,7 +173,7 @@ public class ReviewerUI {
 		writeln("1 being weakest to 10 being the best.\n");
 		
 		intScore = SystemHelper.promptUserInt();
-
+		
 		Review revNewReview = new Review(intScore, strFilePath);
 		selectedManuscript.setReview(myReviewer.getID(), revNewReview);
 
