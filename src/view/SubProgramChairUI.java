@@ -254,7 +254,7 @@ public class SubProgramChairUI {
 	    SystemHelper.displayDashedLine();
 	     
 	    for (Manuscript manuscript : mySPC.getMyAssignedManuscripts()) {
-	        String title = manuscript.getTitle();
+	        String title = SystemHelper.shorten(30, manuscript.getTitle());
 	        String recommendation = manuscript.getRecommendation();
 	        
 	        Map<Integer, Review> reviews = manuscript.getReviews();
