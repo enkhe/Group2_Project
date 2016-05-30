@@ -80,9 +80,17 @@ private void doConferenceOne(Conference theConference) {
 		ProgramChair programChair = new ProgramChair(myUserList.get(10)); // jrobinson
 		theConference.setProgramChair(programChair);
 		
+		// --------- SPC
 		SubProgramChair spc1 = new SubProgramChair(myUserList.get(12)); // ewilson 
 		SubProgramChair spc2 = new SubProgramChair(myUserList.get(13)); // gweaver
 		SubProgramChair spc3 = new SubProgramChair(myUserList.get(14)); // gwatts
+		programChair.assignSubProgramChair(spc1.getID());
+		programChair.assignSubProgramChair(spc2.getID());
+		programChair.assignSubProgramChair(spc3.getID());
+		theConference.addSubprogramChair(spc1);
+		theConference.addSubprogramChair(spc2);
+		theConference.addSubprogramChair(spc3);
+		
 		
 		// ssharp, csummers, rlindsey, jparsons, jglover
 		Reviewer rev1 = new Reviewer(myUserList.get(5));
@@ -97,9 +105,6 @@ private void doConferenceOne(Conference theConference) {
 		theConference.addReviewer(rev4);
 		theConference.addReviewer(rev5);
 		
-		theConference.addSubprogramChair(spc1);
-		theConference.addSubprogramChair(spc2);
-		theConference.addSubprogramChair(spc3);
 		Manuscript man1, man2, man3, man4, man5, man6 = new Manuscript();
 		
 		
@@ -144,12 +149,12 @@ private void doConferenceOne(Conference theConference) {
 			rev5.assignManuscript(man6);
 			
 			*/
-		spc1.assignManuscript(man1);
-		spc1.assignManuscript(man2);
-		spc1.assignManuscript(man3);
-		spc2.assignManuscript(man4);
-		spc2.assignManuscript(man5);
-		spc3.assignManuscript(man6);
+		spc1.assignManuscript(man1);//tjimenez
+		spc1.assignManuscript(man2);//ssharp
+		spc1.assignManuscript(man3);//csummers
+		spc2.assignManuscript(man4);//rlindsey
+		spc2.assignManuscript(man5);//jparsons
+		spc3.assignManuscript(man6);//jglover
 		theConference.setConferenceName("2016 IEEE International Cyber Security Conference");
 		
 	}
@@ -199,7 +204,7 @@ private void doConferenceOne(Conference theConference) {
 	private void populateManuscripts(List<Manuscript> manuscripts) {
 		manuscripts.add(new Manuscript(4, 
 				"Dynamic_Locomotion.doc", 
-				"Dynamic Locomotion in Industrial Robots"));
+				"Dynamic Locomotion in Industrial Robots")); // tjimenez
 		manuscripts.add(new Manuscript(5, 
 				"c:/Robust Monte Carlo localization for mobile robots.docx", 
 				"Robust Monte Carlo localization for mobile robots"));

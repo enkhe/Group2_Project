@@ -248,22 +248,18 @@ public class ProgramChairUI {
 	    System.out.printf(SystemHelper.PC_MAN_DISPLAY_FORMAT, "Title", 
 	                      "Subprogram Chair", "Recommendation", "Accepted");
 	    SystemHelper.displayDashedLine();
-	     
+	    
 	    for (Manuscript manuscript : manuscripts) {
-	        String title = shortifyTo(30, manuscript.getTitle());
-	        String subPCName = shortifyTo(20,searchSubProgramChairForManuscript(manuscript));
-	        String recommendation = shortifyTo(25,manuscript.getRecommendation());
-	        String acceptance = shortifyTo(15,manuscript.getAcceptStatus());
+	        String title = SystemHelper.shorten(30, manuscript.getTitle());
+	        String subPCName = SystemHelper.shorten(20,searchSubProgramChairForManuscript(manuscript));
+	        String recommendation = SystemHelper.shorten(25,manuscript.getRecommendation());
+	        String acceptance = SystemHelper.shorten(15,manuscript.getAcceptStatus());
 	        
 	        System.out.printf(SystemHelper.PC_MAN_DISPLAY_FORMAT, title, 
 	        		           subPCName, recommendation, acceptance);
 	    }
 	}
 	
-	private String shortifyTo(int length, String theStr) {
-		return (theStr.length() > length-1) ? theStr.substring(0, length) : theStr;
-	}
-
 	// Possible methods to move down to the model.
 	
 	/**

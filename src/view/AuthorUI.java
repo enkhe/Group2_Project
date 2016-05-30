@@ -316,7 +316,13 @@ public class AuthorUI {
 		}
 	    
 		for ( Manuscript man : manuscripts ) {
-			System.out.printf(SystemHelper.AUT_MAN_DISPLAY_FORMAT, man.getTitle(), myCurrentConference.getDeadlineString(), man.getAcceptStatus());
+			if (man.getAuthorID() == myAuthor.getID()) {
+				String title = SystemHelper.shorten(30, man.getTitle());
+				String deadline = SystemHelper.shorten(30, myCurrentConference.getDeadlineString());
+				String acceptance = SystemHelper.shorten(15, man.getAcceptStatus());
+				System.out.printf(SystemHelper.AUT_MAN_DISPLAY_FORMAT, title, deadline, acceptance);
+			}
 		}
+		System.out.println("");
 	}
 }

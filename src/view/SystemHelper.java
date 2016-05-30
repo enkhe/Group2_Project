@@ -177,4 +177,15 @@ public class SystemHelper {
 		System.out.println("");
 	}
 	
+	/**
+	 * Shorthens the given text to desired length.
+	 * 
+	 * @param length - Given number of characters allowed.
+	 * @param theStr - The original text.
+	 * @return - Cut down version of the input text.
+	 */
+	public static String shorten(int length, String theStr) {
+		return (theStr.length() > length-1) ? theStr.substring(0, length) : theStr;
+	}
+	
 }
