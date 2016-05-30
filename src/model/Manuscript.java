@@ -89,6 +89,14 @@ public class Manuscript implements Serializable {
 	}
 	
 	/**
+	 * Precondition: Takes an int as the ID of the Reviewer to be assigned.
+	 * Postcondition: Adds the reviewer id and an empty review to the manuscript.
+	 */
+	public void setReview(int theID) {
+		myReviews.put(theID, null);
+	}
+	
+	/**
 	 * Precondition: Takes an int as the ID of the Reviewer and a Review object as the review
 	 * of the Manuscript.
 	 * Postcondition: Adds the review to the Manuscript and creates a copy of the review file.
