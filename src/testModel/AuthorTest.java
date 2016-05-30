@@ -1,86 +1,98 @@
-/*
- * Author: Tyler Brent
- * Group2 - TCSS 360A
- */
-
 package testModel;
 
 import static org.junit.Assert.*;
+
+import java.io.File;
+import java.io.IOException;
+
 import org.junit.Before;
 import org.junit.Test;
-import model.*;
-
-/**
- * 
- * This is a test of Author.java
- * Authored by: Tyler Brent
- *
- */
 
 public class AuthorTest {
+	String conferenceName;
 	RegisteredUser user;
+	RegisteredUser user2;
 	Author author;
 	Author author2;
+	Author author3;
 	Manuscript manuscript1;
 	Manuscript manuscript2;
+	Manuscript manuscript3;
+	File f;
+	File f2;
+	File f3;
 
 	@Before
 	public void setUp() throws Exception {
-		user = new RegisteredUser("Tyler", "Brent", "tylerkb2", 1234);
+		user = new RegisteredUser("TEST_Tyler", "TEST_Brent", "TEST_tylerkb2", 1234);
+		user2 = new RegisteredUser("TEST_James", "TEST_Bond", "TEST_007", 007);
+		
 		author = new Author(user);
-		author2 = new Author();
-		manuscript1 = new Manuscript(author.getID(), "filepath", "title");
-		manuscript2 = new Manuscript(author.getID(), "filepath2", "title2");
-	}
-
-	@Test
-	public void testSumbitManuscript() {
-		//tests should fail if a duplicate Manuscript is being added.
-		//it isn't so this should pass on the first run.
-		assertEquals("Success = 0", author.submitManuscript(manuscript1), 0);
-		//this test should fail since this Manuscript has already been submitted.
-		assertEquals("Fail = -1", author.submitManuscript(manuscript1), -1);
-	}
-
-	@Test
-	public void testRemoveManuscript() {
-		//this should fail since no manuscript has been submitted and
-		//therefore this Manuscript doesn't exist on the list of Manuscripts
-		//in author.
-		assertEquals("Fail = -1", author.removeManuscript(manuscript1), -1);
-		//this should pass now that we've submitted the manuscript and therefore
-		//it exists on the list to be deleted.
-		author.submitManuscript(manuscript1);
-		assertEquals("Success = 0", author.removeManuscript(manuscript1), 0);
+		author2 = new Author(user2);
+		author3 = new Author();
+		
+		f = new File("test.txt");
+		f.createNewFile();
+		f2 = new File("test2.txt");
+		f2.createNewFile();
+		f3 = new File("test3.txt");
+		manuscript1 = new Manuscript(author.getID(), f.getAbsolutePath(), "TEST_title");
+		manuscript1.setFilePath(f.getAbsolutePath());
+		manuscript2 = new Manuscript(author2.getID(), f2.getAbsolutePath(), "TEST_title2");
+		manuscript3 = new Manuscript(0, f3.getAbsolutePath(), "TEST_title3");
+		
+		conferenceName = "TEST_Conference";
 	}
 	
 	@Test
-	public void testReplaceManuscript() {
-		//Should fail since no such manuscript1 exists in Author yet.
-		assertEquals("Fail = -1", author.replaceManuscript(manuscript1, manuscript2), -1);
-		//Should succeed in replacing manuscript1 with manuscript2 since manuscript1
-		//has been submitted.
-		author.submitManuscript(manuscript1);
-		assertEquals("Success = 0", author.replaceManuscript(manuscript1, manuscript2), 0);
+	public void testSubmitManuscriptSuccessfully() {
+		//0 is returned if a paper is successfully submitted.
+		assertEquals(author.submitManuscript(conferenceName, manuscript1), 0);
 	}
 	
 	@Test
-	public void testGetManuscripts() {
-		//test that myManuscripts is updating properly.
-		//after adding a manuscript size should be 1.
-		author.submitManuscript(manuscript1);
-		assertEquals(author.getMyManuscripts().size(), 1);
+	public void testSumbitManuscriptAlreadyExists() {
+		//-1 is returned if a paper is unsuccessfully submitted.
+		author.submitManuscript(conferenceName, manuscript1);
+		assertEquals(author.submitManuscript(conferenceName, manuscript1), -1);
+	}
+	
+	@Test (expected = IOException.class)
+	public void testSubmitManuscriptIncorrectFilePath() {
+		//-1 is returned if a paper is unsuccessfully submitted.
+		assertEquals(author.submitManuscript(conferenceName, manuscript3), -1);
 	}
 	
 	@Test
-	public void testExistsBranches() {
-		//test both branches of Exists to make sure the comparisons are
-		//being done correctly. The follow test Manuscript will test ID branch.
-		Manuscript test = new Manuscript(9999, "filepath", "title");
-		author.submitManuscript(manuscript1);
-		assertEquals(author.submitManuscript(test), 0);
-		//the following will test the filepath branch.
-		Manuscript test2 = new Manuscript(1234, "filepath2", "title");
-		assertEquals(author.submitManuscript(test2), 0);
+	public void testRemoveManuscriptExists() {
+		//0 is returned if a paper is removed successfully.
+		author2.submitManuscript(conferenceName, manuscript2);
+		assertEquals(author2.removeManuscript(manuscript2), 0);
+	}
+	
+	@Test
+	public void testRemoveManuscriptDoesNotExists() {
+		//-1 is returned if a paper is not removed.
+		assertEquals(author3.removeManuscript(manuscript3), -1);
+	}
+	
+	@Test
+	public void testReplaceManuscriptSuccessfully() {
+		//0 is returned if a paper is successfully replaced.
+		author2.submitManuscript(conferenceName, manuscript1);
+		assertEquals(author2.replaceManuscript(manuscript1, manuscript2), 0);
+	}
+	
+	@Test
+	public void testReplaceManuscriptDoesNotExist() {
+		//-1 is returned if a paper is not replaced.
+		assertEquals(author2.replaceManuscript(manuscript1, manuscript3), -1);
+	}
+	
+	@Test
+	public void testManuscriptExistsFilePathBranch() {
+		author2.submitManuscript(conferenceName, manuscript1);
+		manuscript1.setFilePath("incorrectFilePath");
+		assertEquals(author2.removeManuscript(manuscript1), -1);
 	}
 }
