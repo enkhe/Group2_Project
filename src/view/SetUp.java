@@ -11,7 +11,6 @@ import model.Conference;
 import model.Manuscript;
 import model.ProgramChair;
 import model.RegisteredUser;
-import model.Review;
 import model.Reviewer;
 import model.SubProgramChair;
 

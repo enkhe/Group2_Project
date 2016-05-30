@@ -10,10 +10,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Scanner;
 
-import model.Author;
 import model.ProgramChair;
 import model.RegisteredUser;
-import model.Reviewer;
 
 /**
  * A class containing static helper methods and constants for ManagementSystem.
