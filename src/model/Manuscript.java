@@ -122,7 +122,7 @@ public class Manuscript implements Serializable {
 				Files.copy(from, to, StandardCopyOption.REPLACE_EXISTING);
 			} catch (IOException e) {
 				System.err.println("Huston, there seems to be a problem!");
-				System.err.println("I advise you to check out Authors submitManuscript method immediatly.");
+				System.err.println("I advise you to check out Manuscripts setReview method immediatly.");
 				System.err.println("Also, be sure to check that you entered your file path correctly!");
 				e.printStackTrace();
 			}
