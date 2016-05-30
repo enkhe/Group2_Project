@@ -281,11 +281,11 @@ public class SubProgramChairUI {
 	private void displayDetailLineForEachReviewer(Map<Integer, Review> reviews, Set<Integer> reviewers, 
 			                                      String title, String recommendation) {
 		for(Integer reviewID : reviewers) {
-			String reviewerLastName = searchReviewerLastName(reviewID);
+			String reviewerLastName = SystemHelper.shorten(20, searchReviewerLastName(reviewID));
         	Review review = reviews.get(reviewID);
         	// Need a get max scale for review scores.
         	String reviewScore = review == null ? "--/10" : review.getScore() + "/10";
-        	
+        	title = SystemHelper.shorten(30, title);
         	System.out.printf(SystemHelper.SPC_MAN_DISPLAY_FORMAT, title, 
      		           reviewerLastName, reviewScore, recommendation);
         	
@@ -328,7 +328,7 @@ public class SubProgramChairUI {
         if(Objects.nonNull(theReviewer)) {
             if(brcheck_ReviewerNotOverAssigned(theReviewer)
                && brcheck_ReviewerNotManuscriptAuthor(theReviewer, theManuscript)) {
-                theManuscript.setReview(theReviewer.getID(), null);
+                theManuscript.setReview(theReviewer.getID(), new Review(-1, ""));
                 theReviewer.assignManuscript(theManuscript);
                 System.out.println(theReviewer.getLastName() + " is assigned " 
                                    + theManuscript.getTitle() + "!");

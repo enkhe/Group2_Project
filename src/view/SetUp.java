@@ -86,11 +86,9 @@ public class SetUp {
 		programChair.assignSubProgramChair(spc2.getID());
 		programChair.assignSubProgramChair(spc3.getID());
 		
-		theConference.addSubprogramChair(new SubProgramChair(myUserList.get(12)));
-		theConference.addSubprogramChair(new SubProgramChair(myUserList.get(13)));
-		theConference.addSubprogramChair(new SubProgramChair(myUserList.get(14)));
 		
-
+		// all of the registered users are possible Reviewers except ProgramChair
+		
 		// ssharp, csummers, rlindsey, jparsons, jglover
 		Reviewer rev1 = new Reviewer(myUserList.get(5));
 		Reviewer rev2 = new Reviewer(myUserList.get(6));
@@ -106,26 +104,30 @@ public class SetUp {
 		
 		Manuscript man1, man2, man3, man4, man5, man6 = new Manuscript();
 		
-		// This following line somehow fails serializable test.
 		theConference.setMyManuscripts(myManuscripts.subList(0, 5));
 		
 		
 		//for(int i = 5; i < 10; i++)
 		//	theConference.addReviewer(new Reviewer(myUserList.get(i)));
-		man1 = myManuscripts.get(0);
+		man1 = myManuscripts.get(0); // Author is benk
 		man2 = myManuscripts.get(1);
 		man3 = myManuscripts.get(2);
 		man4 = myManuscripts.get(3);
 		man5 = myManuscripts.get(4);
 		man6 = myManuscripts.get(5);
 		
+		theConference.addSubprogramChair(spc1);
+		theConference.addSubprogramChair(spc2);
+		theConference.addSubprogramChair(spc3);
 		
-		spc1.assignManuscript(man1);//tjimenez
-		spc1.assignManuscript(man2);//ssharp
-		spc1.assignManuscript(man3);//csummers
-		spc2.assignManuscript(man4);//rlindsey
-		spc2.assignManuscript(man5);//jparsons
-		spc3.assignManuscript(man6);//jglover
+		theConference.getAllSubProgramChairs().get(2).assignManuscript(man1);//tjimenez
+		theConference.getAllSubProgramChairs().get(0).assignManuscript(man2);//ssharp
+		theConference.getAllSubProgramChairs().get(1).assignManuscript(man3);//csummers
+		theConference.getAllSubProgramChairs().get(2).assignManuscript(man4);//rlindsey
+		theConference.getAllSubProgramChairs().get(0).assignManuscript(man5);//jparsons
+		theConference.getAllSubProgramChairs().get(2).assignManuscript(man6);//jglover
+		
+		
 		theConference.setConferenceName("2016 IEEE International Cyber Security Conference");
 	}
 	

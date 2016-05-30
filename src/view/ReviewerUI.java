@@ -246,7 +246,9 @@ public class ReviewerUI {
 		
 		for(Manuscript man : manuscripts ) {
 			int reviewScore = man.getReviews().get(myReviewer.getID()).getScore();
-			System.out.printf(SystemHelper.REV_MAN_DISPLAY_FORMAT, man.getTitle(), Integer.toString(reviewScore));
+			String title = SystemHelper.shorten(30, man.getTitle());
+			String strScore = SystemHelper.shorten(15, Integer.toString(reviewScore));
+			System.out.printf(SystemHelper.REV_MAN_DISPLAY_FORMAT, title, strScore );
 		}
 	}
 }
