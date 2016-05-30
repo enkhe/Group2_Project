@@ -51,37 +51,37 @@ public class ProgramChairUITest {
 	}
 
 	@Test
-	public void brCheck_SubprogamNotAuthorOnUserNotAuthorTest() {
+	public void testBrCheck_SubprogamNotAuthorOnUserNotAuthor() {
 		assertTrue(myUI.brCheck_SubprogamNotAuthor(myManuscriptUserNotAuthor, mySubPC));
 	}
 	
 	@Test
-	public void brCheck_SubprogamNotAuthorOnUserIsAuthorTest() {
+	public void testBrCheck_SubprogamNotAuthorOnUserIsAuthor() {
 		assertFalse(myUI.brCheck_SubprogamNotAuthor(myManuscriptUserIsAuthor, mySubPC));
 	}
 	
 	@Test
-	public void brCheck_SubprogramChairNotOverAssignedOnUserWithNoAssignmentsTest() {
+	public void testBrCheck_SubprogramChairNotOverAssignedOnUserWithNoAssignments() {
 		assertTrue(myUI.brCheck_SubprogramChairNotOverAssigned(mySubPC));
 	}
 
 	@Test
-	public void brCheck_SubprogramChairNotOverAssignedOnUserWithOneAssignmentsTest() {
+	public void testBrCheck_SubprogramChairNotOverAssignedOnUserWithOneAssignments() {
 		assertTrue(myUI.brCheck_SubprogramChairNotOverAssigned(mySubPCAssignedOneManuscript));
 	}
 	
 	@Test
-	public void brCheck_SubprogramChairNotOverAssignedOnUserWithTwoAssignmentsTest() {
+	public void testBrCheck_SubprogramChairNotOverAssignedOnUserWithTwoAssignments() {
 		assertTrue(myUI.brCheck_SubprogramChairNotOverAssigned(mySubPCAssignedTwoManuscripts));
 	}
 	
 	@Test
-	public void brCheck_SubprogramChairNotOverAssignedOnUserWithThreeAssignmentsTest() {
+	public void testBrCheck_SubprogramChairNotOverAssignedOnUserWithThreeAssignments() {
 		assertTrue(myUI.brCheck_SubprogramChairNotOverAssigned(mySubPCAssignedThreeManuscripts));
 	}
 	
 	@Test
-	public void brCheck_SubprogramChairNotOverAssignedOnUserWithFourAssignmentsTest() {
+	public void testBrCheck_SubprogramChairNotOverAssignedOnUserWithFourAssignments() {
 		assertFalse(myUI.brCheck_SubprogramChairNotOverAssigned(mySubPCAssignedFourManuscripts));
 	}
 
