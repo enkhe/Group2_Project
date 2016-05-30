@@ -74,24 +74,23 @@ public class SetUp {
 		conferences.add(theConference3);
 	}
 
-	
-private void doConferenceOne(Conference theConference) {
+	private void doConferenceOne(Conference theConference) {
 		
-		ProgramChair programChair = new ProgramChair(myUserList.get(10)); // jrobinson
+		ProgramChair programChair = new ProgramChair(myUserList.get(10));
 		theConference.setProgramChair(programChair);
 		
-		// --------- SPC
 		SubProgramChair spc1 = new SubProgramChair(myUserList.get(12)); // ewilson 
 		SubProgramChair spc2 = new SubProgramChair(myUserList.get(13)); // gweaver
 		SubProgramChair spc3 = new SubProgramChair(myUserList.get(14)); // gwatts
 		programChair.assignSubProgramChair(spc1.getID());
 		programChair.assignSubProgramChair(spc2.getID());
 		programChair.assignSubProgramChair(spc3.getID());
-		theConference.addSubprogramChair(spc1);
-		theConference.addSubprogramChair(spc2);
-		theConference.addSubprogramChair(spc3);
 		
+		theConference.addSubprogramChair(new SubProgramChair(myUserList.get(12)));
+		theConference.addSubprogramChair(new SubProgramChair(myUserList.get(13)));
+		theConference.addSubprogramChair(new SubProgramChair(myUserList.get(14)));
 		
+
 		// ssharp, csummers, rlindsey, jparsons, jglover
 		Reviewer rev1 = new Reviewer(myUserList.get(5));
 		Reviewer rev2 = new Reviewer(myUserList.get(6));
@@ -107,9 +106,12 @@ private void doConferenceOne(Conference theConference) {
 		
 		Manuscript man1, man2, man3, man4, man5, man6 = new Manuscript();
 		
-		
+		// This following line somehow fails serializable test.
 		theConference.setMyManuscripts(myManuscripts.subList(0, 5));
 		
+		
+		//for(int i = 5; i < 10; i++)
+		//	theConference.addReviewer(new Reviewer(myUserList.get(i)));
 		man1 = myManuscripts.get(0);
 		man2 = myManuscripts.get(1);
 		man3 = myManuscripts.get(2);
@@ -117,38 +119,7 @@ private void doConferenceOne(Conference theConference) {
 		man5 = myManuscripts.get(4);
 		man6 = myManuscripts.get(5);
 		
-		/**
-		man1.setReview(rev2.getID(), new Review()); // 4, "excellent"
-			rev2.assignManuscript(man1);
-		man1.setReview(rev1.getID(), new Review()); // 3, "well written"
-			rev1.assignManuscript(man1);
 		
-		man2.setReview(rev2.getID(), new Review());
-			rev2.assignManuscript(man2);
-		man2.setReview(rev3.getID(), new Review()); // 2, "need work."
-			rev3.assignManuscript(man2);
-		
-		man3.setReview(rev4.getID(), new Review());
-			rev4.assignManuscript(man3);
-		man3.setReview(rev5.getID(), new Review());
-			rev5.assignManuscript(man3);
-		
-		man4.setReview(rev4.getID(), new Review());
-			rev4.assignManuscript(man4);
-		man4.setReview(rev5.getID(), new Review());
-			rev5.assignManuscript(man4);
-			
-		man5.setReview(rev4.getID(), new Review());
-			rev4.assignManuscript(man5);
-		man5.setReview(rev5.getID(), new Review());
-			rev5.assignManuscript(man5);
-		
-		man6.setReview(rev4.getID(), new Review());
-			rev4.assignManuscript(man6);
-		man6.setReview(rev5.getID(), new Review());
-			rev5.assignManuscript(man6);
-			
-			*/
 		spc1.assignManuscript(man1);//tjimenez
 		spc1.assignManuscript(man2);//ssharp
 		spc1.assignManuscript(man3);//csummers
@@ -156,7 +127,6 @@ private void doConferenceOne(Conference theConference) {
 		spc2.assignManuscript(man5);//jparsons
 		spc3.assignManuscript(man6);//jglover
 		theConference.setConferenceName("2016 IEEE International Cyber Security Conference");
-		
 	}
 	
 	private void doConferenceTwo(Conference theConference) {

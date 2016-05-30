@@ -75,8 +75,12 @@ public class Conference implements Serializable {
 	 * Set myManuscripts for Serializable
 	 */
 	public void setMyManuscripts(List<Manuscript> theManuscripts) {
-        myManuscripts = theManuscripts;
-        
+		myManuscripts.clear();
+		for(Manuscript man : theManuscripts) {
+			myManuscripts.add(man);
+		}
+		// This following code does not make a deep copy.
+        // myManuscripts = theManuscripts;
     }
 
 	/**
