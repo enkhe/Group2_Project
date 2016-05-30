@@ -1,7 +1,4 @@
 package view;
-/*
- * TCSS360 Group 2 Project
- */
 
 import java.util.List;
 import java.util.Objects;
@@ -14,7 +11,11 @@ import model.Review;
 import model.Reviewer;
 
 /**
+<<<<<<< HEAD
  * Reviewer console based interface.
+=======
+ * TCSS360 Group 2 Project
+>>>>>>> almost-master
  * 
  * @author Enkhamgalan Baterdene
  * @version 1.0
@@ -26,10 +27,16 @@ public class ReviewerUI {
 	Scanner myScanner;
 
 	/**
+<<<<<<< HEAD
 	 * Reviewer console based interface that takes registered user and conference.
 	 * 
 	 * @param theUser - An registered user who has been assigned as an reviewer.
 	 * @param theConference - The current conference that user has selected.
+=======
+	 * Constructs Reviewer UI.
+	 * @param theUser
+	 * @param theConference
+>>>>>>> almost-master
 	 */
 	public ReviewerUI(RegisteredUser theUser, Conference theConference) {
 		myReviewer = theConference.getReviewer(theUser.getID());
@@ -46,7 +53,10 @@ public class ReviewerUI {
 
 		do {
 			displayScreenHeader("Reviewer Menu");
-
+			
+			writeln("All Assigned Manuscripts:");
+			viewAllAssignedManuscripts();
+			
 		    writeln("\nPlease enter a command below.");
 			writeln("1) View all assigned manuscripts");
 			writeln("2) Update/Remove a Review");
@@ -82,7 +92,11 @@ public class ReviewerUI {
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Display Reviewer's reviews for manuscripts.
+=======
+	 * View all assigned manuscripts menu option.
+>>>>>>> almost-master
 	 */
 	public void viewAllAssignedManuscripts() {
 		for(Manuscript manuscript : myReviewer.getMyAssignedManuscripts()) {
@@ -99,7 +113,11 @@ public class ReviewerUI {
 	}
 	
 	/**
+<<<<<<< HEAD
 	 * Reviewer menu for downloading all manuscripts.
+=======
+	 * Reviewer download all manuscript.
+>>>>>>> almost-master
 	 */
 	public void reviewerDownloadAllManuscripts() {
 		displayScreenHeader("Download all Manuscripts");
@@ -116,7 +134,11 @@ public class ReviewerUI {
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Reviewer menu for updating a current review.
+=======
+	 * Reveiwer update remove review.
+>>>>>>> almost-master
 	 */
 	public void reviewerUpdateRemoveReview() {
 		displayScreenHeader("Update/Remove a Review");
@@ -125,7 +147,6 @@ public class ReviewerUI {
 
 		// Assigned Manuscripts:
 		// Please select the manuscript to update the review
-		//
 		int counter = 0;
 		for (Manuscript manuscript : myManuscripts) {
 			// display with index
@@ -164,6 +185,10 @@ public class ReviewerUI {
 		}
 	}
 
+	/**
+	 * Update given manuscript menu option.
+	 * @param selectedManuscript
+	 */
 	private void updateGivenManuscript(Manuscript selectedManuscript) {
 		int intScore = -1;
 		String strFilePath = selectedManuscript.getFile();
@@ -181,7 +206,11 @@ public class ReviewerUI {
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Reivewer menu for uploading reviews.
+=======
+	 * Reviewer upload review menu option.
+>>>>>>> almost-master
 	 */
 	public void reviewerUploadReview() {
 		displayScreenHeader("Upload Review");
@@ -218,14 +247,26 @@ public class ReviewerUI {
 		writeln("You've successfully saved a review for " + theManuscript.getTitle() + " with a score of " + intScore);
 	}
 
+	/**
+	 * Write line out to console.
+	 * @param theInput
+	 */
 	private void write(String theInput) {
 		System.out.println(theInput);
 	}
 
+	/**
+	 * Write new line out to console.
+	 * @param theInput
+	 */
 	private void writeln(String theInput) {
 		System.out.println(theInput);
 	}
 
+	/**
+	 * Display screen header.
+	 * @param menuTitle
+	 */
 	private void displayScreenHeader(String menuTitle) {
 		System.out.println(SystemHelper.SYS_TITLE);
 		System.out.println(myCurrentConference.getConferenceName());

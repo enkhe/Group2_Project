@@ -28,6 +28,10 @@ public class SetUp {
 	
 	// Deals with serializing.
 	public SetUp() {
+		initialize();
+	}
+	
+	private void initialize() {
 		myManuscripts = new LinkedList<>();
 		myUserList = new LinkedList<>();
 		myConferences = new LinkedList<>();
@@ -47,6 +51,7 @@ public class SetUp {
 	}
 	
 	public ManagementSystem generateManagementSystem() {
+		initialize();
 		populateUserList(myUserList);
 		populateManuscripts(myManuscripts);
 		populateConferences(myConferences);
@@ -75,11 +80,16 @@ public class SetUp {
 	}
 
 	
+<<<<<<< HEAD
 private void doConferenceOne(Conference theConference) {
+=======
+	private void doConferenceOne(Conference theConference) {
+>>>>>>> almost-master
 		
 		ProgramChair programChair = new ProgramChair(myUserList.get(10)); // jrobinson
 		theConference.setProgramChair(programChair);
 		
+<<<<<<< HEAD
 		// --------- SPC
 		SubProgramChair spc1 = new SubProgramChair(myUserList.get(12)); // ewilson 
 		SubProgramChair spc2 = new SubProgramChair(myUserList.get(13)); // gweaver
@@ -90,8 +100,20 @@ private void doConferenceOne(Conference theConference) {
 		theConference.addSubprogramChair(spc1);
 		theConference.addSubprogramChair(spc2);
 		theConference.addSubprogramChair(spc3);
+=======
+		SubProgramChair spc1 = new SubProgramChair(myUserList.get(12)); // ewilson 
+		SubProgramChair spc2 = new SubProgramChair(myUserList.get(13)); // gweaver
+		SubProgramChair spc3 = new SubProgramChair(myUserList.get(14)); // gwatts
+>>>>>>> almost-master
 		
+		// ssharp, csummers, rlindsey, jparsons, jglover
+		Reviewer rev1 = new Reviewer(myUserList.get(5));
+		Reviewer rev2 = new Reviewer(myUserList.get(6));
+		Reviewer rev3 = new Reviewer(myUserList.get(7));
+		Reviewer rev4 = new Reviewer(myUserList.get(8));
+		Reviewer rev5 = new Reviewer(myUserList.get(9));
 		
+<<<<<<< HEAD
 		// ssharp, csummers, rlindsey, jparsons, jglover
 		Reviewer rev1 = new Reviewer(myUserList.get(5));
 		Reviewer rev2 = new Reviewer(myUserList.get(6));
@@ -110,6 +132,19 @@ private void doConferenceOne(Conference theConference) {
 		
 		theConference.setMyManuscripts(myManuscripts.subList(0, 5));
 		
+=======
+		theConference.addReviewer(rev1);
+		theConference.addReviewer(rev2);
+		theConference.addReviewer(rev3);
+		theConference.addReviewer(rev4);
+		theConference.addReviewer(rev5);
+		
+		theConference.addSubprogramChair(spc1);
+		theConference.addSubprogramChair(spc2);
+		theConference.addSubprogramChair(spc3);
+		Manuscript man1, man2, man3, man4, man5, man6 = new Manuscript();
+		
+>>>>>>> almost-master
 		man1 = myManuscripts.get(0);
 		man2 = myManuscripts.get(1);
 		man3 = myManuscripts.get(2);
@@ -117,7 +152,10 @@ private void doConferenceOne(Conference theConference) {
 		man5 = myManuscripts.get(4);
 		man6 = myManuscripts.get(5);
 		
+<<<<<<< HEAD
 		/**
+=======
+>>>>>>> almost-master
 		man1.setReview(rev2.getID(), new Review()); // 4, "excellent"
 			rev2.assignManuscript(man1);
 		man1.setReview(rev1.getID(), new Review()); // 3, "well written"
@@ -148,6 +186,7 @@ private void doConferenceOne(Conference theConference) {
 		man6.setReview(rev5.getID(), new Review());
 			rev5.assignManuscript(man6);
 			
+<<<<<<< HEAD
 			*/
 		spc1.assignManuscript(man1);//tjimenez
 		spc1.assignManuscript(man2);//ssharp
@@ -155,6 +194,14 @@ private void doConferenceOne(Conference theConference) {
 		spc2.assignManuscript(man4);//rlindsey
 		spc2.assignManuscript(man5);//jparsons
 		spc3.assignManuscript(man6);//jglover
+=======
+		spc1.assignManuscript(man1);
+		spc1.assignManuscript(man2);
+		spc1.assignManuscript(man3);
+		spc2.assignManuscript(man4);
+		spc2.assignManuscript(man5);
+		spc3.assignManuscript(man6);
+>>>>>>> almost-master
 		theConference.setConferenceName("2016 IEEE International Cyber Security Conference");
 		
 	}
@@ -236,16 +283,16 @@ private void doConferenceOne(Conference theConference) {
 		registeredUsers.add(new RegisteredUser("Shaun", 	"Coleman", 		"scoleman", 	count++));
 		registeredUsers.add(new RegisteredUser("Amrit", 	"Puti", 		"aputi", 		count++));
 		registeredUsers.add(new RegisteredUser("Tiffancy", 	"Jimenez", 		"tjimenez", 	count++));
-		registeredUsers.add(new RegisteredUser("Stephen", 	"Sharp", 		"ssharp", 		count++));
+		registeredUsers.add(new RegisteredUser("Stephen", 	"Sharp", 		"ssharp", 		count++)); // 5
 		registeredUsers.add(new RegisteredUser("Carolyn", 	"Summers", 		"csummers", 	count++));
 		registeredUsers.add(new RegisteredUser("Rodney", 	"Lindsey", 		"rlindsey", 	count++));
 		registeredUsers.add(new RegisteredUser("Javier", 	"Parsons", 		"jparsons", 	count++));
-		registeredUsers.add(new RegisteredUser("Janice", 	"Glover", 		"jglover", 		count++));
-		registeredUsers.add(new RegisteredUser("Jan", 		"Robinson", 	"jrobinson", 	count++));
+		registeredUsers.add(new RegisteredUser("Janice", 	"Glover", 		"jglover", 		count++)); // 9
+		registeredUsers.add(new RegisteredUser("Jan", 		"Robinson", 	"jrobinson", 	count++)); // 10
 		registeredUsers.add(new RegisteredUser("Victor", 	"Simon", 		"vsimon", 		count++));
-		registeredUsers.add(new RegisteredUser("Ethel", 	"Wilson", 		"ewilson", 		count++));
+		registeredUsers.add(new RegisteredUser("Ethel", 	"Wilson", 		"ewilson", 		count++)); // 12
 		registeredUsers.add(new RegisteredUser("Gilberto", 	"Weaver", 		"gweaver", 		count++));
-		registeredUsers.add(new RegisteredUser("Gwendolyn", "Watts", 		"gwatts", 		count++));
+		registeredUsers.add(new RegisteredUser("Gwendolyn", "Watts", 		"gwatts", 		count++)); // 14
 		registeredUsers.add(new RegisteredUser("Jeanne", 	"Burton", 		"jburton", 		count++));
 		registeredUsers.add(new RegisteredUser("Jamie", 	"Dennis", 		"jdennis", 		count++));
 		registeredUsers.add(new RegisteredUser("Clay", 		"Mcguire", 		"cmcguire", 	count++));

@@ -395,5 +395,20 @@ public class SubProgramChairUI {
     	return 0;
     }
     
+<<<<<<< HEAD
     
 }
+=======
+    /**
+     * Displays the header information for the current screen.
+     * 
+     * @param menuTitle the title of the current menu screen.
+     */
+    private void displayScreenHeader(String menuTitle) {
+        System.out.println(SystemHelper.SYS_TITLE);
+        System.out.println(myCurrentConference.getConferenceName());
+        System.out.println("Subprogram Chair: " + mySPC.getUserName());
+        System.out.println(menuTitle);
+    }
+}
+>>>>>>> almost-master

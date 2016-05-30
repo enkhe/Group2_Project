@@ -160,6 +160,7 @@ public class SystemHelper {
 	     }
      
      return openedMS;
+<<<<<<< HEAD
  }
 
     /**
@@ -186,6 +187,17 @@ public class SystemHelper {
 	 */
 	public static String shorten(int length, String theStr) {
 		return (theStr.length() > length-1) ? theStr.substring(0, length) : theStr;
+=======
+    }
+    
+    /**
+     * Confirms what somebody has entered into an console.
+     * 
+     * @param theInput the message to be written out to console.
+     */
+    public static void youHaveEntered(String theInput) {
+		System.out.println("You have entered: " + theInput);
+>>>>>>> almost-master
 	}
 	
 }
