@@ -1,9 +1,13 @@
 package testModel;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.io.IOException;
+
+import model.Author;
+import model.Manuscript;
+import model.RegisteredUser;
 
 import org.junit.Before;
 import org.junit.Test;

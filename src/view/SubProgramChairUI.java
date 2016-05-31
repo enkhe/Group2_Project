@@ -20,39 +20,46 @@ import model.SubProgramChair;
  */
 public class SubProgramChairUI {
 
-    /**
-     * A constant int used to represent the maximum manuscripts a reviewer can be assigned.
+    /*
+     * Used to represent the maximum manuscripts a reviewer can be assigned.
      */
     private final int MAX_REVIEWER_ASSIGNED_MANUSCRIPTS = 4;
     
-    /**
-     * A constant to represent the menu selection for assigning a reviewer.
+    /*
+     * Used to represent the menu selection for assigning a reviewer.
      */
     private final int ASSIGN_REVIEWER = 1;
     
-    /**
-     * A constant to represent the menu selection for making a recommendation.
+    /*
+     * Used to represent the menu selection for making a recommendation.
      */
     private final int MAKE_RECOMMENDATION = 2;
     
+    /*
+     * Used to represent the menu selection to exit to the login menu.
+     */
     private final int EXIT = 9;
-    /**
-     * A constant to represent the menu selection for exiting the menu.
+    
+    /*
+     * Used to represent the menu selection for exiting the menu.
      */
     private final int BACK = 0;
 	
-	/**
+	/*
      * The currently logged in user.  Null if no user is logged in.
      */
     private SubProgramChair mySPC;
     
-    /**
+    /*
      * The currently selected conference.  Null if not logged into a conference.
      */
     private Conference myCurrentConference;
     
     /**
-     * Constructs a new SubProgramChairUI object with the given RegisteredUser and Conference.
+     * Provides a new SubProgramChairUI for the given RegisteredUser on the given
+     * Conference.  Assumes both the user and conference are valid for this system
+     * and that the user is a SubprogramChair for the specified conference.
+     * 
      * @param theUser the RegisteredUser to act as the current SubProgramChair.
      * @param theConference the currently selected conference.
      */
@@ -69,7 +76,8 @@ public class SubProgramChairUI {
         
         do {
             displayScreenHeader("Subprogram Chair Menu");
-        
+    	    displayManuscriptTable();
+    	    
             System.out.println("\nPlease enter a command below.");
             System.out.println("1) Assign a Reviewer to a Manuscript.");
             System.out.println("2) Submit a Recommendation.");
@@ -100,7 +108,7 @@ public class SubProgramChairUI {
         return choice;
     }
     
-    /**
+    /*
      * Assigns a Reviewer to a manuscript based on the the results of 
      * selecting a manuscript menu, and selecting a reviewer menu.
      * 
@@ -117,7 +125,7 @@ public class SubProgramChairUI {
         finalizeReviewerAssignment(selectedManuscript, selectedReviewer);
     }
     
-    /**
+    /*
      * Displays a menu to select a manuscript from the SubProgramChair's 
      * currently assigned manuscripts.
      * @return the selected Manuscript.
@@ -144,7 +152,7 @@ public class SubProgramChairUI {
         return selectedManuscript;
     }
     
-    /**
+    /*
      * Displays a simple numbered list of Manuscript titles for a Subprogram Chair menu.
      */
     private void displaySubPCManuscriptOptionList() {
@@ -156,7 +164,7 @@ public class SubProgramChairUI {
         System.out.println("0) Back");
     }
     
-    /**
+    /*
      * Displays a menu to select a Subprogram Chair to assign to a Manuscript.
      * 
      * @return the selected SubprogramChair.
@@ -181,6 +189,9 @@ public class SubProgramChairUI {
         return selectedReviewer;
     }
     
+    /*
+     * Displays the possible users to be selected as reviewers.
+     */
     private void displayReviewerSelectMenu(List<Reviewer> theReviewers) {
         int option = 1;
     	System.out.println("\nSelect the Reviewer to assign to this paper, or 0 to go back.");
@@ -191,7 +202,7 @@ public class SubProgramChairUI {
         System.out.println("0) Back");
     }
 
-    /**
+    /*
      * Initiates the menus required to assign a recommendation.
      */
     private void assignRecommendation() {
@@ -214,7 +225,7 @@ public class SubProgramChairUI {
         finalizeRecommendation(manuscript, recommendation);
     }
     
-    /**
+    /*
      * Displays an option list to select the from the Recommendation Scale.
      * @param theScale the List of scale values to select from.
      * @return the selected scale value.
@@ -231,7 +242,7 @@ public class SubProgramChairUI {
     	System.out.println("0) Back");
     }
     
-    /**
+    /*
 	 * Displays the header information for the current screen.
 	 * 
 	 * @param menuTitle the title of the current menu screen.
@@ -241,10 +252,9 @@ public class SubProgramChairUI {
 	    System.out.println(myCurrentConference.getConferenceName());
 	    System.out.println("Subprogram Chair: " + mySPC.getUserName());
 	    System.out.println(menuTitle);
-	    displayManuscriptTable();
 	}
 	
-	/**
+	/*
 	 * Displays a status table for the manuscripts assigned to the current SubProgramChair
 	 */
 	private void displayManuscriptTable() {
@@ -253,6 +263,10 @@ public class SubProgramChairUI {
 	                      "Reviewer", "Review Score", "Recommendation");
 	    SystemHelper.displayDashedLine();
 	     
+	    if(mySPC.getMyAssignedManuscripts().isEmpty()) {
+	    	System.out.println("\nNo manuscripts to display.\n");
+	    }
+	    
 	    for (Manuscript manuscript : mySPC.getMyAssignedManuscripts()) {
 	        String title = manuscript.getTitle();
 	        String recommendation = manuscript.getRecommendation();
@@ -270,7 +284,7 @@ public class SubProgramChairUI {
 	    }   
 	}
 	
-	/**
+	/*
 	 * Displays a table detail line for each reviewer of the current manuscript.
 	 * 
 	 * @param reviews - A Map of reviews for the current manuscript.
@@ -296,7 +310,7 @@ public class SubProgramChairUI {
 	
 	// Possible methods to be pushed to model.
 
-	/**
+	/*
 	 * Finalizes the "Make Recommendation" option by assigning a selected recommendation to
 	 * the selected manuscript if the recommendation was valid.  Displays an error message if
 	 * the recommendation was not valid.
@@ -316,7 +330,7 @@ public class SubProgramChairUI {
     	
     }
     
-	/**
+	/*
 	 * Finalizes the "Assign Reviewer" option by assigning a selected Reviewer to
 	 * the selected manuscript if the recommendation was valid.  Displays an error message if
 	 * the Reviewer is unable to be assigned.

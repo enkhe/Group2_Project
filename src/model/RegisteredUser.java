@@ -66,4 +66,19 @@ public class RegisteredUser implements Serializable {
 	public String getUserName() {
 		return myUserName;
 	}
+	
+	/**
+	 * Considers two RegisteredUsers as the same if they share the same unique user id.
+	 * @return returns true if the user ids match, and false in all other cases.
+	 * 
+	 */
+	@Override
+	public boolean equals(Object theOther) {
+		if (this == theOther) return true;
+		if (!(theOther instanceof RegisteredUser)) return false;
+		
+		RegisteredUser otherUser = (RegisteredUser) theOther;
+		
+		return myUserName.equals(otherUser.getUserName());
+	}
 }

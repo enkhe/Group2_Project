@@ -14,45 +14,47 @@ import model.SubProgramChair;
  * @version MAY 20 2016
  */
 public class ProgramChairUI {
-    /**
-     * A constant int used to represent the maximum manuscripts a subprogram chair can be
+    /*
+     * Used to represent the maximum manuscripts a subprogram chair can be
      * assigned.
      */
     private final int MAX_SUBPC_ASSIGNED_MANUSCRIPTS = 4;
     
-    /**
-     * A constant used to assign an accepted status.
+    /*
+     * Used to assign an accepted status.
      */
     private final int ACCEPT = 1;
     
-    /**
-     * A constant used to assign a rejected status.
+    /*
+     * Used to assign a rejected status.
      */
     private final int REJECT = 0;
    
-    /**
-     * A constant to represent the menu selection for changing the acceptance of a manuscript.
+    /*
+     * Used to represent the menu selection for changing the acceptance of a manuscript.
      */
     private final int CHANGE_ACCEPTANCE = 1;
     
-    /**
-     * A constant to represent the menu selection for designating a subprogram chair.
+    /*
+     * Used to represent the menu selection for designating a subprogram chair.
      */
     private final int DESIGNATE_SUBPROGRAM_CHAIR = 2;
     
 	
-	/**
+	/*
      * The currently logged in user.  Null if no user is logged in.
      */
     private RegisteredUser myPC;
     
-    /**
+    /*
      * The currently selected conference.  Null if not logged into a conference.
      */
     private Conference myCurrentConference;
     
     /**
-     * Constructs a new ProgramChairUI object with the given RegisteredUser and Conference.
+     * Creates a new ProgramChairUI for the given RegisteredUser on the given Conference.
+     * Assumes the RegisteredUser and Conference are valid for the current system.
+     * 
      * @param theUser the RegisteredUser to act as the current ProgramChair.
      * @param theConference the currently selected conference.
      */
@@ -63,14 +65,14 @@ public class ProgramChairUI {
     }
     
     /**
-     * Provides menu options for all Program Chair Actions.
+     * Provides the top menu for all program chair actions.
      */
     public int programChairMenu() {
         int choice = -1;
         
         do {
             displayScreenHeader("Program Chair Menu");
-        
+            displayManuscriptsForProgramChair();
             System.out.println("\nPlease enter a command below.");
             System.out.println("1) Accept or Reject a Manuscript.");
             System.out.println("2) Assign a Manuscript to a Subprogram Chair.");
@@ -102,6 +104,22 @@ public class ProgramChairUI {
     }
     
     /**
+	 * A search to find the last name of the Subprogram Chair of the specified Manuscript.
+	 * @param theManuscript the Manuscript in question.
+	 * @return the last name of the Subprogram Chair of the specified Manuscript.
+	 */
+	public String searchSubProgramChairForManuscript(Manuscript theManuscript) {
+	
+		for(SubProgramChair sub : myCurrentConference.getAllSubProgramChairs()) {
+	    	if(sub.getID() == theManuscript.getSPC()) {
+	    		return sub.getLastName();
+	    	}
+	    }
+		
+		return SystemHelper.NOTHING_TO_DISPLAY;
+	}
+
+	/*
      * Displays a menu to accept or reject a manuscript.
      */
     private void changeManuscriptAcceptance() {
@@ -134,7 +152,7 @@ public class ProgramChairUI {
         }
     }
     
-    /**
+    /*
      * Designates a Subprogram Chair to a selected Manuscript.
      */
     private void assignSubProgramChair() {
@@ -153,10 +171,9 @@ public class ProgramChairUI {
         }
     }
     
-    /**
+    /*
      * Displays a menu to select a manuscript to be assigned a Subprogram Chair.
-     *
-     * @return the selected manuscript.
+     * Returns the selected manuscript or null if the selection was not valid.
      */
     private Manuscript programChairSelectManuscript() {
         List<Manuscript> manuscripts = myCurrentConference.getAllAuthorsManuscript(1);
@@ -180,10 +197,9 @@ public class ProgramChairUI {
         return selectedManuscript;
     }
     
-    /**
-     * Displays a menu to select a Subprogram Chair to assign to a Manuscript.
-     * 
-     * @return the selected SubprogramChair.
+    /*
+     * Displays a menu and prompts for a Subprogram Chair to assign to a Manuscript.
+     * The selected Subprogram Chair is returned or null is returned if the choice as not valid.
      */
     private SubProgramChair selectSubPCToAssign() {
         int choice = -1;
@@ -212,7 +228,7 @@ public class ProgramChairUI {
         return selectedSubPC;
     }
     
-    /**
+    /*
      * Displays a simple numbered list of Manuscript titles for a Program Chair menu.
      */
     private void displayPCManuscriptOptionList() {
@@ -224,20 +240,17 @@ public class ProgramChairUI {
         System.out.println("0) Cancel");
     }
     
-    /**
-     * Displays the current status header.
-     * 
-     * @param menuTitle the title of the current menu.
+    /*
+     * Displays the current status header including the menu title provided.
      */
     private void displayScreenHeader(String menuTitle) {
         System.out.println(SystemHelper.SYS_TITLE);
         System.out.println(myCurrentConference.getConferenceName());
         System.out.println("Program Chair: " + myPC.getUserName());
         System.out.println(menuTitle);
-        displayManuscriptsForProgramChair();
     }
     
-    /**
+    /*
 	 * Displays a detailed list of manuscripts including title, assigned subprogram chair,
 	 * recommendation, and acceptance.
 	 */
@@ -249,6 +262,10 @@ public class ProgramChairUI {
 	                      "Subprogram Chair", "Recommendation", "Accepted");
 	    SystemHelper.displayDashedLine();
 	    
+	    if(manuscripts.isEmpty()) {
+	    	System.out.println("\nNo manuscripts to display.\n");
+	    }
+	    
 	    for (Manuscript manuscript : manuscripts) {
 	        String title = SystemHelper.shorten(30, manuscript.getTitle());
 	        String subPCName = SystemHelper.shorten(20,searchSubProgramChairForManuscript(manuscript));
@@ -258,15 +275,14 @@ public class ProgramChairUI {
 	        System.out.printf(SystemHelper.PC_MAN_DISPLAY_FORMAT, title, 
 	        		           subPCName, recommendation, acceptance);
 	    }
+	    
 	}
 	
 	// Possible methods to move down to the model.
 	
-	/**
+	/*
 	 * Finalizes the SubProgramChair Assignment after checking business rules.  Will instead display
 	 * an error message if any business rule fails.
-	 * @param theManuscript the manuscript being assigned a subprogram chair.
-	 * @param theSPC the Subprogram Chair to be assigned.
 	 */
 	private void finalizeSubPCAssignment(Manuscript theManuscript, SubProgramChair theSPC) {
 	    if(!brCheck_SubprogamNotAuthor(theManuscript, theSPC)) {
@@ -282,22 +298,6 @@ public class ProgramChairUI {
 	}
 
 	/**
-	 * A linear search to find the last name of the Subprogram Chair of the specified Manuscript.
-	 * @param theManuscript the Manuscript in question.
-	 * @return the last name of the Subprogram Chair of the specified Manuscript.
-	 */
-	private String searchSubProgramChairForManuscript(Manuscript theManuscript) {
-
-    	for(SubProgramChair sub : myCurrentConference.getAllSubProgramChairs()) {
-        	if(sub.getID() == theManuscript.getSPC()) {
-        		return sub.getLastName();
-        	}
-        }
-    	
-    	return SystemHelper.NOTHING_TO_DISPLAY;
-    }
-    
-    /**
      * Business Rule check to insure the Subprogram Chair is not assigned a manuscript they authored
      * @param theManuscript the Manuscript in question.
      * @param theSPC the SubProgramChair in question.

@@ -17,38 +17,38 @@ import model.RegisteredUser;
  * @version MAY 24 2015
  */
 public class ManagementSystem implements Serializable {
-    /**
+    /*
      * Eclipse Generated UID for serialization.
      */
     private static final long serialVersionUID = -4051485962926076869L;
     
-    /**
-     * A list containing all known Registered Users.
+    /*
+     * All registered users known to this system.
      */
     private List<RegisteredUser> myUserList;
     
-    /**
-     * A list containing all known Conferences.
+    /*
+     * All conferences known to this system.
      */
     private List<Conference> myConferences;
     
-    /**
+    /*
      * The currently logged in user.  Null if no user is logged in.
      */
     private transient RegisteredUser myCurrentUser;
     
-    /**
+    /*
      * The currently selected conference.  Null if not logged into a conference.
      */
     private transient Conference myCurrentConference;
     
-    /**
+    /*
      * A boolean used to identify if a user is logged in.
      */
     private transient boolean loggedIn;
     
     /**
-     * Creates a new instance of a management system with no users or conferences.
+     * A new ManagementSystem is created with no users, no conferences an no logged in user.
      */
     public ManagementSystem() {
         myUserList = new ArrayList<>();
@@ -66,9 +66,28 @@ public class ManagementSystem implements Serializable {
     public ManagementSystem(List<Conference> theConferences, List<RegisteredUser> theUsers) {
     	myUserList = theUsers;
     	myConferences = theConferences;
+    	loggedIn = false;
     }
     
     /**
+	 * Searches and returns a RegisteredUser based on the provide unique UserName.
+	 * 
+	 * @param theUserName the unique user name of the requested RegisteredUser.
+	 * @return the requested RegisteredUser, or null if no user name matches the
+	 *         provided user name.
+	 */
+	public RegisteredUser getUser(String theUserName) {
+	    for (RegisteredUser user : myUserList) {
+	    	
+	        if (user.getUserName().equals(theUserName)) {
+	            return user;
+	        }
+	    }
+	    
+	    return null;
+	}
+
+	/*
      * Displays a menu providing the user with the ability to login, register or exit.
      */
     private void loginMenu() {
@@ -97,7 +116,7 @@ public class ManagementSystem implements Serializable {
         } while (menuChoice != 0);
     }
 
-    /**
+    /*
      * Displays a menu to allow the user to register by entering a Username, First Name
      * and Last Name. 
      */
@@ -128,7 +147,7 @@ public class ManagementSystem implements Serializable {
         
     }
     
-    /**
+    /*
      * Prompts the user for their Username and logs the user in if the provided name is
      * valid.
      */
@@ -152,10 +171,8 @@ public class ManagementSystem implements Serializable {
         System.out.println("\nReturning to Login Menu");
     }
     
-    /**
+    /*
      * Prompts the user for the conference they wish to work in.
-     * 
-     * @return the Conference to be used during the user's session.
      */
     private int selectConference() {
         int input = -1;
@@ -183,9 +200,10 @@ public class ManagementSystem implements Serializable {
     }
     
     
-    /**
+    /*
      * Prompts the user for which personal role they will manage for the conference
-     * they have currently selected.
+     * they have currently selected.  The Author role is always available, but other roles
+     * require the user to be that role before accessing them.
      */
     private int selectRole() {
         int choice = -1;
@@ -216,7 +234,7 @@ public class ManagementSystem implements Serializable {
         return 0;
     }
     
-    /**
+    /*
      * Set the current user as logged off.
      */
     private void setAsLoggedOff() {
@@ -225,7 +243,7 @@ public class ManagementSystem implements Serializable {
         loggedIn = false;
     }
 
-    /**
+    /*
      * Prompts the user for their first and last name to finalize new user creation. 
      */
     private void createNewUser(String theUserName) {
@@ -242,28 +260,9 @@ public class ManagementSystem implements Serializable {
         myUserList.add(new RegisteredUser(firstName, lastName, theUserName, id));
     }
     
-    /**
-     * Searches and returns a RegisteredUser based on the provide unique UserName.
-     * 
-     * @param theUserName the unique user name of the requested RegisteredUser.
-     * @return the requested RegisteredUser, or null if no user name matches the
-     *         provided user name.
-     */
-    private RegisteredUser getUser(String theUserName) {
-        for(RegisteredUser user : myUserList) {
-            if (user.getUserName().equals(theUserName)) {
-                return user;
-            }
-        }
-        
-        return null;
-    }
-    
-    /**
-     * Displays the header for the current menu screen.
-     * 
-     * @param role the role of the current user.
-     * @param menuTitle the title of the current menu screen.
+    /*
+     * Displays the header for the current menu screen with the provided role
+     * menu title.
      */
     private void displayScreenHeader(String role, String menuTitle) {
         System.out.println(SystemHelper.SYS_TITLE);
@@ -274,7 +273,7 @@ public class ManagementSystem implements Serializable {
         System.out.println(menuTitle);
     }
     
-    /**
+    /*
      * Displays the possible conferences and their submission deadlines.
      */
     private void displayConferenceSelections() {
@@ -290,7 +289,7 @@ public class ManagementSystem implements Serializable {
         System.out.println("\n\n0) Return");
     }
     
-    /**
+    /*
      * Displays the role selection menu based on the available roles of the currently
      * logged in user.
      */
@@ -314,8 +313,8 @@ public class ManagementSystem implements Serializable {
      * @param args not currently used.
      */
     public static void main(String[] args) {
-    	//ManagementSystem ms = SystemHelper.deserialize();
-    	ManagementSystem ms = new SetUp().generateManagementSystem();
+    	ManagementSystem ms = SystemHelper.deserialize();
+    	//ManagementSystem ms = new SetUp().generateManagementSystem();
         ms.loginMenu();
         SystemHelper.serialize(ms);
         
@@ -323,24 +322,5 @@ public class ManagementSystem implements Serializable {
         System.out.println("Exiting program.");
     }
     
-    // Need to check if these are needed.
-    
-    /**
-     * For Testing purposes the registered users are exposed.
-     * @author Enkh
-     * @return List<RegisteredUser>()
-     */
-    public List<RegisteredUser> getMyUserList() {
-    	return myUserList;
-    }
-    
-    /**
-     * For Testing purposes the Conferences are exposed.
-     * @author Enkh
-     * @return List<Conference>()
-     */
-    public List<Conference> myMyConferences() {
-    	return myConferences;
-    }
 
 }
