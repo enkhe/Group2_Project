@@ -101,7 +101,7 @@ public class Manuscript implements Serializable {
 	 * of the Manuscript.
 	 * Postcondition: Adds the review to the Manuscript and creates a copy of the review file.
 	 */
-	public void setReview(int theID, Review theReview) {
+	public int setReview(int theID, Review theReview) {
 		
 		if(Objects.nonNull(theReview)) {
 			myReviews.put(theID, theReview);
@@ -126,8 +126,13 @@ public class Manuscript implements Serializable {
 				System.err.println("I advise you to check out Manuscripts setReview method immediatly.");
 				System.err.println("Also, be sure to check that you entered your file path correctly!");
 				e.printStackTrace();
+				return -1;
 			}
+		} else {
+			return -1;
 		}
+		
+		return 0;
 	}
 	
 	/**
