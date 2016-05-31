@@ -102,9 +102,10 @@ public class Manuscript implements Serializable {
 	 * Postcondition: Adds the review to the Manuscript and creates a copy of the review file.
 	 */
 	public void setReview(int theID, Review theReview) {
-		myReviews.put(theID, theReview);
 		
 		if(Objects.nonNull(theReview)) {
+			myReviews.put(theID, theReview);
+			
 			//get file name and extension of review
 			int fileIndexOfNameAndExtension = theReview.getReviewFile().lastIndexOf(File.separator);
 			String fileNameAndExtension = theReview.getReviewFile().substring(fileIndexOfNameAndExtension, 
