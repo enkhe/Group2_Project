@@ -43,11 +43,11 @@ public class AuthorTest {
 		author2 = new Author(user2);
 		author3 = new Author();
 		
-		f = new File("test.txt");
+		f = new File("TEST_manuscript.txt");
 		f.createNewFile();
-		f2 = new File("test2.txt");
+		f2 = new File("TEST_manuscript2.txt");
 		f2.createNewFile();
-		f3 = new File("test3.txt");
+		f3 = new File("TEST_manuscript3.txt");
 		manuscript1 = new Manuscript(author.getID(), f.getAbsolutePath(), "TEST_title");
 		manuscript1.setFilePath(f.getAbsolutePath());
 		manuscript2 = new Manuscript(author2.getID(), f2.getAbsolutePath(), "TEST_title2");
