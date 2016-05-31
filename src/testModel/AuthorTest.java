@@ -1,3 +1,11 @@
+/*
+ *
+ * TCSS360 - Group2
+ * Author: Tyler Brent
+ *
+ * Test for Author.java.
+ */
+
 package testModel;
 
 import static org.junit.Assert.assertEquals;
