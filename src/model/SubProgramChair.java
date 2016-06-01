@@ -51,9 +51,6 @@ public class SubProgramChair  extends RegisteredUser implements Serializable {
 		@param the Manuscript to be assigned
      */
     public int assignManuscript(Manuscript theManuscript) {
-    	System.err.println("here!");
-    	System.err.println(theManuscript + " " + brCheck_SubprogamNotAuthor(theManuscript)
-    			           + " " + brCheck_SubprogramChairNotOverAssigned());
     	if (myManuscripts.contains(theManuscript)
     	    || !brCheck_SubprogamNotAuthor(theManuscript)
     	    || !brCheck_SubprogramChairNotOverAssigned()) {
