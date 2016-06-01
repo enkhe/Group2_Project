@@ -203,14 +203,22 @@ public class SubProgramChairUI {
     private void assignRecommendation() {
     	int recommendation = -1;
     	
-    	if(mySPC.getMyAssignedManuscripts().size() <= 0) {
+    	if (mySPC.getMyAssignedManuscripts().size() <= 0) {
     		System.out.println("\nNo papers assigned");
     		return;
     	}
     	
     	Manuscript manuscript = selectManuscriptPrompt();
     	
-    	if(Objects.isNull(manuscript)) return;
+    	if (Objects.isNull(manuscript)) { 
+    		System.out.println("Invalid Manuscript Selected.");
+    		return;
+    	}
+    	
+    	if (!manuscript.isAllReviewsSubmitted()) {
+    		System.out.println("Unable to submit a recommendation until all reviews are submitted.");
+    		return;
+    	}
 
     	displayRecommendationSelect(manuscript.getScale());
     	recommendation = SystemHelper.promptUserInt();

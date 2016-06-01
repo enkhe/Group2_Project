@@ -248,13 +248,35 @@ public class Manuscript implements Serializable {
 	 * Checks to see if the manuscript already has a SubProgramChair assigned to it
 	 * to help enforce the business rule that states "A Manuscript can only have one
 	 * SubProgramChair assigned to it."
-	 * @return
+	 * @return true if this manuscript already has been assigned to a SubprogramChair and
+	 *         false otherwise.
 	 */
 	public boolean br_checkAlreadyHasSPC() {
 		return mySPC != -1;
 	}
 	
+	/**
+	 * Checks to see if a Recommendation has been submitted for this manuscript.
+	 * @return true of there is a recommendation for this manuscript, and false otherwise.
+	 */
 	public boolean isRecommendationSubmitted() {
 		return myRecommendation != -1;
+	}
+	
+	/**
+	 * Checks to see if all reviews have been submitted by reviewers assigned to this
+	 * manuscript.
+	 * @return false if no reviewers are assigned, or if any reviews are not submitted,
+	 *         and returns true if all reviewers have submitted their reveiw.
+	 */
+	public boolean isAllReviewsSubmitted() {
+		if(myReviews.isEmpty()) return false;
+		
+		for(int reviewerID : myReviews.keySet()) {
+			Review review = myReviews.get(reviewerID);
+		    if(Objects.isNull(review)) return false;
+		}
+		
+		return true;
 	}
 }
