@@ -288,8 +288,8 @@ public class ProgramChairUI {
 	private void finalizeSubPCAssignment(Manuscript theManuscript, SubProgramChair theSPC) {
 	    if(!brCheck_SubprogamNotAuthor(theManuscript, theSPC)) {
 	        System.out.println("Subprogram chair cannot be assigned to a Manuscript they authored.");
-	    } else if (theSPC.assignManuscript(theManuscript)== 0) {
-	        System.out.println("Subprogram chair cannont be assigned more than for Manuscripts.");
+	    } else if (theSPC.assignManuscript(theManuscript) == 0) {
+	        System.out.println("Subprogram Chair cannont be assigned more than four Manuscripts.");
 	    } else {
 	        //Need to add this method.
 	        theManuscript.setSPC(theSPC.getID());

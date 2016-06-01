@@ -13,6 +13,9 @@ public class SubProgramChair  extends RegisteredUser implements Serializable {
 
     /** This is a unique serial ID for this class */
 	private static final long serialVersionUID = 1L;
+	
+	public static final int MAX_SUBPC_ASSIGNED_MANUSCRIPTS = 4;
+	
 	private List<Manuscript> myManuscripts;
 
     /**
@@ -48,12 +51,18 @@ public class SubProgramChair  extends RegisteredUser implements Serializable {
 		@param the Manuscript to be assigned
      */
     public int assignManuscript(Manuscript theManuscript) {
-    	if (!myManuscripts.contains(theManuscript) && myManuscripts.size() != 4 
-    			&& theManuscript.getAuthorID() != getID()) {
-        	myManuscripts.add(theManuscript);
-        	return 0;
+    	System.err.println("here!");
+    	System.err.println(theManuscript + " " + brCheck_SubprogamNotAuthor(theManuscript)
+    			           + " " + brCheck_SubprogramChairNotOverAssigned());
+    	if (myManuscripts.contains(theManuscript)
+    	    || !brCheck_SubprogamNotAuthor(theManuscript)
+    	    || !brCheck_SubprogramChairNotOverAssigned()) {
+    		return -1;
     	}
-    	return -1;
+    	
+    	myManuscripts.add(theManuscript);
+    	return 0;
+    	
     }
     
     /**
@@ -68,5 +77,24 @@ public class SubProgramChair  extends RegisteredUser implements Serializable {
     	}
     	
     	return -1;
+    }
+    
+    /**
+     * Business Rule check to insure the Subprogram Chair is not assigned a manuscript they authored
+     * @param theManuscript the Manuscript in question.
+     * 
+     * @return true if the check is passed, false if the business rule would be broken.
+     */
+    public boolean brCheck_SubprogamNotAuthor(Manuscript theManuscript) {
+        return myID != theManuscript.getAuthorID();    
+    }
+
+    /**
+     * Business Rule check to insure the Subprogram Chair is not at the maximum assigned manuscripts.
+     * 
+     * @return true if the check is passed, false if the business rule would be broken.
+     */
+    public boolean brCheck_SubprogramChairNotOverAssigned() {
+        return myManuscripts.size() <= MAX_SUBPC_ASSIGNED_MANUSCRIPTS;
     }
 }
