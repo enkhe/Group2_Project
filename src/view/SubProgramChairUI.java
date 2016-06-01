@@ -213,11 +213,11 @@ public class SubProgramChairUI {
     	if(Objects.isNull(manuscript)) return;
 
     	displayRecommendationSelect(manuscript.getScale());
-    	recommendation = SystemHelper.promptUserInt() - 1;
+    	recommendation = SystemHelper.promptUserInt();
     	
     	if(recommendation == 0) return;
     	
-        finalizeRecommendation(manuscript, recommendation);
+        finalizeRecommendation(manuscript, recommendation - 1);
     }
     
     /*
@@ -314,7 +314,7 @@ public class SubProgramChairUI {
 	 * @param theRecommendation - The recommendation score to assign.
 	 */
 	private void finalizeRecommendation(Manuscript theManuscript, int theRecommendation) {
-        try {
+		try {
         	theManuscript.getScale().get(theRecommendation);
         	theManuscript.setRecommendation(theRecommendation);
         	System.out.println(theManuscript.getTitle() + "'s recommendation set to " 

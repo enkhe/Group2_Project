@@ -16,13 +16,8 @@ import view.SubProgramChairUI;
 public class SubProgramChairUITest {
 
 	private SubProgramChair mySubPC;
-	private Reviewer myRevWithNoManuscripts;
 	private Reviewer myRevWithOneManuscript;
-	private Reviewer myRevWithTwoManuscripts;
-	private Reviewer myRevWithThreeManuscripts;
-	private Reviewer myRevWithFourManuscripts;
 	private Conference myCon;
-	private Manuscript myMan;
 	private SubProgramChairUI myUI;
 	private SubProgramChair myInvalidSubPC;
 	
@@ -30,12 +25,9 @@ public class SubProgramChairUITest {
 	public void setUp() throws Exception { 
 		myInvalidSubPC = new SubProgramChair(new RegisteredUser("Test", "Test", "Test", 456));
 		mySubPC = new SubProgramChair(new RegisteredUser("Test", "Test", "Test", 123));
-		
-		myMan = new Manuscript();
 		myCon = new Conference();
 		myUI = new SubProgramChairUI(mySubPC, myCon);
 		myCon.addSubprogramChair(new RegisteredUser("Test", "Test", "Test", 123));
-		myMan = new Manuscript(myRevWithOneManuscript.getID());
 	}
 	
 	@Test

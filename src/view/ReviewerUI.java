@@ -249,13 +249,13 @@ public class ReviewerUI {
 			String strScore;
 			
 			if(Objects.nonNull(review)) {
-				strScore = SystemHelper.shorten(15, Integer.toString(review.getScore()));
+				strScore = SystemHelper.shorten(15, Integer.toString(review.getScore())) + "/10";
 			} else {
-				strScore = "---";
+				strScore = "--/10";
 			}
 				
 			String title = SystemHelper.shorten(30, man.getTitle());
-			System.out.printf(SystemHelper.REV_MAN_DISPLAY_FORMAT, title, strScore );
+			System.out.printf(SystemHelper.REV_MAN_DISPLAY_FORMAT, title, strScore);
 		}
 	}
 }
