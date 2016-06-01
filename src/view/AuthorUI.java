@@ -147,7 +147,12 @@ public class AuthorUI {
      * Menu item for Author manuscript submission.
      */
     public void makeChangesToMySubmission() {
-        displayScreenHeader("Change a Manuscript");
+        if(myCurrentConference.deadlinePassed(Calendar.getInstance())) {
+            System.out.println("Submittion deadline passed, no further modifications are allowed.");
+            return;
+        }
+        
+    	displayScreenHeader("Change a Manuscript");
         
         // View All manuscripts
         List<Manuscript> theManuscripts = myAuthor.getMyManuscripts();

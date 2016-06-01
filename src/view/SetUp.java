@@ -135,13 +135,15 @@ public class SetUp {
 		
 		ProgramChair programChair = new ProgramChair(myUserList.get(0)); //benk
 		theConference.setProgramChair(programChair);
-		
+		theConference.addSubprogramChair(new SubProgramChair(myUserList.get(0)));
 		theConference.addSubprogramChair(new SubProgramChair(myUserList.get(1)));
 		theConference.addSubprogramChair(new SubProgramChair(myUserList.get(2)));
 		theConference.addSubprogramChair(new SubProgramChair(myUserList.get(3)));
 		
 		for(int i = 4; i < 9; i++)
 			theConference.addReviewer(new Reviewer(myUserList.get(i)));
+		
+		theConference.addReviewer(new Reviewer(myUserList.get(0)));
 		
 		//theConference.getAllSubProgramChairs().get(0).assignManuscript(myManuscripts.get(0));
 		
