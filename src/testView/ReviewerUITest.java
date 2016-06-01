@@ -2,7 +2,6 @@ package testView;
 
 import static org.junit.Assert.*;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -13,53 +12,12 @@ import org.junit.Test;
 import model.*;
 
 /**
- * TCSS360
+ * TCSS360 
  * 
+ * @author Enkhamgalan Baterdene
+ * @version v2.0
  */
-
-
 public class ReviewerUITest {
-	Reviewer myRevWithNoManuscript;
-	Reviewer myRevWithOneManuscript;
-	Reviewer myRevWithTwoManuscript;
-	Reviewer myRevWithThreeManuscript;
-	Reviewer myRevWithFourManuscripts;
-	
-	
-	List<Manuscript> myManuscripts;
-	List<RegisteredUser> myRegUs;
-	
-	@BeforeClass
-	public void beforeClassTests() {
-		myManuscripts = new LinkedList<>();
-		myRegUs = new LinkedList<>();
-	}
-	
-	@Before
-	public void beforeAllTests() {
-		populateManuscripts(myManuscripts);
-		populateUserList(myRegUs);
-		myRevWithNoManuscript = new Reviewer(myRegUs.get(4));
-		myRevWithOneManuscript = new Reviewer(myRegUs.get(5));
-		myRevWithTwoManuscript = new Reviewer(myRegUs.get(6));
-		myRevWithThreeManuscript = new Reviewer(myRegUs.get(7));
-		myRevWithFourManuscripts = new Reviewer(myRegUs.get(8));
-		
-		myRevWithOneManuscript.assignManuscript(myManuscripts.get(0));
-		
-		myRevWithTwoManuscript.assignManuscript(myManuscripts.get(1));
-		myRevWithTwoManuscript.assignManuscript(myManuscripts.get(2));
-		
-		myRevWithThreeManuscript.assignManuscript(myManuscripts.get(1));
-		myRevWithThreeManuscript.assignManuscript(myManuscripts.get(2));
-		myRevWithThreeManuscript.assignManuscript(myManuscripts.get(3));
-		
-
-		myRevWithFourManuscripts.assignManuscript(myManuscripts.get(4));
-		myRevWithFourManuscripts.assignManuscript(myManuscripts.get(5));
-		myRevWithFourManuscripts.assignManuscript(myManuscripts.get(6));
-		myRevWithFourManuscripts.assignManuscript(myManuscripts.get(7));
-	}
 	
 	@Test
 	public void testBrCheck_ReviewerCanNotReviewAManuscriptThatHeOrSheAuthored() {
@@ -94,9 +52,31 @@ public class ReviewerUITest {
 	
 	
 	@Test
-	public void testBrCheck_ReviewerCanAssignMaximumFourManuscripts() {
-		fail("Unimplemented Test.");
+	public void testBrCheck_ReviewerCanAssignMaximumFourManuscriptsAndCantExceed() {
+		// Arrange
+		int expected = -1;
+		
+		// Act
+		int actual = myRevWithFourManuscripts.assignManuscript(myManuscripts.get(3));
+		
+		// Assert
+		assertTrue("A Reviewer can be assigned to review a maximum of 4 manuscript s to review for any conference", 
+				expected==actual);
 	}
+	
+	@Test
+	public void testBrCheck_ReviewerCanAssignMaximumFourManuscripts() {
+		// Arrange
+		int expected = 0;
+		
+		// Act
+		int actual = myRevWithThreeManuscript.assignManuscript(myManuscripts.get(4));
+		
+		// Assert
+		assertTrue("A Reviewer can be assigned to review a maximum of 4 manuscript s to review for any conference", 
+				expected==actual);
+	}
+	
 	
 	private void populateManuscripts(List<Manuscript> manuscripts) {
 		if (manuscripts.size() > 0) manuscripts.clear();
@@ -168,5 +148,43 @@ public class ReviewerUITest {
 		registeredUsers.add(new RegisteredUser("Leon", 		"Lane", 		"llane", 		count++));
 		registeredUsers.add(new RegisteredUser("Blake", 	"Hansen", 		"bhansen", 		count++));
 	}
+	
+	@Before
+	public void beforeAllTests() {
+		myManuscripts = new LinkedList<>();
+		myRegUs = new LinkedList<>();
+		populateManuscripts(myManuscripts);
+		populateUserList(myRegUs);
+		myRevWithNoManuscript = new Reviewer(myRegUs.get(4));
+		myRevWithOneManuscript = new Reviewer(myRegUs.get(5));
+		myRevWithTwoManuscript = new Reviewer(myRegUs.get(6));
+		myRevWithThreeManuscript = new Reviewer(myRegUs.get(7));
+		myRevWithFourManuscripts = new Reviewer(myRegUs.get(2));
+		
+		myRevWithOneManuscript.assignManuscript(myManuscripts.get(0));
+		
+		myRevWithTwoManuscript.assignManuscript(myManuscripts.get(1));
+		myRevWithTwoManuscript.assignManuscript(myManuscripts.get(2));
+		
+		myRevWithThreeManuscript.assignManuscript(myManuscripts.get(1));
+		myRevWithThreeManuscript.assignManuscript(myManuscripts.get(2));
+		myRevWithThreeManuscript.assignManuscript(myManuscripts.get(3));
+		
+
+		myRevWithFourManuscripts.assignManuscript(myManuscripts.get(4));
+		myRevWithFourManuscripts.assignManuscript(myManuscripts.get(5));
+		myRevWithFourManuscripts.assignManuscript(myManuscripts.get(6));
+		myRevWithFourManuscripts.assignManuscript(myManuscripts.get(0));
+	}
+	
+	Reviewer myRevWithNoManuscript;
+	Reviewer myRevWithOneManuscript;
+	Reviewer myRevWithTwoManuscript;
+	Reviewer myRevWithThreeManuscript;
+	Reviewer myRevWithFourManuscripts;
+	
+	
+	List<Manuscript> myManuscripts;
+	List<RegisteredUser> myRegUs;
 	
 }
