@@ -45,6 +45,7 @@ public class AuthorUI {
 
         do {
             displayScreenHeader(MENU_TITLE);
+            displayManuscriptsForAuthor();
 
             writeln("1) Submit a Manuscript");
             writeln("2) Remove a Manuscript");
@@ -302,14 +303,13 @@ public class AuthorUI {
         writeln(myCurrentConference.getConferenceName());
         writeln("Author: " + myAuthor.getUserName());
         writeln(menuTitle + "\n");
-        displayManuscriptsForAuthor();
     }
     
 	private void displayManuscriptsForAuthor() {
 		List<Manuscript> manuscripts = myCurrentConference.getAllAuthorsManuscript(myAuthor.getID());
 		
 		System.out.printf(SystemHelper.AUT_MAN_DISPLAY_FORMAT, "Manuscript Titles", "Submission Deadline", "Acceptance Status");
-		SystemHelper.displayDashedLinesFor(myAuthor);
+		SystemHelper.displayDashedLinesShort();
 		
 		if (manuscripts.size() < 1) {
 			System.out.println("Not Available.\n");

@@ -46,23 +46,16 @@ public class ReviewerUI {
 
 		do {
 			displayScreenHeader("Reviewer Menu");
+			displayManuscriptsForReviewer();
 
 		    writeln("\nPlease enter a command below.");
-			writeln("1) View all assigned manuscripts");
-			writeln("2) Update/Remove a Review");
-			writeln("3) Upload Review");
+			writeln("1) Upload Review");
 			writeln("9) Exit to Login Menu");
 			writeln("0) Back to Role Selection");
 			choice = SystemHelper.promptUserInt();
 
 			switch (choice) {
 				case 1:
-					viewAllAssignedManuscripts();
-					break;
-				case 2:
-					reviewerUpdateRemoveReview();
-					break;
-				case 3:
 					reviewerUploadReview();
 					break;
 				case 9:
@@ -79,23 +72,6 @@ public class ReviewerUI {
 		} while (choice != 0);
 		
 		return choice;
-	}
-
-	/**
-	 * Display Reviewer's reviews for manuscripts.
-	 */
-	public void viewAllAssignedManuscripts() {
-		for(Manuscript manuscript : myReviewer.getMyAssignedManuscripts()) {
-			Review review = manuscript.getReviews().get(myReviewer.getID());
-			
-			System.out.print(manuscript.getTitle());
-			if(Objects.nonNull(review)) {
-				System.out.println("   Review Score: " + review.getScore() 
-						+ " Review Path: " + review.getReviewFile());
-			} else {
-				System.out.println("   No review submitted.");
-			}
-		}
 	}
 	
 	/**
@@ -164,6 +140,44 @@ public class ReviewerUI {
 		}
 	}
 
+	/**
+	 * Reivewer menu for uploading reviews.
+	 */
+	public void reviewerUploadReview() {
+		displayScreenHeader("Upload Review");
+	
+		// Firstly, view all assigned manuscripts & see if any of them is not
+		// reviewed
+		List<Manuscript> myManuscripts = myReviewer.getMyAssignedManuscripts();
+	
+		int counter = 1;
+		for (Manuscript manuscript : myManuscripts) {
+			
+			write(counter++ + ") " + manuscript.getTitle());
+	
+		}
+	
+		int choice = SystemHelper.promptUserInt();
+		
+		// selected manuscript that needs an review update.
+		Manuscript theManuscript = myReviewer.getMyAssignedManuscripts().get(choice - 1);
+		
+		int intScore = -1;
+	
+		writeln("Please enter a review score.");
+		writeln("Scale 1 - 10 (Worst to Best).");
+		intScore = SystemHelper.promptUserInt();
+		
+		writeln("Please, enter the file path for the full review.");
+		writeln("Sample path: C:\\users\\author\\documents\\paper.docx");
+		String reviewPath = SystemHelper.promptUserString();
+		
+		Review revNewReview = new Review(intScore, reviewPath);
+		theManuscript.setReview(myReviewer.getID(), revNewReview);
+		
+		writeln("You've successfully saved a review for " + theManuscript.getTitle() + " with a score of " + intScore);
+	}
+
 	private void updateGivenManuscript(Manuscript selectedManuscript) {
 		int intScore = -1;
 		String strFilePath = selectedManuscript.getFile();
@@ -180,44 +194,6 @@ public class ReviewerUI {
 		writeln("You've successfully updated " + selectedManuscript.getTitle());
 	}
 
-	/**
-	 * Reivewer menu for uploading reviews.
-	 */
-	public void reviewerUploadReview() {
-		displayScreenHeader("Upload Review");
-
-		// Firstly, view all assigned manuscripts & see if any of them is not
-		// reviewed
-		List<Manuscript> myManuscripts = myReviewer.getMyAssignedManuscripts();
-
-		int counter = 1;
-		for (Manuscript manuscript : myManuscripts) {
-			
-			write(counter++ + ") " + manuscript.getTitle());
-
-		}
-
-		int choice = SystemHelper.promptUserInt();
-		
-		// selected manuscript that needs an review update.
-		Manuscript theManuscript = myReviewer.getMyAssignedManuscripts().get(choice - 1);
-		
-		int intScore = -1;
-
-		writeln("Please enter a review score.");
-		writeln("1 being weakest to 10 being the best.\n");
-		intScore = SystemHelper.promptUserInt();
-		
-		writeln("Please, enter the file path for the full review.");
-		writeln("Sample path: C:\\users\\author\\documents\\paper.docx\n");
-		String reviewPath = SystemHelper.promptUserString();
-		
-		Review revNewReview = new Review(intScore, reviewPath);
-		theManuscript.setReview(myReviewer.getID(), revNewReview);
-		
-		writeln("You've successfully saved a review for " + theManuscript.getTitle() + " with a score of " + intScore);
-	}
-
 	private void write(String theInput) {
 		System.out.println(theInput);
 	}
@@ -231,14 +207,14 @@ public class ReviewerUI {
 		System.out.println(myCurrentConference.getConferenceName());
 		System.out.println("Reviewer: " + myReviewer.getUserName());
 		System.out.println(menuTitle);
-		displayManuscriptsForReviewer();
 	}
 
 	private void displayManuscriptsForReviewer() {
 		List<Manuscript> manuscripts = myReviewer.getMyAssignedManuscripts();
 		
-		System.out.printf(SystemHelper.REV_MAN_DISPLAY_FORMAT, "Manuscript Titles", "Score");
-		SystemHelper.displayDashedLinesFor(myReviewer);
+		System.out.printf("\n" + SystemHelper.REV_MAN_DISPLAY_FORMAT, 
+				          "Manuscript Titles", "Score");
+		SystemHelper.displayDashedLinesShort();
 		
 		if (manuscripts.size() < 1) {
 			System.out.println("Not Available.\n");

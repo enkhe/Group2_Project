@@ -31,32 +31,37 @@ public class SystemHelper {
     public final static String SAVE_FILE = "save.ser";
     
     /**
-     * A constant to represent the title of the system for menu output.
+     * Used to represent the title of the system for menu output.
      */
     public final static String SYS_TITLE = "\nMSEE Conference Management System";
     
     /**
-     * A constant used to store the format string for conference menu selection.
+     * Used to store the format string for conference menu selection.
      */
-    public final static String CONFERENCE_MENU_FORMAT = "\n%1d) %-70s %10s";
+    public final static String CONFERENCE_MENU_FORMAT = "%1d) %-70s %10s\n";
     
     /**
-     * A constant used to store the format string for detailed manuscript display.
+     * Used to store the format string for detailed manuscript display.
      */
-    public final static String PC_MAN_DISPLAY_FORMAT = "\n%-30s %-20s %-25s %s\n";
+    public final static String PC_MAN_DISPLAY_FORMAT = "%-30s %-20s %-25s %s\n";
     
-    
+    /**
+     * Used to format Author Manuscript Table.
+     */
     public final static String AUT_MAN_DISPLAY_FORMAT = "%-30s %-30s %s\n";
     	
+    /**
+     * Used to format Review Manuscript Table.
+     */
     public final static String REV_MAN_DISPLAY_FORMAT = "%-30s %s\n";
 	
     /**
-     * A constant used to store the format string for detailed manuscript display.
+     * Used to store the format string for detailed manuscript display.
      */
-    public final static String SPC_MAN_DISPLAY_FORMAT = "\n%-30s %-20s %-25s %s\n";
+    public final static String SPC_MAN_DISPLAY_FORMAT = "%-30s %-20s %-25s %s\n";
     
     /**
-     * A constant string used in table output when there is no information to display.
+     * Used in table output when there is no information to display.
      */
     public final static String NOTHING_TO_DISPLAY = "----------";
     
@@ -115,9 +120,20 @@ public class SystemHelper {
     	for(int i = 0; i < TABLE_WIDTH; i++) {
 	        System.out.print("-");
 	    }
+    	System.out.println("");
     }
     
     /**
+	 * Displays a horizontal dashed line for Table formatting for narrow tables.
+	*/
+	public static void displayDashedLinesShort() {
+		for (int i = 0; i < TABLE_WIDTH_1; i++) {
+	        System.out.print("-");
+	    }
+		System.out.println("");
+	}
+
+	/**
      * Writes the current state of the provided ManagementSystem to the
      * file save.ser.
      *  
@@ -161,21 +177,6 @@ public class SystemHelper {
  }
 
     /**
-     * Displays a horizontal dashed line for Table formatting for users.
-     * @param user - A registered user. (i.e. Author, Program Chair, Sub Program Chair, Reviewer)
-     */
-	public static void displayDashedLinesFor(RegisteredUser user) {
-		int numLines = TABLE_WIDTH_1;
-		if (user instanceof ProgramChair) {
-			numLines = TABLE_WIDTH;
-		} 
-		for(int i = 0; i < numLines; i++) {
-	        System.out.print("-");
-	    }
-		System.out.println("");
-	}
-	
-	/**
 	 * Shorthens the given text to desired length.
 	 * 
 	 * @param length - Given number of characters allowed.
