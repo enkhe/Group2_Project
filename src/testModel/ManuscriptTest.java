@@ -4,8 +4,6 @@ package testModel;
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.io.IOException;
-
 import org.junit.Before;
 import org.junit.Test;
 import model.*;
@@ -53,13 +51,6 @@ public class ManuscriptTest {
 	public void testSetReviewWithNullObject() {
 		//-1 is returned if the review is null and fails to set.
 		assertEquals(manuscript1.setReview(author.getID(), null), -1);
-	}
-	
-	@Test (expected = IOException.class)
-	public void testSetReviewWithIncorrectFilePath() {
-		//An incorrect path should throw an IOException and be caught
-		review.setReviewFile(review.getReviewFile() + "\\incorrectFilePath");
-		manuscript3.setReview(1111, review);
 	}
 	
 	@Test (expected = IllegalArgumentException.class)

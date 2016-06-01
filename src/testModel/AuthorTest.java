@@ -69,12 +69,6 @@ public class AuthorTest {
 		assertEquals(author.submitManuscript(conferenceName, manuscript1), -1);
 	}
 	
-	@Test (expected = IOException.class)
-	public void testSubmitManuscriptIncorrectFilePath() {
-		//-1 is returned if a paper is unsuccessfully submitted.
-		assertEquals(author.submitManuscript(conferenceName, manuscript3), -1);
-	}
-	
 	@Test
 	public void testRemoveManuscriptExists() {
 		//0 is returned if a paper is removed successfully.
@@ -99,12 +93,5 @@ public class AuthorTest {
 	public void testReplaceManuscriptDoesNotExist() {
 		//-1 is returned if a paper is not replaced.
 		assertEquals(author2.replaceManuscript(manuscript1, manuscript3), -1);
-	}
-	
-	@Test
-	public void testManuscriptExistsFilePathBranch() {
-		author2.submitManuscript(conferenceName, manuscript1);
-		manuscript1.setFilePath("incorrectFilePath");
-		assertEquals(author2.removeManuscript(manuscript1), -1);
 	}
 }
