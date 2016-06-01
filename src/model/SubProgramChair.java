@@ -47,10 +47,13 @@ public class SubProgramChair  extends RegisteredUser implements Serializable {
 		
 		@param the Manuscript to be assigned
      */
-    public void assignManuscript(Manuscript theManuscript) {
-    	if (!myManuscripts.contains(theManuscript)) {
+    public int assignManuscript(Manuscript theManuscript) {
+    	if (!myManuscripts.contains(theManuscript) && myManuscripts.size() != 4 
+    			&& theManuscript.getAuthorID() != getID()) {
         	myManuscripts.add(theManuscript);
+        	return 0;
     	}
+    	return -1;
     }
     
     /**
@@ -61,9 +64,9 @@ public class SubProgramChair  extends RegisteredUser implements Serializable {
     public int unassignManuscript(Manuscript theManuscript) {
     	if (myManuscripts.contains(theManuscript)) {
     		myManuscripts.remove(theManuscript);
-    		return 1;
+    		return 0;
     	}
     	
-    	return 0;
+    	return -1;
     }
 }

@@ -14,13 +14,7 @@ import model.SubProgramChair;
  * @version MAY 20 2016
  */
 public class ProgramChairUI {
-    /*
-     * Used to represent the maximum manuscripts a subprogram chair can be
-     * assigned.
-     */
-    private final int MAX_SUBPC_ASSIGNED_MANUSCRIPTS = 4;
-    
-    /*
+	/*
      * Used to assign an accepted status.
      */
     private final int ACCEPT = 1;
@@ -287,12 +281,11 @@ public class ProgramChairUI {
 	private void finalizeSubPCAssignment(Manuscript theManuscript, SubProgramChair theSPC) {
 	    if(!brCheck_SubprogamNotAuthor(theManuscript, theSPC)) {
 	        System.out.println("Subprogram chair cannot be assigned to a Manuscript they authored.");
-	    } else if (!brCheck_SubprogramChairNotOverAssigned(theSPC)) {
+	    } else if (theSPC.assignManuscript(theManuscript)== 0) {
 	        System.out.println("Subprogram chair cannont be assigned more than for Manuscripts.");
 	    } else {
 	        //Need to add this method.
 	        theManuscript.setSPC(theSPC.getID());
-	        theSPC.assignManuscript(theManuscript);
 	        System.out.println(theSPC.getLastName() + " assinged to " + theManuscript.getTitle() + "!");
 	    }
 	}
@@ -306,16 +299,5 @@ public class ProgramChairUI {
      */
     public boolean brCheck_SubprogamNotAuthor(Manuscript theManuscript, SubProgramChair theSPC) {
         return theSPC.getID() != theManuscript.getAuthorID();    
-    }
-
-    /**
-     * Business Rule check to insure the Subprogram Chair is not at the maximum assigned manuscripts.
-     * @param theSPC the SubProgramChair in question.
-     * 
-     * @return true if the check is passed, false if the business rule would be broken.
-     */
-    public boolean brCheck_SubprogramChairNotOverAssigned(SubProgramChair theSPC) {
-        return theSPC.getMyAssignedManuscripts().size() < MAX_SUBPC_ASSIGNED_MANUSCRIPTS;
-    }
-    
+    }   
 }
