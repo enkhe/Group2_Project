@@ -290,7 +290,8 @@ public class SubProgramChairUI {
 	private void displayDetailLineForEachReviewer(Map<Integer, Review> reviews, Set<Integer> reviewers, 
 			                                      String title, String recommendation) {
 		for(Integer reviewID : reviewers) {
-			String reviewerLastName = searchReviewerLastName(reviewID);
+			Reviewer reviewer = myCurrentConference.getReviewer(reviewID);
+			String reviewerLastName = reviewer.getLastName();
         	Review review = reviews.get(reviewID);
         	// Need a get max scale for review scores.
         	String reviewScore = review == null ? "--/10" : review.getScore() + "/10";
@@ -302,8 +303,6 @@ public class SubProgramChairUI {
         	recommendation = "";
 		}
 	}
-	
-	// Possible methods to be pushed to model.
 
 	/*
 	 * Finalizes the "Make Recommendation" option by assigning a selected recommendation to
@@ -346,19 +345,4 @@ public class SubProgramChairUI {
         	System.out.println("Invalid reviewer selected.");
         }
     }
-	
-	/**
-	 * A linear search used to identify the last name of the reviewer with the specified user ID.
-	 * @param reviewID - The User ID of the target reviewer.
-	 * @return the last name of the target reviewer.
-	 */
-	private String searchReviewerLastName(int reviewID) {
-		for(Reviewer reviewer : myCurrentConference.getAllReviewers()) {
-	    	if(reviewID == reviewer.getID()) {
-	    		return reviewer.getLastName();
-	    	}
-	    }
-		
-		return SystemHelper.NOTHING_TO_DISPLAY;
-	}
 }

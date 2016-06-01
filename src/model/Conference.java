@@ -352,10 +352,18 @@ public class Conference implements Serializable {
 		return 0;
 	}
 	
-	public int modifyManuscript(Manuscript theOriginal, String theTitle) {
+	/**
+	 * Updates the title of the specified manuscript to new title provided.
+	 * Assumes the Manuscript is a valid manuscript for this conference.
+	 * @param theManuscript the Manuscript to modify.
+	 * @param theTitle the title to be used to update Manuscript
+	 * @return A return code, 0 for successful transaction or -1 if the manuscript
+	 *         could not be updated.
+	 */
+	public int modifyManuscript(Manuscript theManuscript, String theTitle) {
 		int result = -1;
-		if(myManuscripts.contains(theOriginal)) {
-			Manuscript manuscriptToUpdate = myManuscripts.get(myManuscripts.indexOf(theOriginal));
+		if(myManuscripts.contains(theManuscript)) {
+			Manuscript manuscriptToUpdate = myManuscripts.get(myManuscripts.indexOf(theManuscript));
 			manuscriptToUpdate.setTitle(theTitle);
 			result = 0;
 		}

@@ -243,4 +243,18 @@ public class Manuscript implements Serializable {
 	public String getTitle() {
 		return myTitle;
 	}
+	
+	/**
+	 * Checks to see if the manuscript already has a SubProgramChair assigned to it
+	 * to help enforce the business rule that states "A Manuscript can only have one
+	 * SubProgramChair assigned to it."
+	 * @return
+	 */
+	public boolean br_checkAlreadyHasSPC() {
+		return mySPC != -1;
+	}
+	
+	public boolean isRecommendationSubmitted() {
+		return myRecommendation != -1;
+	}
 }

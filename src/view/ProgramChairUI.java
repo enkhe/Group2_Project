@@ -109,8 +109,18 @@ public class ProgramChairUI {
      * Displays a menu to accept or reject a manuscript.
      */
     private void changeManuscriptAcceptance() {
-        int choice = -1;
+    	int choice = -1;
         Manuscript selectedManuscript = programChairSelectManuscript();
+        
+        if (Objects.isNull(selectedManuscript)) {
+        	System.out.println("Invalid Manuscript Selection.");
+        	return;
+        }
+        
+        if (!selectedManuscript.isRecommendationSubmitted()) {
+        	System.out.println("Unable to change the acceptance of a manuscript until a recommendation is made.");
+        	return;
+        }
         
         displayScreenHeader("Manuscript Acceptance");
         if (Objects.nonNull(selectedManuscript)) {
@@ -145,8 +155,13 @@ public class ProgramChairUI {
         Manuscript selectedManuscript = programChairSelectManuscript();
         SubProgramChair selectedSubPC = null;
         
-        if(Objects.isNull(selectedManuscript) || selectedManuscript.getSPC() > -1)  {
-        	System.out.println("\nSelected Manuscript already has a Subprogram Chair.");
+        if(Objects.isNull(selectedManuscript)) {
+        	System.out.println("\nInvalid Manuscript Selection.");
+        	return;
+        }
+        
+        if(selectedManuscript.br_checkAlreadyHasSPC())  {
+        	System.out.println("\nManuscript already has a Subprogram Chair Assigned.");
             return;
         }
         
