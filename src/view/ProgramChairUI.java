@@ -259,7 +259,7 @@ public class ProgramChairUI {
 	    List<Manuscript> manuscripts = myCurrentConference.getAllAuthorsManuscript(1);
 	    
 	    //Headers
-	    System.out.printf(SystemHelper.PC_MAN_DISPLAY_FORMAT, "Title", 
+	    System.out.printf("\n" + SystemHelper.PC_MAN_DISPLAY_FORMAT, "Title", 
 	                      "Subprogram Chair", "Recommendation", "Accepted");
 	    SystemHelper.displayDashedLine();
 	    
@@ -286,10 +286,8 @@ public class ProgramChairUI {
 	 * an error message if any business rule fails.
 	 */
 	private void finalizeSubPCAssignment(Manuscript theManuscript, SubProgramChair theSPC) {
-	    if(!brCheck_SubprogamNotAuthor(theManuscript, theSPC)) {
-	        System.out.println("Subprogram chair cannot be assigned to a Manuscript they authored.");
-	    } else if (theSPC.assignManuscript(theManuscript) == 0) {
-	        System.out.println("Subprogram Chair cannont be assigned more than four Manuscripts.");
+	    if (theSPC.assignManuscript(theManuscript) != 0) {
+	        System.out.println("An Error occured when adding assigning the manuscript.");
 	    } else {
 	        //Need to add this method.
 	        theManuscript.setSPC(theSPC.getID());

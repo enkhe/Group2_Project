@@ -287,7 +287,7 @@ public class ManagementSystem implements Serializable {
         	System.out.printf(SystemHelper.CONFERENCE_MENU_FORMAT, i+1, conferenceName, 
         			                                               deadlineString);
         }
-        System.out.println("\n\n0) Return");
+        System.out.println("\n0) Return");
     }
     
     /*

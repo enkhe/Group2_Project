@@ -262,7 +262,7 @@ public class SubProgramChairUI {
 	 */
 	private void displayManuscriptTable() {
 	    //Headers
-	    System.out.printf(SystemHelper.SPC_MAN_DISPLAY_FORMAT, "Title", 
+	    System.out.printf("\n" + SystemHelper.SPC_MAN_DISPLAY_FORMAT, "Title", 
 	                      "Reviewer", "Review Score", "Recommendation");
 	    SystemHelper.displayDashedLine();
 	     
@@ -271,7 +271,7 @@ public class SubProgramChairUI {
 	    }
 	    
 	    for (Manuscript manuscript : mySPC.getMyAssignedManuscripts()) {
-	        String title = manuscript.getTitle();
+	        String title = SystemHelper.shorten(30, manuscript.getTitle());
 	        String recommendation = manuscript.getRecommendation();
 	        
 	        Map<Integer, Review> reviews = manuscript.getReviews();
@@ -310,6 +310,7 @@ public class SubProgramChairUI {
         	title = "";
         	recommendation = "";
 		}
+		System.out.println("");
 	}
 
 	/*
