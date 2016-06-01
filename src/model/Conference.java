@@ -307,9 +307,9 @@ public class Conference implements Serializable {
 	
 	/**
 	 * Takes a Manuscript and adds it to the Authors list of Manuscripts
-	 * if the following conditions are met.
-	 * 1) The Manuscript must not already exist.
-	 * 2) the Author must not exceed 4 submissions. 
+	 * if the following conditions are met:
+	 * The Manuscript must not already exist, and
+	 * the Author must not exceed 4 submissions. 
 	 * 
 	 * @return 0 is returned for a successful add.
 	 *         -1 is returned for an unsuccessful add.
@@ -359,26 +359,6 @@ public class Conference implements Serializable {
 			manuscriptToUpdate.setTitle(theTitle);
 			result = 0;
 		}
-		
-//		if(exists(theOriginal)) {
-//			myManuscripts.remove(theOriginal);
-//			myManuscripts.add(theNew);
-//			
-//			for(Reviewer reviewer : myReviewers) {
-//				if(reviewer.unassignManuscript(theOriginal) == 1) {
-//					reviewer.assignManuscript(theNew);
-//				}
-//			}
-//			
-//			for(SubProgramChair sub : mySubProgramChairs) {
-//				if(sub.unassignManuscript(theOriginal) == 1) {
-//					sub.assignManuscript(theNew);
-//				}
-//			}
-//			
-//		} else {
-//			return -1;
-//		}
 		
 		return result;
 	}

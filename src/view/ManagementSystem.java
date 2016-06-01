@@ -14,7 +14,7 @@ import model.RegisteredUser;
  * Manages the user interface for a Conference Management System,
  * 
  * @author Shaun Coleman
- * @version MAY 24 2015
+ * @version MAY 31 2015
  */
 public class ManagementSystem implements Serializable {
     
