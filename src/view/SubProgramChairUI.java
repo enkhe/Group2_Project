@@ -60,7 +60,7 @@ public class SubProgramChairUI {
      */
     public SubProgramChairUI(RegisteredUser theUser, Conference theConference) {
     	myCurrentConference = theConference;
-    	setSubProgramChair(theUser.getID());
+    	mySPC = myCurrentConference.searchSubProgramChairByID(theUser.getID());
     }
 
     /**
@@ -361,25 +361,4 @@ public class SubProgramChairUI {
 		
 		return SystemHelper.NOTHING_TO_DISPLAY;
 	}
-
-	/**
-     * Linear search for the correct SubProgramChair object based on the passed
-     * user id.  Sets the current SubProgramChair to the found object, or null if
-     * the object is not found.
-     * 
-     * @param theID the ID of the desired SubProgramChair object.
-     */
-    public int setSubProgramChair(int theID) {
-    	mySPC = null;
-    	for (SubProgramChair sub : myCurrentConference.getAllSubProgramChairs()) {
-    		if (sub.getID() == theID) {
-    			mySPC = sub;
-    			return 1;
-    		}
-    	}
-    	
-    	return 0;
-    }
-    
-    
 }

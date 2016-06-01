@@ -29,19 +29,6 @@ public class SubProgramChairUITest {
 		myUI = new SubProgramChairUI(mySubPC, myCon);
 		myCon.addSubprogramChair(new RegisteredUser("Test", "Test", "Test", 123));
 	}
-	
-	@Test
-	public void testSetSubProgramChairOnValidSubProgramChairID() {		
-	    assertTrue(myUI.setSubProgramChair(mySubPC.getID()) == 1);
-	}
-	
-	@Test
-	public void testSetSubProgramChairOnInvalidSubProgramChairID() {
-		assertFalse(myUI.setSubProgramChair(myInvalidSubPC.getID()) == 1);
-	}
-	
 
-	
-	
 }
 

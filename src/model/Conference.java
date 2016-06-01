@@ -316,7 +316,7 @@ public class Conference implements Serializable {
 	 */
 	public int submitManuscript(Manuscript theManuscript, Author theAuthor){
 		
-		if(!exists(theManuscript)) {
+		if(!manuscriptExistsInConference(theManuscript)) {
 			myManuscripts.add(theManuscript);
 			addAuthor(theAuthor);
 		} else {
@@ -334,7 +334,7 @@ public class Conference implements Serializable {
 	 * -1 is returned for an unsuccessful remove.
 	 */
 	public int removeManuscript(Manuscript theManuscript){
-		if(exists(theManuscript)) {
+		if(manuscriptExistsInConference(theManuscript)) {
 			myManuscripts.remove(theManuscript);
 			
 			for(Reviewer reviewer : myReviewers) {
@@ -363,12 +363,12 @@ public class Conference implements Serializable {
 		return result;
 	}
 	
-	/**
+	/*
 	 * Private method that checks if a Manuscript exists on the list
 	 * of Manuscripts the Author has already submitted. Returns true if it exists
 	 * and false if it doesn't.
 	 */
-	private boolean exists(Manuscript theManuscript) {
+	private boolean manuscriptExistsInConference(Manuscript theManuscript) {
 		boolean exists = false;
 		
 		for(Manuscript m : myManuscripts) {
@@ -380,4 +380,24 @@ public class Conference implements Serializable {
 		
 		return exists;
 	}
+	
+	/**
+     * Linear search for the correct SubProgramChair object based on the passed
+     * user id.  
+     * 
+     * @param theID the ID of the desired SubProgramChair object.
+     * @return the SubProgramChair for the specified ID, or null if
+     * the object is not found.
+     */
+    public SubProgramChair searchSubProgramChairByID(int theID) {
+    	SubProgramChair subProgramChair = null;
+    	for (SubProgramChair sub : getAllSubProgramChairs()) {
+    		if (sub.getID() == theID) {
+    			subProgramChair = sub;
+    			return subProgramChair;
+    		}
+    	}
+    	
+    	return null;
+    }
 }
