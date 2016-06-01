@@ -17,7 +17,8 @@ import model.RegisteredUser;
  * @version MAY 24 2015
  */
 public class ManagementSystem implements Serializable {
-    /*
+    
+	/*
      * Eclipse Generated UID for serialization.
      */
     private static final long serialVersionUID = -4051485962926076869L;

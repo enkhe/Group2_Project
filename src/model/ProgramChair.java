@@ -13,6 +13,7 @@ public class ProgramChair extends RegisteredUser implements Serializable {
 	
     /** This is a unique serial ID for this class */
 	private static final long serialVersionUID = 1L;
+	
 	private List<Integer> mySubPCAssignments;
 	
    /**
@@ -21,7 +22,6 @@ public class ProgramChair extends RegisteredUser implements Serializable {
 	public ProgramChair() {
 		mySubPCAssignments = new ArrayList<Integer>();
 	}
-    /**
 	
     /**
 		Overloaded Constructor

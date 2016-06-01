@@ -1,5 +1,5 @@
-/**
- * 
+/*
+ * TCSS360 Group2 Project 
  */
 package testModel;
 
@@ -10,101 +10,170 @@ import org.junit.Test;
 import model.*;
 
 /**
+ * A set of unit tests to help prove proper functionality of Conference.java.
  * @author Tyler
- *
+ * @author Shaun Coleman
+ * @version MAY 31 2016
  */
 public class ConferenceTest {
 	
 	Conference myConference;
-	Author author;
-	RegisteredUser user;
-	Reviewer reviewer;
+	RegisteredUser userInConference;
+	RegisteredUser userNotInConference;
+	Author authorInConference;
+	Author authorNotInConference;
+	Reviewer reviewerInConference;
+	Reviewer reviewerNotInConference;
+	SubProgramChair subPCInConference;
+	SubProgramChair subPCNotInConference;
+	ProgramChair programChairInConference;
+	ProgramChair programChairNotInConference;
+	Calendar preDeadlineDate;
+	Calendar postDeadlineDate;
 
 	@Before
 	public void setUp() throws Exception {
 		myConference = new Conference();
-		user = new RegisteredUser("Tyler", "Brent", "tylerkb2", 1234);
-		author = new Author(user);
-		reviewer = new Reviewer(user);
-	}
-
-	@Test
-	public void testAuthor() {
-		//test that when author is added, we can retrieve the same object.
-		myConference.addAuthor(author);
-		assertEquals(myConference.getAuthor(author.getID()), author);
-		// Author has been added and should show up as an author on Conference.
-		assertEquals(myConference.isAuthor(author.getID()), true);
-		//test that when we remove the author, it's actually being removed from
-		//the list.
-		myConference.removeAuthor(author.getID());
-		assertEquals( myConference.getAuthor(author.getID()).getID(), -1);
-		// 0000 is a made up ID and shouldn't show up as an Author.
-		assertEquals(myConference.isAuthor(0000), false);
-	}
-	
-	@Test
-	public void testDeadlinePassed() {
-		//For testing, the conference deadline is preset at 5 days past its creation.
-		//To test if this is working I made a Calendar date 6 days past its creation...
-		//and so on.
-		Calendar test = Calendar.getInstance();
-		assertEquals("Deadline has not passed.", myConference.deadlinePassed(test), false);
-		//Add 6 days to check.
-		test.add(Calendar.DAY_OF_YEAR, 6);
-		assertEquals("Deadline has passed.", myConference.deadlinePassed(test), true);
-	}
-	
-	@Test
-	public void testReviewer() {
-		//test that when reviewer is added, we can retrieve the same object.
-		myConference.addReviewer(reviewer);
-		assertEquals(myConference.getReviewer(reviewer.getID()), reviewer);
-		//isReviewer should return true since we just added it.
-		assertEquals(myConference.isReviewer(reviewer.getID()), true);
-		//0000 is a made up ID and shouldn't match a reviewer.
-		assertEquals(myConference.isReviewer(0000), false);
-		//test that when we remove the reviewer, it's actually being removed from
-		//the list.
-		myConference.removeReviewer(reviewer.getID());			
-		assertEquals( myConference.getReviewer(reviewer.getID()).getID(), -1);
-	}
-	
-	@Test
-	public void testPC() {
-		//Test that we can check ID for Program Chair
-		ProgramChair pc = new ProgramChair(user);
-		myConference.setProgramChair(pc);
-		assertEquals(myConference.isProgramChair(pc.getID()), true);
-		//0000 is a made up ID and shouldn't match a PC.
-		assertEquals(myConference.isProgramChair(0000), false);
-	}
-	
-	@Test
-	public void testSPC() {
-		//Test that we can check ID for SPC
-		SubProgramChair spc = new SubProgramChair(user);
-		myConference.addSubprogramChair(spc);
-		assertEquals(myConference.isSubprogramChair(spc.getID()), true);
-		// 0000 is a made up ID and shouldn't match an SPC.
-		assertEquals(myConference.isSubprogramChair(0000), false);
-		myConference.removeSubProgramChair(spc.getID());
-		//size of SPC list should be 0 since we removed the only one.
-		assertEquals(myConference.getAllSubProgramChairs().size(), 0);
-	}
-	
-	@Test
-	public void testManuscript() {
-		Manuscript m = new Manuscript();
-		//Should be zero right now since none have been added
-		assertEquals(myConference.getAllAuthorsManuscript(author.getID()).size(), 0);
-		myConference.submitManuscript(m, new Author());
-		//Should be one now that we added a manuscript
-		assertEquals(myConference.getAllAuthorsManuscript(author.getID()).size(), 1);
-		myConference.removeManuscript(m);
-		//Should be zero again since we removed the only paper.
-		assertEquals(myConference.getAllAuthorsManuscript(author.getID()).size(), 0);
+		userInConference = new RegisteredUser("Tyler", "Brent", "tylerkb2", 1234);
+		userNotInConference = new RegisteredUser("Shaun", "Coleman", "scoleman", 4566);
+		authorInConference = new Author(userInConference);
+		authorNotInConference = new Author(userNotInConference);		
+		reviewerInConference = new Reviewer(userInConference);
+		reviewerNotInConference = new Reviewer(userNotInConference);
+		subPCInConference = new SubProgramChair(userInConference);
+		subPCNotInConference = new SubProgramChair(userNotInConference);
+		programChairInConference = new ProgramChair(userInConference);
+		programChairNotInConference = new ProgramChair(userNotInConference);
+		myConference.addAuthor(authorInConference);
+		myConference.addReviewer(reviewerInConference);
+		myConference.addSubprogramChair(reviewerInConference);
+		myConference.setProgramChair(programChairInConference);
+		preDeadlineDate = Calendar.getInstance();
+		postDeadlineDate = Calendar.getInstance();
+		postDeadlineDate.add(Calendar.DAY_OF_WEEK, 6);
 		
 	}
+	
+	@Test
+	public void testGetAuthorOnAuthorInConference() {
+		assertEquals(myConference.getAuthor(authorInConference.getID()), authorInConference);
+	}
+	
+	@Test
+	public void testGetAuthorOnAuthorNotInConference() {
+		assertNull(myConference.getAuthor(authorNotInConference.getID()));
+	}
+	
+	@Test
+	public void testIsAuthorOnAuthorInConference() {
+		assertEquals(myConference.isAuthor(authorInConference.getID()), true);
+	}
+	
+	@Test
+	public void testIsAuthorOnAuthorNotInConference() {
+		assertEquals(myConference.isAuthor(authorNotInConference.getID()), false);
+	}
+	
+	@Test
+	public void testAddAuthorOnValidNewAuthor() {
+		assertEquals(myConference.isAuthor(authorNotInConference.getID()), false);
+		myConference.addAuthor(authorNotInConference);
+		assertEquals(myConference.isAuthor(authorNotInConference.getID()), true);
+	}
+	
+	@Test
+	public void testRemoveAuthorOnAuthorInConference() {
+		assertEquals(myConference.isAuthor(authorInConference.getID()), true);
+		myConference.removeAuthor(authorInConference.getID());
+		assertEquals(myConference.isAuthor(authorInConference.getID()), false);
+	}
+	
+	@Test
+	public void testDeadlineOnPreDeadlineDate() {
+		assertEquals(myConference.deadlinePassed(preDeadlineDate), false);
+	}
+	
+	@Test
+	public void testDeadlineOnPostDeadlineDate() {
+		assertEquals(myConference.deadlinePassed(postDeadlineDate), true);
+	}
+	
+	@Test
+	public void testGetReviewerOnReviewerInConference() {
+		assertEquals(myConference.getReviewer(reviewerInConference.getID()), 
+				     reviewerInConference);
+	}
+	
+	@Test
+	public void testGetReviewerOnReviewerNotInConference() {
+		assertEquals(myConference.getReviewer(reviewerNotInConference.getID()), 
+			     null);
+	}
+	
+	@Test
+	public void testIsReviewerOnReviewerInConference() {
+		assertEquals(myConference.isReviewer(reviewerInConference.getID()), true);
+	}
+	
+	@Test
+	public void testIsReviewerOnReviewerNotInConference() {
+		assertEquals(myConference.isReviewer(reviewerNotInConference.getID()), false);
+	}
+	
+	@Test
+	public void testAddReviewerOnValidReviewer() {
+		assertEquals(myConference.isReviewer(reviewerNotInConference.getID()), false);
+		myConference.addReviewer(reviewerNotInConference);
+		assertEquals(myConference.isReviewer(reviewerNotInConference.getID()), true);
+	}
+	
+	@Test
+	public void testRemoveReviewerOnValidReviewer() {
+		assertEquals(myConference.isReviewer(reviewerInConference.getID()), true);
+		myConference.removeReviewer(reviewerInConference.getID());
+		assertEquals(myConference.isReviewer(reviewerInConference.getID()), false);
+	}
+	
+	@Test
+	public void testIsProgramChairOnProgramChairInConference() {
+		assertEquals(myConference.isProgramChair(programChairInConference.getID()), true);
+	}
+	
+	@Test
+	public void testIsProgramChairOnProgramChairNotInConference() {
+		assertEquals(myConference.isProgramChair(programChairNotInConference.getID()), false);
+	}
+	
+	@Test
+	public void testSetProgramChairOnValidProgramChair() {
+		assertEquals(myConference.isProgramChair(programChairNotInConference.getID()), false);
+		myConference.setProgramChair(programChairNotInConference);
+		assertEquals(myConference.isProgramChair(programChairNotInConference.getID()), true);
+	}
+	
+	@Test
+	public void testIsSubprogramChairOnSubprogramChairInConference() {
+		assertEquals(myConference.isSubprogramChair(subPCInConference.getID()), true);
+	}
+	
+	@Test
+	public void testIsSubprogramChairOnSubprogramChairNotInConference() {
+		assertEquals(myConference.isSubprogramChair(subPCNotInConference.getID()), false);
+	}
+	
+	@Test
+	public void testAddSubprogramChairOnValidSubprogramChair() {
+		assertEquals(myConference.isSubprogramChair(subPCNotInConference.getID()), false);
+		myConference.addSubprogramChair(subPCNotInConference);
+		assertEquals(myConference.isSubprogramChair(subPCNotInConference.getID()), true);
+	}
+	
+	@Test
+	public void testRemoveSubprogramChairOnValidSubprogramChair() {
+		assertEquals(myConference.isSubprogramChair(subPCInConference.getID()), true);
+		myConference.removeSubProgramChair(subPCInConference.getID());
+		assertEquals(myConference.isSubprogramChair(subPCInConference.getID()), false);
+	}
+
 
 }

@@ -273,6 +273,18 @@ public class Conference implements Serializable {
 		return deadlineString;
 	}
 	
+	public Reviewer getReviewer(int theID) {
+		Reviewer reviewer = null;
+		
+		for(Reviewer theReviewer : myReviewers) {
+			if(theReviewer.getID() == theID) {
+				reviewer = theReviewer;
+			}
+		}
+		
+		return reviewer;
+	}
+
 	/**
 	 * Check if the deadline has been reached. Currently deadlines are set for 5 days out from the
 	 * creation of the conference.
@@ -291,18 +303,6 @@ public class Conference implements Serializable {
 	 */
 	public void setMyDate(Calendar theDate) {
 		myDate = theDate;
-	}
-	
-	public Reviewer getReviewer(int theID) {
-		Reviewer reviewer = new Reviewer();
-		
-		for(Reviewer theReviewer : myReviewers) {
-			if(theReviewer.getID() == theID) {
-				reviewer = theReviewer;
-			}
-		}
-		
-		return reviewer;
 	}
 	
 	/**
