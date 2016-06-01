@@ -19,11 +19,6 @@ import model.SubProgramChair;
  * 
  */
 public class SubProgramChairUI {
-
-    /*
-     * Used to represent the maximum manuscripts a reviewer can be assigned.
-     */
-    private final int MAX_REVIEWER_ASSIGNED_MANUSCRIPTS = 4;
     
     /*
      * Used to represent the menu selection for assigning a reviewer.
@@ -340,10 +335,8 @@ public class SubProgramChairUI {
 	 */
     private void finalizeReviewerAssignment(Manuscript theManuscript, Reviewer theReviewer) {
         if(Objects.nonNull(theReviewer)) {
-            if(brcheck_ReviewerNotOverAssigned(theReviewer)
-               && brcheck_ReviewerNotManuscriptAuthor(theReviewer, theManuscript)) {
+            if(theReviewer.assignManuscript(theManuscript) != -1) {
                 theManuscript.setReview(theReviewer.getID());
-                theReviewer.assignManuscript(theManuscript);
                 System.out.println(theReviewer.getLastName() + " is assigned " 
                                    + theManuscript.getTitle() + "!");
             } else {
@@ -352,27 +345,6 @@ public class SubProgramChairUI {
         } else {
         	System.out.println("Invalid reviewer selected.");
         }
-    }
-    
-    /**
-     * Business Rule check to insure the Reviewer is not at the maximum assigned manuscripts.
-     * @param theReviewer the Reviewer in question.
-     * 
-     * @return true if the check is passed, false if the business rule would be broken.
-     */
-    public boolean brcheck_ReviewerNotOverAssigned(Reviewer theReviewer) {
-    	return theReviewer.getMyAssignedManuscripts().size() < MAX_REVIEWER_ASSIGNED_MANUSCRIPTS;
-    }
-    
-    /**
-     * Business Rule check to insure the Reviewer is not assigned a manuscript they authored
-     * @param theManuscript the Manuscript in question.
-     * @param theReviewer the Reviewer in question.
-     * 
-     * @return true if the check is passed, false if the business rule would be broken.
-     */
-    public boolean brcheck_ReviewerNotManuscriptAuthor(Reviewer theReviewer, Manuscript theManuscript) {
-    	return theReviewer.getID() != theManuscript.getAuthorID();
     }
 	
 	/**

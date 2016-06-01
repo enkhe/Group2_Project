@@ -245,9 +245,16 @@ public class ReviewerUI {
 		}
 		
 		for(Manuscript man : manuscripts ) {
-			int reviewScore = man.getReviews().get(myReviewer.getID()).getScore();
+			Review review = man.getReviews().get(myReviewer.getID());
+			String strScore;
+			
+			if(Objects.nonNull(review)) {
+				strScore = SystemHelper.shorten(15, Integer.toString(review.getScore()));
+			} else {
+				strScore = "---";
+			}
+				
 			String title = SystemHelper.shorten(30, man.getTitle());
-			String strScore = SystemHelper.shorten(15, Integer.toString(reviewScore));
 			System.out.printf(SystemHelper.REV_MAN_DISPLAY_FORMAT, title, strScore );
 		}
 	}

@@ -14,6 +14,19 @@ public class ProgramChair extends RegisteredUser implements Serializable {
     /** This is a unique serial ID for this class */
 	private static final long serialVersionUID = 1L;
 	
+    /**
+     * Used to assign an accepted status.
+     */
+    public static final int ACCEPT = 1;
+    
+    /**
+     * Used to assign a rejected status.
+     */
+    public static final int REJECT = 0;
+	
+    /*
+     * A list of all SubProgramChair's assigned by this program chair.
+     */
 	private List<Integer> mySubPCAssignments;
 	
    /**
@@ -40,9 +53,9 @@ public class ProgramChair extends RegisteredUser implements Serializable {
      */
     public void changeAcceptance(Manuscript theManuscript, boolean theAcceptance) {
     	if (theAcceptance) {
-    		theManuscript.setAcceptStatus(1);
+    		theManuscript.setAcceptStatus(ACCEPT);
     	} else {
-    		theManuscript.setAcceptStatus(0);
+    		theManuscript.setAcceptStatus(REJECT);
     	}
     }
     

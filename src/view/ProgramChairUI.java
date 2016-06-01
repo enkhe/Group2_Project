@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import model.Conference;
 import model.Manuscript;
+import model.ProgramChair;
 import model.RegisteredUser;
 import model.SubProgramChair;
 
@@ -19,16 +20,6 @@ public class ProgramChairUI {
      * assigned.
      */
     private final int MAX_SUBPC_ASSIGNED_MANUSCRIPTS = 4;
-    
-    /*
-     * Used to assign an accepted status.
-     */
-    private final int ACCEPT = 1;
-    
-    /*
-     * Used to assign a rejected status.
-     */
-    private final int REJECT = 0;
    
     /*
      * Used to represent the menu selection for changing the acceptance of a manuscript.
@@ -136,11 +127,11 @@ public class ProgramChairUI {
             
             switch(choice) {
 	            case 1:
-	            	selectedManuscript.setAcceptStatus(ACCEPT);
+	            	selectedManuscript.setAcceptStatus(ProgramChair.ACCEPT);
 	                System.out.println("\n" + selectedManuscript.getTitle() + " accepted!");
 	            	break;
 	            case 2:
-	            	selectedManuscript.setAcceptStatus(REJECT);
+	            	selectedManuscript.setAcceptStatus(ProgramChair.REJECT);
 	                System.out.println("\n" + selectedManuscript.getTitle() + " rejected!");
 	            	break;
 	            case 0:

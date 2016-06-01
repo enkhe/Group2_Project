@@ -19,7 +19,7 @@ public class RegisteredUser implements Serializable {
 	private String myFirstName;
 	private String myLastName;
 	private String myUserName;
-	private int myID;
+	protected int myID;
 	
 	public RegisteredUser() {
 		myFirstName = null;

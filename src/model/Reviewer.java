@@ -11,8 +11,15 @@ import java.util.List;
 
 public class Reviewer extends RegisteredUser implements Serializable {
 
-    /** This is a unique serial ID for this class */
+	
+    /* This is a unique serial ID for this class */
 	private static final long serialVersionUID = 1L;
+	
+    /**
+     * Used to represent the maximum manuscripts a reviewer can be assigned.
+     */
+    private final int MAX_REVIEWER_ASSIGNED_MANUSCRIPTS = 4;
+	
 	private List<Manuscript> myManuscripts;
 	
     /**
@@ -47,10 +54,17 @@ public class Reviewer extends RegisteredUser implements Serializable {
 		
 		@param the Manuscript to be assigned
      */
-    public void assignManuscript(Manuscript theManuscript) {
+    public int assignManuscript(Manuscript theManuscript) {
+    	if(!(brcheck_ReviewerNotManuscriptAuthor(theManuscript))
+    	   || !(brcheck_ReviewerNotOverAssigned())) {
+    		return -1;
+    	}
+    	
     	if (!myManuscripts.contains(theManuscript)) {
         	myManuscripts.add(theManuscript);
     	}
+    	
+    	return 0;
     }
     
     /**
@@ -65,5 +79,26 @@ public class Reviewer extends RegisteredUser implements Serializable {
     	}
     	
     	return 0;
+    }
+    
+    /**
+     * Business Rule check to insure the Reviewer is not at the maximum assigned manuscripts.
+     * @param theReviewer the Reviewer in question.
+     * 
+     * @return true if the check is passed, false if the business rule would be broken.
+     */
+    public boolean brcheck_ReviewerNotOverAssigned() {
+    	return myManuscripts.size() < MAX_REVIEWER_ASSIGNED_MANUSCRIPTS;
+    }
+    
+    /**
+     * Business Rule check to insure the Reviewer is not assigned a manuscript they authored
+     * @param theManuscript the Manuscript in question.
+     * @param theReviewer the Reviewer in question.
+     * 
+     * @return true if the check is passed, false if the business rule would be broken.
+     */
+    public boolean brcheck_ReviewerNotManuscriptAuthor(Manuscript theManuscript) {
+    	return myID != theManuscript.getAuthorID();
     }
 }

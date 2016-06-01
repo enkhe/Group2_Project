@@ -13,32 +13,85 @@ import model.*;
  */
  
 public class ReviewerTest {
-	RegisteredUser user;
-	Reviewer reviewer;
-	Manuscript manuscript;
-	Manuscript manuscript2;
+	private Reviewer myRevWithNoManuscripts;
+	private Reviewer myRevWithOneManuscript;
+	private Reviewer myRevWithTwoManuscripts;
+	private Reviewer myRevWithThreeManuscripts;
+	private Reviewer myRevWithFourManuscripts;
+	private Manuscript myMan;
 	
 	@Before
-	public void beforeAllTests() {
-		user = new RegisteredUser("Amrit", "Puri", "APuri", 27);
-		reviewer = new Reviewer(user);
-		manuscript = new Manuscript();
-		manuscript2 = new Manuscript();
+	public void setUp() {
+		myRevWithOneManuscript = new Reviewer(new RegisteredUser("Test", "Test", "Test", 345));
+		myRevWithTwoManuscripts = new Reviewer(new RegisteredUser("Test", "Test", "Test", 567));
+		myRevWithThreeManuscripts = new Reviewer(new RegisteredUser("Test", "Test", "Test", 678));
+		myRevWithFourManuscripts = new Reviewer(new RegisteredUser("Test", "Test", "Test", 789));
+		myRevWithNoManuscripts = new Reviewer(new RegisteredUser("Test", "Test", "Test", 890));
+		myMan = new Manuscript(myRevWithOneManuscript.getID());
+
+		
+		myRevWithOneManuscript.assignManuscript(myMan);
+		
+		
+		myRevWithTwoManuscripts.assignManuscript(new Manuscript());
+		myRevWithTwoManuscripts.assignManuscript(new Manuscript());
+		
+		myRevWithThreeManuscripts.assignManuscript(new Manuscript());
+		myRevWithThreeManuscripts.assignManuscript(new Manuscript());
+		myRevWithThreeManuscripts.assignManuscript(new Manuscript());
+		
+		myRevWithFourManuscripts.assignManuscript(new Manuscript());
+		myRevWithFourManuscripts.assignManuscript(new Manuscript());
+		myRevWithFourManuscripts.assignManuscript(new Manuscript());
+		myRevWithFourManuscripts.assignManuscript(new Manuscript());
 	}
 	
+	@Test
+	public void testBrcheck_ReviewerNotManuscriptAuthorOnReviewerThatIsAuthor() {
+		assertFalse(myRevWithOneManuscript.brcheck_ReviewerNotManuscriptAuthor(myMan));
+		
+	}
 	
 	@Test
-	public void testAssignManuscript() {
-		reviewer.assignManuscript(manuscript);
-		assertNotNull(reviewer.getMyAssignedManuscripts().get(0));
+	public void testBrchack_ReviewerNotManuscriptAuthorOnReviwerThatIsNotAuthor() {
+		assertTrue(myRevWithNoManuscripts.brcheck_ReviewerNotManuscriptAuthor(myMan));
+	}
+	
+	@Test
+	public void testBrCheck_SubprogramChairNotOverAssignedOnReviewerWithNoAssignedManuscripts() {
+		assertTrue(myRevWithNoManuscripts.brcheck_ReviewerNotOverAssigned());
+	}
+	
+	@Test
+	public void testBrCheck_SubprogramChairNotOverAssignedOnReviewerWithOneAssignedManuscript() {
+		assertTrue(myRevWithOneManuscript.brcheck_ReviewerNotOverAssigned());
+	}
+	
+	@Test
+	public void testBrCheck_SubprogramChairNotOverAssignedOnReviewerWithTwoAssignedManuscripts() {
+		assertTrue(myRevWithTwoManuscripts.brcheck_ReviewerNotOverAssigned());
+	}
+	
+	@Test
+	public void testBrCheck_SubprogramChairNotOverAssignedOnReviewerWithTreeAssignedManuscripts() {
+		assertTrue(myRevWithTwoManuscripts.brcheck_ReviewerNotOverAssigned());
+	}
+	
+	@Test
+	public void testBrCheck_SubprogramChairNotOverAssignedOnReviewerWithFourAssignedManuscripts() {
+		assertFalse(myRevWithFourManuscripts.brcheck_ReviewerNotOverAssigned());
+	}
+	
+	@Test
+	public void testAssignManuscriptOnReviewerWithNoManuscripts() {
+		myRevWithNoManuscripts.assignManuscript(myMan);
+		assertNotNull(myRevWithNoManuscripts.getMyAssignedManuscripts().get(0));
+		assertTrue(myRevWithNoManuscripts.getMyAssignedManuscripts().contains(myMan));
 	}
 
 	@Test
-	public void testUnassignManuscript() {
-		reviewer.assignManuscript(manuscript);
-		reviewer.assignManuscript(manuscript2);
-		reviewer.unassignManuscript(manuscript);
-		
-		assertFalse(reviewer.getMyAssignedManuscripts().contains(manuscript));
+	public void testUnassignManuscriptOnReviewerWithOneManuscript() {
+		myRevWithOneManuscript.unassignManuscript(myMan);
+		assertFalse(myRevWithOneManuscript.getMyAssignedManuscripts().contains(myMan));
 	}
 }
