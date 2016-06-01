@@ -72,6 +72,12 @@ public class Manuscript implements Serializable {
 		myTitle = theTitle;
 	}
 	
+	public Manuscript(int theAuthor, Map<Integer, Review> theReviews) {
+		this();
+		myAuthor = theAuthor;
+		myReviews = theReviews;
+	}
+	
 	/**
 	 * Precondition: Takes an int that is the ID of the Subprogram Chair (SPC).
 	 * Postcondition: Sets the Subprogram chair of this Manuscript to the one provided.
@@ -125,7 +131,6 @@ public class Manuscript implements Serializable {
 				System.err.println("Huston, there seems to be a problem!");
 				System.err.println("I advise you to check out Manuscripts setReview method immediatly.");
 				System.err.println("Also, be sure to check that you entered your file path correctly!");
-				e.printStackTrace();
 				return -1;
 			}
 		} else {

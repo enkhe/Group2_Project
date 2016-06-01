@@ -72,7 +72,6 @@ public class Author extends RegisteredUser implements Serializable {
 				System.err.println("Huston, there seems to be a problem!");
 				System.err.println("I advise you to check out Authors submitManuscript method immediatly.");
 				System.err.println("Also, be sure to check that you entered your file path correctly!");
-				e.printStackTrace();
 				return -1;
 			}
 			

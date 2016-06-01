@@ -371,24 +371,6 @@ public class Conference implements Serializable {
 		return result;
 	}
 	
-	/*
-	 * Private method that checks if a Manuscript exists on the list
-	 * of Manuscripts the Author has already submitted. Returns true if it exists
-	 * and false if it doesn't.
-	 */
-	private boolean manuscriptExistsInConference(Manuscript theManuscript) {
-		boolean exists = false;
-		
-		for(Manuscript m : myManuscripts) {
-			if(m.getFile() == theManuscript.getFile() && 
-					m.getAuthorID() == theManuscript.getAuthorID()) {
-				exists = true;
-			}
-		}
-		
-		return exists;
-	}
-	
 	/**
      * Linear search for the correct SubProgramChair object based on the passed
      * user id.  
@@ -408,4 +390,22 @@ public class Conference implements Serializable {
     	
     	return null;
     }
+
+	/*
+	 * Private method that checks if a Manuscript exists on the list
+	 * of Manuscripts the Author has already submitted. Returns true if it exists
+	 * and false if it doesn't.
+	 */
+	private boolean manuscriptExistsInConference(Manuscript theManuscript) {
+		boolean exists = false;
+		
+		for(Manuscript m : myManuscripts) {
+			if(m.getFile() == theManuscript.getFile() && 
+					m.getAuthorID() == theManuscript.getAuthorID()) {
+				exists = true;
+			}
+		}
+		
+		return exists;
+	}
 }

@@ -149,28 +149,34 @@ public class ReviewerUI {
 		// Firstly, view all assigned manuscripts & see if any of them is not
 		// reviewed
 		List<Manuscript> myManuscripts = myReviewer.getMyAssignedManuscripts();
-	
+		System.out.println("\nSelect a manuscript below to upload a review for.");
 		int counter = 1;
 		for (Manuscript manuscript : myManuscripts) {
 			
 			write(counter++ + ") " + manuscript.getTitle());
-	
 		}
+		writeln("0) Cancel");
 	
 		int choice = SystemHelper.promptUserInt();
+		
+		if(choice == 0) return;
 		
 		// selected manuscript that needs an review update.
 		Manuscript theManuscript = myReviewer.getMyAssignedManuscripts().get(choice - 1);
 		
 		int intScore = -1;
 	
-		writeln("Please enter a review score.");
+		writeln("Please enter a review score or 0 to cancel.");
 		writeln("Scale 1 - 10 (Worst to Best).");
 		intScore = SystemHelper.promptUserInt();
 		
-		writeln("Please, enter the file path for the full review.");
+		if(intScore == 0) return;
+		
+		writeln("Please, enter the file path for the full review or 0 to cancel.");
 		writeln("Sample path: C:\\users\\author\\documents\\paper.docx");
 		String reviewPath = SystemHelper.promptUserString();
+		
+		if(reviewPath.equals("0")) return;
 		
 		Review revNewReview = new Review(intScore, reviewPath);
 		theManuscript.setReview(myReviewer.getID(), revNewReview);

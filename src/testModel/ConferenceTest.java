@@ -232,4 +232,16 @@ public class ConferenceTest {
 		assertEquals(myConference.removeManuscript(manuscript1), 0);
 		
 	}
+	
+	@Test
+	public void testSearchSubProgramChairByIdOnSubProgramChairInConference() {
+		assertEquals(myConference.searchSubProgramChairByID(subPCInConference.getID()),
+				subPCInConference);
+	}
+	
+	@Test
+	public void testSearchSubProgramChairByIdOnSubProgramChairNotInConference() {
+		assertEquals(myConference.searchSubProgramChairByID(subPCNotInConference.getID()),
+				null);
+	}
 }

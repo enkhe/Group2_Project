@@ -112,7 +112,6 @@ public class SubProgramChair  extends RegisteredUser implements Serializable {
      * @return true if the check is passed, false if the business rule would be broken.
      */
     public boolean brCheck_SubprogramChairNotOverAssigned() {
-        System.err.println(myManuscripts.size());
     	return myManuscripts.size() < MAX_SUBPC_ASSIGNED_MANUSCRIPTS;
     }
 }
