@@ -4,7 +4,11 @@
 package testModel;
 
 import static org.junit.Assert.*;
+
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import model.*;
@@ -30,6 +34,9 @@ public class ConferenceTest {
 	ProgramChair programChairNotInConference;
 	Calendar preDeadlineDate;
 	Calendar postDeadlineDate;
+	Manuscript manuscript1;
+	Manuscript manuscript2;
+	private List<Manuscript> manuscripts;
 
 	@Before
 	public void setUp() throws Exception {
@@ -51,7 +58,11 @@ public class ConferenceTest {
 		preDeadlineDate = Calendar.getInstance();
 		postDeadlineDate = Calendar.getInstance();
 		postDeadlineDate.add(Calendar.DAY_OF_WEEK, 6);
-		
+		manuscript1 = new Manuscript();
+		manuscript2 = new Manuscript();
+		manuscripts = new ArrayList<>();
+		manuscripts.add(manuscript1);
+		manuscripts.add(manuscript2);
 	}
 	
 	@Test
@@ -79,6 +90,11 @@ public class ConferenceTest {
 		assertEquals(myConference.isAuthor(authorNotInConference.getID()), false);
 		myConference.addAuthor(authorNotInConference);
 		assertEquals(myConference.isAuthor(authorNotInConference.getID()), true);
+	}
+	
+	@Test public void testAddAuthorOnAuthorAlreadyInConference() {
+		myConference.addAuthor(authorInConference);
+		assertEquals(myConference.isAuthor(authorInConference.getID()),  true);
 	}
 	
 	@Test
@@ -174,6 +190,46 @@ public class ConferenceTest {
 		myConference.removeSubProgramChair(subPCInConference.getID());
 		assertEquals(myConference.isSubprogramChair(subPCInConference.getID()), false);
 	}
-
-
+	
+	@Test
+	public void testSubmitManuscriptSuccessfully() {
+		//0 is returned if a paper is successfully submitted.
+		assertEquals(myConference.submitManuscript(manuscript1, authorInConference), 0);
+	}
+	
+	@Test
+	public void testSumbitManuscriptAlreadyExists() {
+		//-1 is returned if a paper is unsuccessfully submitted.
+		myConference.submitManuscript(manuscript1, authorInConference);
+		assertEquals(myConference.submitManuscript(manuscript1, authorInConference), -1);
+	}
+	
+	@Test
+	public void testModifyManuscriptThatExists() {
+		//0 is returned for a successful modification.
+		myConference.submitManuscript(manuscript1, authorInConference);
+		assertEquals(myConference.modifyManuscript(manuscript1, "Programming For Dummies."), 0);
+	}
+	
+	@Test
+	public void testModifyManuscriptThatDoesNotExist() {
+		//-1 is returned for an unsuccessful modification which means the paper
+		//being replaced does not exist.
+		assertEquals(myConference.modifyManuscript(manuscript1, "For Narnia"), -1);
+	}
+	
+	@Test
+	public void testRemoveManuscriptThatDoesNotExist() {
+		//-1 is returned for a manuscript that has failed to be removed.
+		//in this case it is because it does not exist to be removed.
+		assertEquals(myConference.removeManuscript(manuscript1), -1);
+	}
+	
+	@Test
+	public void testRemoveManscriptThatDoesExist() {
+		//0 is returned for a manuscript that was successfully remove.
+		myConference.submitManuscript(manuscript1, authorInConference);
+		assertEquals(myConference.removeManuscript(manuscript1), 0);
+		
+	}
 }
