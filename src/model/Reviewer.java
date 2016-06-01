@@ -7,6 +7,9 @@ import java.util.List;
 /**
  * @Author: Amrit Puri
  * Group 2 - TCSS 360A
+ * 
+ * This class represents a Reviewer in in the system. It can be used to 
+ * manage conferences.
  */
 
 public class Reviewer extends RegisteredUser implements Serializable {
@@ -23,16 +26,22 @@ public class Reviewer extends RegisteredUser implements Serializable {
 	private List<Manuscript> myManuscripts;
 	
     /**
-		Default constructor
-     */
+     * Precondition: None
+     * Postcondition: A Reviewer has been created.
+     * 
+     * Default constructor
+	*/
     public Reviewer () {
 		myManuscripts = new ArrayList<Manuscript>();
     }
 
     /**
-		Overloaded Constructor
-		
-		@param a RegisteredUser from which a Reviewer will be instantiated with the
+     * Precondition: A User for which to create a Reviewer.
+     * Postcondition: A Reviewer has been created.
+     * 
+     * Overloaded Constructor
+     * 
+     * @param a RegisteredUser from which a Reviewer will be instantiated with the
 		same attributes
      */
     public Reviewer(RegisteredUser theUser) {
@@ -41,6 +50,9 @@ public class Reviewer extends RegisteredUser implements Serializable {
     }
 
     /**
+     * Precondition: None
+     * Postcondition: The list of assigned manuscripts is returned.
+     * 
      * Gets the Manuscripts assigned to this Reviewer.
      * 
 	 * @return a list of all Manuscripts the Reviewer is assigned
@@ -50,9 +62,13 @@ public class Reviewer extends RegisteredUser implements Serializable {
     }
     
     /**
-		Assigns a Manuscript to this Reviewer.
-		
-		@param the Manuscript to be assigned
+     * Precondition: A Manuscript to be assigned.
+     * Postcondition: An integer representing success(0) or failure (-1).
+     * 
+     * Assigns a Manuscript to this Reviewer.
+     * 
+     * @param the Manuscript to be assigned
+     * @return an integer representing success(0) or failure (-1)
      */
     public int assignManuscript(Manuscript theManuscript) {
     	if(!(brcheck_ReviewerNotManuscriptAuthor(theManuscript))
@@ -68,9 +84,13 @@ public class Reviewer extends RegisteredUser implements Serializable {
     }
     
     /**
-		Unassigns a Manuscript from this Reviewer.
-		
-		@param the Manuscript to be unassigned
+     * Precondition: A Manuscript to be unassigned.
+     * Postcondition: An integer representing success(0) or failure (-1).
+     *
+     * Unassigns a Manuscript from this Reviewer.
+     *
+     * @param the Manuscript to be unassigned
+     * @return an integer representing success(0) or failure (-1)
      */
     public int unassignManuscript(Manuscript theManuscript) {
     	if (myManuscripts.contains(theManuscript)) {

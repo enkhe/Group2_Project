@@ -30,17 +30,23 @@ public class ProgramChair extends RegisteredUser implements Serializable {
 	private List<Integer> mySubPCAssignments;
 	
    /**
-		Default Constructor
+     * Precondition: None
+     * Postcondition: A ProgramChair has been created.
+     * 
+     * Default Constructor	
     */	
 	public ProgramChair() {
 		mySubPCAssignments = new ArrayList<Integer>();
 	}
 	
     /**
-		Overloaded Constructor
-		
-		@param a RegisteredUser from which a ProgramChair will be instantiated with the
-		same attributes
+     * Precondition: A User for which to create a ProgramChair.
+     * Postcondition: A ProgramChair has been created.
+     * 
+     * Overloaded Constructor
+     * 
+     * @param a RegisteredUser from which a ProgramChair will be instantiated with the
+     * same attributes
      */
     public ProgramChair(RegisteredUser theUser) {
     	super(theUser.getFirstName(), theUser.getLastName(), theUser.getUserName(), theUser.getID());
@@ -48,8 +54,14 @@ public class ProgramChair extends RegisteredUser implements Serializable {
     }
 
     /**
-		This method changes the acceptance of a given Manuscript given the Manuscript
-		and a boolean.
+     * Precondition: The manuscript to change and the value to change it to.
+     * Postcondition: None
+     * 
+     * This method changes the acceptance of a given Manuscript given the Manuscript
+     * and a boolean.
+     * 
+     * @param theManuscript is the manuscript whose acceptance to change
+     * @param theAcceptance is the value to change the acceptance to
      */
     public void changeAcceptance(Manuscript theManuscript, boolean theAcceptance) {
     	if (theAcceptance) {
@@ -67,8 +79,13 @@ public class ProgramChair extends RegisteredUser implements Serializable {
     }
 
     /**
-		This method returns a List of Integers containing the IDs of the SubProgram
-		Chairs assigned to this Program Chair.
+     * Precondition: None
+     * Postcondition: The list of assigned SubProgram Chairs is returned.
+     * 
+     * This method returns a List of Integers containing the IDs of the SubProgram
+     * Chairs assigned to this Program Chair.
+     * 
+     * @return List<Integer> is the list of SubProgram Chairs that have been assigned
      */
     public List<Integer> getSubPCAssignments() {
     	return mySubPCAssignments;

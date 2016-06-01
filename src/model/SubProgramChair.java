@@ -7,6 +7,9 @@ import java.util.List;
 /**
  * @Author: Amrit Puri
  * Group 2 - TCSS 360A
+ * 
+ * This class represents a Sub Program Chair in the system. It can be used to manage
+ * conferences.
  */
 
 public class SubProgramChair  extends RegisteredUser implements Serializable {
@@ -19,16 +22,22 @@ public class SubProgramChair  extends RegisteredUser implements Serializable {
 	private List<Manuscript> myManuscripts;
 
     /**
-		Default Constructor
-     */
+     * Precondition: None
+     * Postcondition: A SubProgramChair has been created.
+     * 
+     * Default constructor
+	*/
     public SubProgramChair() {
 		myManuscripts = new ArrayList<Manuscript>();
     }
 	
     /**
-		Overloaded Constructor
-		
-		@param a RegisteredUser from which a SubProgramChair will be instantiated with the
+     * Precondition: A User for which to create a SubProgramChair.
+     * Postcondition: A SubProgramChair has been created.
+     * 
+     * Overloaded Constructor
+     * 
+     * @param a RegisteredUser from which a SubProgramChair will be instantiated with the
 		same attributes
      */
     public SubProgramChair(RegisteredUser theUser) {
@@ -37,18 +46,25 @@ public class SubProgramChair  extends RegisteredUser implements Serializable {
     }
 
     /**
-	 * Gets the Manuscripts assigned to this SubProgramChair.
-	 * 
-	 * @return a list of all Manuscripts the SPC is assigned
+     * Precondition: None
+     * Postcondition: The list of assigned manuscripts is returned.
+     * 
+     * Gets the Manuscripts assigned to this SubProgramChair.
+     * 
+	 * @return a list of all Manuscripts the SubProgramChair is assigned
      */
     public List<Manuscript> getMyAssignedManuscripts() {
     	return myManuscripts;
     }
     
     /**
-		Assigns a Manuscript to this SubProgramChair.
-		
-		@param the Manuscript to be assigned
+     * Precondition: A Manuscript to be assigned.
+     * Postcondition: An integer representing success(0) or failure (-1).
+     * 
+     * Assigns a Manuscript to this SubProgramChair.
+     * 
+     * @param the Manuscript to be assigned
+     * @return an integer representing success(0) or failure (-1)
      */
     public int assignManuscript(Manuscript theManuscript) {
     	if (myManuscripts.contains(theManuscript)
@@ -63,9 +79,13 @@ public class SubProgramChair  extends RegisteredUser implements Serializable {
     }
     
     /**
-		Unassigns a Manuscript from this SubPrograChair.
-		
-		@param the Manuscript to be unassigned
+     * Precondition: A Manuscript to be unassigned.
+     * Postcondition: An integer representing success(0) or failure (-1).
+     *
+     * Unassigns a Manuscript from this SubProgramChair.
+     *
+     * @param the Manuscript to be unassigned
+     * @return an integer representing success(0) or failure (-1)
      */
     public int unassignManuscript(Manuscript theManuscript) {
     	if (myManuscripts.contains(theManuscript)) {
